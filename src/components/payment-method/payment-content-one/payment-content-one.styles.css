@@ -1,0 +1,15 @@
+.sub-items {
+  padding: 15px;
+  margin-top: -20px;
+  margin-bottom: -20px;
+}
+
+.content {
+  background-color: bisque;
+}
+
+@media screen and (device-width: 375px) and (device-height: 667px) {
+  .sub-items {
+    margin-left: -10px;
+  }
+}

@@ -1,0 +1,23 @@
+$teal: #6dc7b8;
+$brown: #A95B27;
+$primary: $teal;
+$secondary: $brown;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200,300,400,500,600,700,800,900;1,100;1,200,300,400,500,600,700,800,900&display=swap');
+@import "../../../node_modules/bootstrap-scss/bootstrap.scss";
+
+.border-radius {
+  border-radius: 1em;
+  &-lg {
+      border-radius: 2em;
+  }
+
+  &-sm {
+      border-radius: .5em;
+  }
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: 'PlayFair Display';
+}
