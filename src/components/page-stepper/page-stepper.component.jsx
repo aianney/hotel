@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { AppContext } from '..'
 import { Stepper, Step, StepLabel } from '@material-ui/core'
 
@@ -9,26 +9,26 @@ const PageStepper = (props) => {
   return (
     <Stepper nonLinear activeStep={props.activeStep}>
       <Step>
-        <NavLink to="/room-selection">
+        <Link to="/room-selection">
           <StepLabel>Selecting Rooms</StepLabel>
-        </NavLink>
+        </Link>
       </Step>
       <Step>
         {Object.keys(info.guestDetails).length ? (
-          <NavLink to="/guest-details">
+          <Link to="/guest-details">
             <StepLabel>Guest Details</StepLabel>
-          </NavLink>
+          </Link>
         ) : (
           <StepLabel>Guest Details</StepLabel>
         )}
       </Step>
       <Step>
         {Object.keys(info.payment).length ? (
-          <NavLink to="/payments">
+          <Link to="/payments">
             <StepLabel>Payment</StepLabel>
-          </NavLink>
+          </Link>
         ) : (
-          <StepLabel>Guest Details</StepLabel>
+          <StepLabel>Payment</StepLabel>
         )}
       </Step>
     </Stepper>
