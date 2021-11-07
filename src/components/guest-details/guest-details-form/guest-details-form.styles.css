@@ -98,8 +98,12 @@
     margin-left: -20px !important;
   }
 
+  .register {
+    margin-top: 0;
+  }
+
   .recapcha {
-    margin-left: 13px !important;
+    margin-left: 55px !important;
     width: 100px !important;
     margin-top: 20px !important;
   }

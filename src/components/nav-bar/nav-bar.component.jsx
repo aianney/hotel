@@ -4,7 +4,6 @@ import { AppContext, Theme } from '../index'
 import { AiOutlineHome, AiOutlineMobile } from 'react-icons/ai'
 import { AppBar, Box, Button, Toolbar, Typography } from '@material-ui/core'
 import LogoWide from '../../assets/media/images/logo-wide.svg'
-import { Link } from 'react-router-dom'
 import Logo from '../../assets/media/images/logo.svg'
 
 const NavBar = () => {
@@ -39,9 +38,7 @@ const NavBar = () => {
                   },
                 }}
               >
-                <Link to="/">
-                  <img src={LogoWide} height="40" alt="" />
-                </Link>
+                <img src={LogoWide} height="40" alt="" />
               </Box>
               <Box
                 sx={{
@@ -51,9 +48,7 @@ const NavBar = () => {
                   },
                 }}
               >
-                <Link to="/">
-                  <img src={Logo} height="40" alt="" />
-                </Link>
+                <img src={Logo} height="40" alt="" />
               </Box>
             </Box>
             <Box>

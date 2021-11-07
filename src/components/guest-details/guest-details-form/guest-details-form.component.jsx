@@ -22,12 +22,9 @@ function GuestDetailsForm() {
   const [userCredentials, setUserCredentials] = React.useState({
     firstName: '',
     lastName: '',
-    nationality: '',
     number: '',
     email: '',
-    housenumber: '',
-    street: '',
-    barangay: '',
+    homeAddress: '',
     cityOfResidence: '',
     province: '',
     message: '',
@@ -45,23 +42,14 @@ function GuestDetailsForm() {
   const handleLastNameInputChange = (event) => {
     setUserCredentials({ ...userCredentials, lastName: event.target.value })
   }
-  const handleLNationalityInputChange = (event) => {
-    setUserCredentials({ ...userCredentials, nationality: event.target.value })
-  }
   const handleLNumberInputChange = (event) => {
     setUserCredentials({ ...userCredentials, number: event.target.value })
   }
   const handleEmailInputChange = (event) => {
     setUserCredentials({ ...userCredentials, email: event.target.value })
   }
-  const handleHouseNumberInputChange = (event) => {
-    setUserCredentials({ ...userCredentials, housenumber: event.target.value })
-  }
-  const handleStreetInputChange = (event) => {
-    setUserCredentials({ ...userCredentials, street: event.target.value })
-  }
-  const handleBarangayInputChange = (event) => {
-    setUserCredentials({ ...userCredentials, barangay: event.target.value })
+  const handleHomeAddressInputChange = (event) => {
+    setUserCredentials({ ...userCredentials, homeAddress: event.target.value })
   }
   const handleCityOfResidenceInputChange = (event) => {
     setUserCredentials({
@@ -78,10 +66,10 @@ function GuestDetailsForm() {
     if (
       userCredentials.firstName &&
       userCredentials.lastName &&
-      userCredentials.nationality &&
       userCredentials.number &&
       userCredentials.country &&
       userCredentials.email &&
+      userCredentials.homeAddress &&
       userCredentials.cityOfResidence &&
       userCredentials.date &&
       userCredentials.message
@@ -155,16 +143,16 @@ function GuestDetailsForm() {
               <Grid xs={12} sm={4} item>
                 <TextField
                   name="nationality"
-                  value={userCredentials.nationality}
-                  onChange={handleLNationalityInputChange}
+                  value={userCredentials.number}
+                  onChange={handleLNumberInputChange}
                   placeholder="Enter Nationality"
                   label="Nationality"
                   variant="outlined"
                   fullWidth
                   required
                 />
-                {submitted && !userCredentials.nationality ? (
-                  <span>Please enter your nationality</span>
+                {submitted && !userCredentials.number ? (
+                  <span>Please enter your number</span>
                 ) : null}
               </Grid>
               <Grid xs={12} sm={5} item>
@@ -203,50 +191,50 @@ function GuestDetailsForm() {
               </Grid>
               <Grid xs={12} sm={2} item>
                 <TextField
-                  type="number"
+                  type="text"
                   name="house no."
-                  value={userCredentials.housenumber}
-                  onChange={handleHouseNumberInputChange}
+                  value={userCredentials.homeAddress}
+                  onChange={handleHomeAddressInputChange}
                   placeholder="House No"
                   label="House No"
                   variant="outlined"
                   fullWidth
                   required
                 />
-                {submitted && !userCredentials.housenumber ? (
-                  <span>Please enter a house number</span>
+                {submitted && !userCredentials.homeAddress ? (
+                  <span>Please enter a home address</span>
                 ) : null}
               </Grid>
               <Grid xs={12} sm={5} item>
                 <TextField
                   type="text"
                   name="street"
-                  value={userCredentials.street}
-                  onChange={handleStreetInputChange}
+                  value={userCredentials.homeAddress}
+                  onChange={handleHomeAddressInputChange}
                   placeholder="Street"
                   label="Street"
                   variant="outlined"
                   fullWidth
                   required
                 />
-                {submitted && !userCredentials.street ? (
-                  <span>Please enter a street</span>
+                {submitted && !userCredentials.homeAddress ? (
+                  <span>Please enter a home address</span>
                 ) : null}
               </Grid>
               <Grid xs={12} sm={5} item>
                 <TextField
                   type="text"
                   name="barangay"
-                  value={userCredentials.barangay}
-                  onChange={handleBarangayInputChange}
+                  value={userCredentials.homeAddress}
+                  onChange={handleHomeAddressInputChange}
                   placeholder="Barangay"
                   label="Barangay"
                   variant="outlined"
                   fullWidth
                   required
                 />
-                {submitted && !userCredentials.barangay ? (
-                  <span>Please enter your barangay</span>
+                {submitted && !userCredentials.homeAddress ? (
+                  <span>Please enter a home address</span>
                 ) : null}
               </Grid>
               <Grid xs={12} sm={5} item>

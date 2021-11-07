@@ -21,6 +21,7 @@ import { AppContext, Theme } from '..'
 
 const RoomCard = (props) => {
   const iconSize = 10,
+    // eslint-disable-next-line
     { info, setInfo } = useContext(AppContext),
     [showAddOns, setShowAddOns] = useState(false),
     [rate, setRate] = useState(''),
