@@ -6,9 +6,6 @@
 .css-1k67w8c-MuiPaper-root {
   background-color: #f9f9f9 !important;
 }
-/* mui h3 */
-/* .css-cnd76u-MuiPaper-root {
-  text-align: start !important; */
 
 .item {
   width: 100%;
@@ -22,22 +19,6 @@
   font-weight: bold;
   color: black;
 }
-
-/* .items h3 {
-  font-size: 20px !important;
-  color: black;
-} */
-
-/* .payment-content p {
-  text-align: right;
-  font-size: 15px !important;
-}
-
-.items p {
-  margin-top: -35px;
-  text-align: right;
-  font-size: 15px !important;
-} */
 
 .payment-button {
   float: right;
@@ -61,6 +42,11 @@
     margin-left: -40px !important;
   }
 
+  .payment {
+    margin-top: -25px;
+    margin-left: -25px;
+  }
+
   .css-ayy8wd-MuiGrid-root {
     display: none;
   }
@@ -73,30 +59,12 @@
     width: 51vh;
   }
 
-  .payment {
-    margin-top: 0;
-    margin-left: -25px;
-  }
-  /* .payment-content-one {
-    display: block;
-  } */
-
   /* mui content h3 */
   .css-cnd76u-MuiPaper-root {
     width: 340px;
   }
 
-  /* .items h3 {
-    font-size: 15px !important;
-    color: black;
-  }
-  .items p {
-    font-size: 10px !important;
-  } */
-  /* .css-1f6u4kq-MuiGrid-root > .MuiGrid-item {
-    display: none !important;
-  } */
-  /* payment content o*/
+  /* payment content */
   .css-ayy8wd-MuiGrid-root {
     max-width: 51% !important;
   }
