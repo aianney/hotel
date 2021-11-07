@@ -5,6 +5,7 @@ import { AiOutlineHome, AiOutlineMobile } from 'react-icons/ai'
 import { AppBar, Box, Button, Toolbar, Typography } from '@material-ui/core'
 import LogoWide from '../../assets/media/images/logo-wide.svg'
 import Logo from '../../assets/media/images/logo.svg'
+import { Link } from 'react-router-dom'
 
 const NavBar = () => {
   // eslint-disable-next-line
@@ -38,7 +39,9 @@ const NavBar = () => {
                   },
                 }}
               >
-                <img src={LogoWide} height="40" alt="" />
+                <Link to="/">
+                  <img src={LogoWide} height="40" alt="" />
+                </Link>
               </Box>
               <Box
                 sx={{
@@ -48,7 +51,9 @@ const NavBar = () => {
                   },
                 }}
               >
-                <img src={Logo} height="40" alt="" />
+                <Link to="/">
+                  <img src={Logo} height="40" alt="" />
+                </Link>
               </Box>
             </Box>
             <Box>
