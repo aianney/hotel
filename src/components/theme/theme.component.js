@@ -1,74 +1,114 @@
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
+import Store from "../store/store.component";
 let Theme = createTheme({
     palette: {
         background: {
-            default: "#fafafa",
+            light: `#ffffff`,
+            default: `#fafafa`,
         },
         primary: {
-            light: "#a4dcd3",
-            main: "#6dc7b8",
-            dark: "#40a796"
+            ...Store.env.colors.primary
         },
         secondary: {
-            light: "#d58048",
-            main: "#A95B27",
-            dark: "#6b3a19"
+            light: `#d58048`,
+            main: `#A95B27`,
+            dark: `#6b3a19`
         },
         light: {
-            light: "#fff",
-            main: "#fafafa",
+            light: `#fff`,
+            main: `#fafafa`,
         }
     },
-    shadows: ["none"],
+    shadows: [`none`],
     shape: {
-        borderRadius: "1em",
-        borderRadiusLg: "2em",
-        borderRadiusSm: ".5em",
+        borderRadius: `1em`,
+        borderRadiusLg: `2em`,
+        borderRadiusSm: `.5em`,
+    },
+    cardSelect: {
+        backgroundColor: `#fafafa`,
+        fontWeight: Store.env.fonts.weight.bold,
+        fontSize: 20,
+        padding: 0,
     },
     typography: {
-        fontFamily: `"Helvetica", "Roboto", "Arial", sans-serif`,
+        fontFamily: `
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Store.env.fonts.style.sansSerif,
+        Arial,
+        sans-serif,
+        "Apple Color Emoji",
+        "Segoe UI Emoji",
+        "Segoe UI Symbol",
+        `,
         fontSize: 16,
-        fontWeightLight: 300,
-        fontWeightRegular: 400,
-        fontWeightMedium: 500,
-        fontWeightBold: 600,
-        fontWeightBlack: 800,
+        fontWeightLight: Store.env.fonts.weight.light,
+        fontWeightRegular: Store.env.fonts.weight.regular,
+        fontWeightMedium: Store.env.fonts.weight.medium,
+        fontWeightBold: Store.env.fonts.weight.bold,
+        fontWeightBlack: Store.env.fonts.weight.black,
         body1: {
-            fontFamily: "Helvetica",
+            fontFamily: Store.env.fonts.style.sansSerif,
         },
         body2: {
-            fontFamily: "Helvetica",
+            fontFamily: Store.env.fonts.style.sansSerif,
         },
         pageTitle: {
-            fontFamily: "PlayFair Display",
+            fontFamily: `PlayFair Display`,
             fontSize: 28,
-            fontWeight: 800,
+            fontWeight: Store.env.fonts.weight.black,
+        },
+        contactCardTitle: {
+            color: `white`,
+            fontSize: 22,
+            fontWeight: Store.env.fonts.weight.bold,
+            lineHeight: 1,
+            textAlign: `right`,
+        },
+        contactCardSubtitle: {
+            color: `white`,
+            textAlign: `right`,
+        },
+        introTitle: {
+            fontSize: 45,
+            fontWeight: Store.env.fonts.weight.black,
         },
         pageSubtitle: {
-            fontFamily: "Helvetica",
+            fontFamily: Store.env.fonts.style.sansSerif,
             fontSize: 18,
-            fontStyle: "italic",
-            color: "#999",
+            fontStyle: `italic`,
+            color: `#999`,
         },
         title: {
-            color: "#6dc7b8",
-            fontWeight: 800,
+            color: Store.env.colors.primary.main,
+            fontWeight: Store.env.fonts.weight.bold,
             fontSize: 20,
         },
         filterLabel: {
-            color: "#6dc7b8",
-            fontFamily: "Helvetica",
-            fontWeight: 800,
+            color: Store.env.colors.primary.main,
+            fontFamily: Store.env.fonts.style.sansSerif,
+            fontWeight: Store.env.fonts.weight.bold,
         },
         filterText: {
-            fontFamily: "Helvetica",
+            fontFamily: Store.env.fonts.style.sansSerif,
             fontsize: 30,
-            fontWeight: 800,
-            color: "black",
-            textTransform: "capitalize",
+            fontWeight: Store.env.fonts.weight.bold,
+            color: `black`,
+            textTransform: `capitalize`,
             padding: 0,
             margin: 0,
-            width: "100%",
+            width: `100%`,
+        },
+        navBarLink: {
+            textTransform: `capitalize`,
+            fontWeight: Store.env.fonts.weight.bold,
+        },
+        roomCardLabel: {
+            fontFamily: Store.env.fonts.style.sansSerif,
+            fontSize: 12,
         }
     },
 });

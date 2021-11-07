@@ -1,78 +1,133 @@
-import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useState, useEffect, useContext } from 'react'
+import { NavLink, useHistory } from 'react-router-dom'
+import { Box, Button, ButtonGroup, Grid, Typography } from '@material-ui/core'
 import {
-  Box,
-  Button,
-  ButtonGroup,
-  Card,
-  Divider,
-  Grid,
-  Typography,
-} from '@material-ui/core'
-import {
+  AppContext,
+  Filter,
   PageStepper,
   RoomCard,
   Theme,
-} from '../../components/components.component'
-
+} from '../../components'
 import {
   AiOutlineCalendar,
   AiOutlineInfoCircle,
-  AiOutlineTeam,
-  AiOutlineUser,
   AiOutlineMinus,
   AiOutlinePlus,
 } from 'react-icons/ai'
-import { BsCalendar4Event, BsCalendar4Range } from 'react-icons/bs'
-import moment from 'moment'
-import MobileDatePicker from '@mui/lab/MobileDatePicker'
-import DateFnsUtils from '@date-io/date-fns'
-import LocalizationProvider from '@mui/lab/LocalizationProvider'
+import StandardRoomImage from '../../assets/media/images/standard-room.png'
+import SuperiorSeaViewImage from '../../assets/media/images/superior-sea-view.png'
+import DeluxeSeaViewImage from '../../assets/media/images/deluxe-sea-view.png'
 
-const RoomSelection = () => {
-  const iconSize = 22,
+const RoomSelection = (props) => {
+  const { info, setInfo } = useContext(AppContext),
+    iconSize = 22,
     defaults = {
-      children: {
-        max: 2,
-        min: 0,
-      },
-      adults: {
-        max: 2,
-        min: 1,
-      },
       room: {
-        adults: 1,
-        children: 0,
+        adults: info.filters.guests.adults,
+        children: info.filters.guests.children,
         addOns: {
           adults: 0,
           children: 0,
         },
-        rates: 0,
+        rate: '',
+        price: 1000,
       },
-    }
-
-  const [adults, setAdults] = useState(1),
-    [children, setChildren] = useState(0)
-
-  const [startDate, setStartDate] = useState(new Date()),
-    [startDatePickerOpen, setStartDatePickerOpen] = useState(false),
-    [endDate, setEndDate] = useState(new Date()),
-    [endDatePickerOpen, setEndDatePickerOpen] = useState(false)
+    },
+    history = useHistory()
 
   const [filterOpen, setFilterOpen] = useState(false)
 
-  const [superiorSeaView, setSuperiorSeaView] = useState([defaults.room])
+  const [deluxeSeaView, setDeluxeSeaView] = useState(
+      info.roomSelection.deluxeSeaView,
+    ),
+    [superiorSeaView, setSuperiorSeaView] = useState(
+      info.roomSelection.superiorSeaView,
+    ),
+    [standardRoom, setStandardRoom] = useState(info.roomSelection.standardRoom)
+
+  const addDSVRoom = () => {
+      setDeluxeSeaView((dsv) => [
+        ...dsv,
+        {
+          ...defaults.room,
+          id: 'DSV-' + deluxeSeaView.length,
+          price: parseFloat(
+            info.reservationInformation.room[0].RoomRates[0][4],
+          ),
+          rate: info.reservationInformation.room[0].RoomRates[0][3],
+        },
+      ])
+    },
+    removeDSVRoom = () => {
+      setDeluxeSeaView(
+        deluxeSeaView.filter((r, index) => index !== deluxeSeaView.length - 1),
+      )
+    },
+    addSSVRoom = () => {
+      setSuperiorSeaView((ssv) => [
+        ...ssv,
+        {
+          ...defaults.room,
+          id: 'SSV-' + superiorSeaView.length,
+          price: parseFloat(
+            info.reservationInformation.room[1].RoomRates[0][4],
+          ),
+          rate: info.reservationInformation.room[1].RoomRates[0][3],
+        },
+      ])
+    },
+    addSTDRoom = () => {
+      setStandardRoom((std) => [
+        ...std,
+        {
+          ...defaults.room,
+          id: 'SSV-' + standardRoom.length,
+          price: parseFloat(
+            info.reservationInformation.room[2].RoomRates[0][4],
+          ),
+          rate: info.reservationInformation.room[2].RoomRates[0][3],
+        },
+      ])
+    },
+    removeSTDRoom = () => {
+      setStandardRoom(
+        standardRoom.filter((r, index) => index !== standardRoom.length - 1),
+      )
+    }
+
+  useEffect(() => {
+    backToIntro()
+    setInfo({
+      ...info,
+      roomSelection: {
+        ...info.roomSelection,
+        deluxeSeaView: deluxeSeaView,
+        superiorSeaView: superiorSeaView,
+        standardRoom: standardRoom,
+      },
+    })
+    // eslint-disable-next-line
+  }, [deluxeSeaView, superiorSeaView, standardRoom])
+
+  const backToIntro = () => {
+    if (
+      info.filters.reservationDates.start === null ||
+      info.filters.reservationDates.end === null
+    ) {
+      history.push('/')
+    }
+  }
 
   return (
     <>
-      <Box p={4} sx={{ overflow: 'hidden' }}>
+      <Box px={4}>
         <Box my={4}>
           <PageStepper activeStep={0} />
         </Box>
         <Grid container>
           <Grid
             item
-            xs={8}
+            xs={10}
             md={6}
             sx={{
               display: 'block',
@@ -81,7 +136,7 @@ const RoomSelection = () => {
             <Box>
               <Typography variant="pageTitle">Select Rooms</Typography>
             </Box>
-            <Box>
+            <Box mb={3}>
               <Typography variant="pageSubtitle">
                 Select how many rooms you will use while staying.
               </Typography>
@@ -89,7 +144,7 @@ const RoomSelection = () => {
           </Grid>
           <Grid
             item
-            xs={4}
+            xs={2}
             md={6}
             sx={{
               display: {
@@ -107,10 +162,15 @@ const RoomSelection = () => {
             </Button>
           </Grid>
         </Grid>
-        <Grid container mt={3} spacing={3}>
+      </Box>
+
+      {/* Deluxe Sea View Selection START */}
+      <Box mb={4}>
+        <Grid container spacing={3}>
           <Grid
             item
-            xl={12}
+            px={3}
+            xs={12}
             sx={{
               alignItems: 'center',
               display: 'flex',
@@ -119,6 +179,114 @@ const RoomSelection = () => {
             }}
           >
             <Box
+              pl={3}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <Typography variant="title">Deluxe Sea View</Typography>
+              <Button
+                sx={{
+                  padding: 0,
+                  margin: 0,
+                }}
+                onClick={() => history.push('/room-selection/0')}
+              >
+                <AiOutlineInfoCircle size={iconSize} />
+              </Button>
+            </Box>
+
+            <ButtonGroup variant="contained">
+              <Button
+                sx={{
+                  backgroundColor: Theme.palette.background.light,
+                }}
+                onClick={() => removeDSVRoom()}
+                disabled={deluxeSeaView.length === 0 ? true : false}
+              >
+                <AiOutlineMinus size={iconSize} />
+              </Button>
+              <Button
+                sx={{
+                  backgroundColor: Theme.palette.light.main,
+                }}
+              >
+                {deluxeSeaView.length}
+              </Button>
+              <Button
+                sx={{
+                  backgroundColor: Theme.palette.background.light,
+                }}
+                onClick={() => addDSVRoom()}
+                disabled={
+                  info.reservationInformation &&
+                  deluxeSeaView.length >=
+                    info.reservationInformation.room[0].Available
+                    ? true
+                    : false
+                }
+              >
+                <AiOutlinePlus />
+              </Button>
+            </ButtonGroup>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid
+              container
+              px={3}
+              spacing={2}
+              sx={{
+                display: {
+                  xs: 'iflex',
+                  md: '',
+                },
+                overflowX: {
+                  xs: 'scroll',
+                  md: 'auto',
+                },
+                flexWrap: {
+                  xs: 'nowrap',
+                  md: 'wrap',
+                },
+              }}
+            >
+              {deluxeSeaView.length === 0 ? (
+                <RoomCard disabled={true} img={DeluxeSeaViewImage} id={0} />
+              ) : (
+                deluxeSeaView.map((data, index) => (
+                  <RoomCard
+                    key={'DSV-' + index}
+                    img={DeluxeSeaViewImage}
+                    index={index}
+                    data={data}
+                    count={deluxeSeaView.length}
+                    id={0}
+                  />
+                ))
+              )}
+            </Grid>
+          </Grid>
+        </Grid>
+      </Box>
+      {/* Deluxe Sea View Selection END */}
+
+      {/* Superior Sea View Selection START */}
+      <Box mb={4}>
+        <Grid container spacing={3}>
+          <Grid
+            item
+            px={3}
+            xs={12}
+            sx={{
+              alignItems: 'center',
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}
+          >
+            <Box
+              pl={3}
               sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -138,12 +306,12 @@ const RoomSelection = () => {
             <ButtonGroup variant="contained">
               <Button
                 sx={{
-                  backgroundColor: Theme.palette.light.light,
+                  backgroundColor: Theme.palette.background.light,
                 }}
                 onClick={() =>
                   setSuperiorSeaView(
                     superiorSeaView.filter(
-                      (room, index) => index !== superiorSeaView.length - 1,
+                      (r, index) => index !== superiorSeaView.length - 1,
                     ),
                   )
                 }
@@ -160,46 +328,52 @@ const RoomSelection = () => {
               </Button>
               <Button
                 sx={{
-                  backgroundColor: Theme.palette.light.light,
+                  backgroundColor: Theme.palette.background.light,
                 }}
-                onClick={() =>
-                  setSuperiorSeaView((ssv) => [...ssv, defaults.room])
+                onClick={() => addSSVRoom()}
+                disabled={
+                  info.reservationInformation &&
+                  superiorSeaView.length >=
+                    info.reservationInformation.room[1].Available
+                    ? true
+                    : false
                 }
               >
                 <AiOutlinePlus />
               </Button>
             </ButtonGroup>
           </Grid>
-          <Grid
-            item
-            sx={{
-              width: '100%',
-            }}
-          >
+          <Grid item xs={12}>
             <Grid
               container
-              xs={12}
+              px={3}
+              spacing={2}
               sx={{
                 display: {
-                  xs: 'inline-flex',
-                  sm: 'block',
+                  xs: 'iflex',
+                  md: '',
                 },
-                overflow: {
+                overflowX: {
                   xs: 'scroll',
-                  sm: 'auto',
+                  md: 'auto',
                 },
-                flexWrap: 'nowrap',
-                width: '100%',
+                flexWrap: {
+                  xs: 'nowrap',
+                  md: 'wrap',
+                },
               }}
-              spacing={3}
             >
               {superiorSeaView.length === 0 ? (
-                <RoomCard disabled={true} />
+                <RoomCard disabled={true} img={SuperiorSeaViewImage} id={1} />
               ) : (
                 superiorSeaView.map((data, index) => (
                   <RoomCard
                     key={'SSV-' + index}
+                    img={SuperiorSeaViewImage}
+                    index={index}
+                    data={data}
                     count={superiorSeaView.length}
+                    id={1}
                   />
                 ))
               )}
@@ -207,311 +381,124 @@ const RoomSelection = () => {
           </Grid>
         </Grid>
       </Box>
+      {/* Superior Sea View Selection END */}
 
-      {filterOpen ? (
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            height: '100vh',
-            width: '100vw',
-            backdropFilter: 'blur(7.5px)',
-            zIndex: 100,
-            backgroundColor: 'rgba(0,0,0,.75)',
-          }}
-        >
-          <Card
+      {/* Standard Room Selection START */}
+      <Box mb={12}>
+        <Grid container spacing={3}>
+          <Grid
+            item
+            px={3}
+            xs={12}
             sx={{
-              position: 'fixed',
-              bottom: 0,
+              alignItems: 'center',
+              display: 'flex',
+              justifyContent: 'space-between',
               width: '100%',
-              borderBottomLeftRadius: 0,
-              borderBottomRightRadius: 0,
-              backgroundColor: Theme.palette.light.light,
             }}
           >
-            <Box pt={5} pb={2} px={3}>
-              <Grid container spacing={3}>
-                <Grid item xs={12}>
-                  <Card
-                    sx={{
-                      backgroundColor: Theme.palette.light.main,
-                      width: '100%',
-                    }}
-                  >
-                    <Box mt={3} ml={3}>
-                      <Typography variant="filterLabel">
-                        Reservation Dates
-                      </Typography>
-                    </Box>
-                    <Box px={3}>
-                      <LocalizationProvider dateAdapter={DateFnsUtils}>
-                        <MobileDatePicker
-                          open={startDatePickerOpen}
-                          onClose={() => setStartDatePickerOpen(false)}
-                          value={startDate}
-                          minDate={new Date()}
-                          maxDate={endDate}
-                          onChange={setStartDate}
-                          renderInput={({
-                            ref,
-                            inputProps,
-                            disabled,
-                            onChange,
-                            value,
-                            ...other
-                          }) => (
-                            <div ref={ref} {...other}>
-                              <input
-                                style={{ display: 'none' }}
-                                value={value}
-                                onChange={onChange}
-                                disabled={disabled}
-                                {...inputProps}
-                              />
-                              <Button
-                                sx={Theme.typography.filterText}
-                                onClick={() =>
-                                  setStartDatePickerOpen(
-                                    (startDatePickerOpen) =>
-                                      !startDatePickerOpen,
-                                  )
-                                }
-                              >
-                                <Box
-                                  py={3}
-                                  sx={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    width: '77.5vw',
-                                  }}
-                                >
-                                  <BsCalendar4Event size={iconSize} />
-
-                                  {moment(startDate).format('MMM. DD, ddd.')}
-                                </Box>
-                              </Button>
-                            </div>
-                          )}
-                        />
-                      </LocalizationProvider>
-                      <Divider />
-                      <LocalizationProvider dateAdapter={DateFnsUtils}>
-                        <MobileDatePicker
-                          sx={{
-                            backgroundColor: 'pink',
-                          }}
-                          open={endDatePickerOpen}
-                          onClose={() => setEndDatePickerOpen(false)}
-                          value={startDate}
-                          minDate={startDate}
-                          onChange={setEndDate}
-                          renderInput={({
-                            ref,
-                            inputProps,
-                            disabled,
-                            onChange,
-                            value,
-                            ...other
-                          }) => (
-                            <div ref={ref} {...other}>
-                              <input
-                                style={{ display: 'none' }}
-                                value={value}
-                                onChange={onChange}
-                                miDate={startDate}
-                                disabled={disabled}
-                                {...inputProps}
-                              />
-                              <Button
-                                sx={Theme.typography.filterText}
-                                onClick={() =>
-                                  setEndDatePickerOpen(
-                                    (endDatePickerOpen) => !endDatePickerOpen,
-                                  )
-                                }
-                              >
-                                <Box
-                                  py={3}
-                                  sx={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    width: '77.5vw',
-                                  }}
-                                >
-                                  <BsCalendar4Range size={iconSize} />
-
-                                  {moment(endDate).format('MMM. DD, ddd.')}
-                                </Box>
-                              </Button>
-                            </div>
-                          )}
-                        />
-                      </LocalizationProvider>
-                    </Box>
-                  </Card>
-                </Grid>
-
-                {/* Guests Per Room START */}
-                <Grid item xs={12}>
-                  <Card
-                    sx={{
-                      backgroundColor: Theme.palette.light.main,
-                      width: '100%',
-                    }}
-                  >
-                    <Box mt={3} ml={3}>
-                      <Typography variant="filterLabel">
-                        Guests per Room
-                      </Typography>
-                    </Box>
-                    <Box px={3}>
-                      {/* Adults Tab START */}
-                      <Box
-                        py={3}
-                        sx={{
-                          alignItems: 'center',
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                        }}
-                      >
-                        <Box
-                          sx={{
-                            alignItems: 'center',
-                            display: 'flex',
-                          }}
-                        >
-                          <AiOutlineUser size={iconSize * 2} />
-                          <Typography variant="filterText" ml={3}>
-                            {adults} Adult{adults === 1 ? '' : 's'}
-                          </Typography>
-                        </Box>
-                        <ButtonGroup variant="contained">
-                          <Button
-                            sx={{
-                              backgroundColor: Theme.palette.light.light,
-                            }}
-                            disabled={
-                              adults === defaults.adults.min ? true : false
-                            }
-                            onClick={() =>
-                              adults === defaults.adults.min
-                                ? ''
-                                : setAdults((adults) => adults - 1)
-                            }
-                          >
-                            <AiOutlineMinus size={iconSize} />
-                          </Button>
-                          <Button
-                            sx={{
-                              backgroundColor: Theme.palette.light.light,
-                            }}
-                            disabled={
-                              adults === defaults.adults.max ? true : false
-                            }
-                            onClick={() =>
-                              adults === defaults.adults.max
-                                ? ''
-                                : setAdults((adults) => adults + 1)
-                            }
-                          >
-                            <AiOutlinePlus size={iconSize} />
-                          </Button>
-                        </ButtonGroup>
-                      </Box>
-                      {/* Adults Tab END */}
-
-                      <Divider />
-
-                      {/* Children Tab START */}
-                      <Box
-                        py={3}
-                        sx={{
-                          alignItems: 'center',
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                        }}
-                      >
-                        <Box
-                          sx={{
-                            alignItems: 'center',
-                            display: 'flex',
-                          }}
-                        >
-                          <AiOutlineTeam size={iconSize * 2} />
-                          <Typography variant="filterText" ml={3}>
-                            {children} Child{children === 1 ? '' : 'ren'}
-                          </Typography>
-                        </Box>
-                        <ButtonGroup variant="contained">
-                          <Button
-                            sx={{
-                              backgroundColor: Theme.palette.light.light,
-                            }}
-                            disabled={
-                              children === defaults.children.min ? true : false
-                            }
-                            onClick={() =>
-                              children === defaults.children.min
-                                ? ''
-                                : setChildren((children) => children - 1)
-                            }
-                          >
-                            <AiOutlineMinus size={iconSize} />
-                          </Button>
-                          <Button
-                            sx={{
-                              backgroundColor: Theme.palette.light.light,
-                            }}
-                            disabled={
-                              children === defaults.children.max ? true : false
-                            }
-                            onClick={() =>
-                              children === children.max
-                                ? ''
-                                : setChildren((children) => children + 1)
-                            }
-                          >
-                            <AiOutlinePlus size={iconSize} />
-                          </Button>
-                        </ButtonGroup>
-                      </Box>
-                      {/* Children Tab END */}
-                    </Box>
-                  </Card>
-                </Grid>
-                {/* Guests Per Room END */}
-
-                <Box
-                  pt={3}
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    width: '100%',
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    onClick={() => setFilterOpen(false)}
-                  >
-                    Close
-                  </Button>
-                </Box>
-              </Grid>
+            <Box
+              pl={3}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <Typography variant="title">Standard Room</Typography>
+              <Button
+                sx={{
+                  padding: 0,
+                  margin: 0,
+                }}
+              >
+                <AiOutlineInfoCircle size={iconSize} />
+              </Button>
             </Box>
-          </Card>
-        </Box>
-      ) : (
-        <></>
-      )}
+
+            <ButtonGroup variant="contained">
+              <Button
+                sx={{
+                  backgroundColor: Theme.palette.background.light,
+                }}
+                onClick={() => removeSTDRoom()}
+                disabled={standardRoom.length === 0 ? true : false}
+              >
+                <AiOutlineMinus size={iconSize} />
+              </Button>
+              <Button
+                sx={{
+                  backgroundColor: Theme.palette.light.main,
+                }}
+              >
+                {standardRoom.length}
+              </Button>
+              <Button
+                sx={{
+                  backgroundColor: Theme.palette.background.light,
+                }}
+                onClick={() => addSTDRoom()}
+                disabled={
+                  info.reservationInformation &&
+                  standardRoom.length >=
+                    info.reservationInformation.room[2].Available
+                    ? true
+                    : false
+                }
+              >
+                <AiOutlinePlus />
+              </Button>
+            </ButtonGroup>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid
+              container
+              px={3}
+              spacing={2}
+              sx={{
+                display: {
+                  xs: 'iflex',
+                  md: '',
+                },
+                overflowX: {
+                  xs: 'scroll',
+                  md: 'auto',
+                },
+                flexWrap: {
+                  xs: 'nowrap',
+                  md: 'wrap',
+                },
+              }}
+            >
+              {standardRoom.length === 0 ? (
+                <RoomCard disabled={true} img={StandardRoomImage} id={2} />
+              ) : (
+                standardRoom.map((data, index) => (
+                  <RoomCard
+                    key={'STD-' + index}
+                    img={StandardRoomImage}
+                    index={index}
+                    data={data}
+                    count={standardRoom.length}
+                    id={2}
+                  />
+                ))
+              )}
+            </Grid>
+          </Grid>
+        </Grid>
+      </Box>
+      {/* Standard Room Selection END */}
+
+      <Filter
+        filterOpen={filterOpen}
+        setFilterOpen={setFilterOpen}
+        text="Apply Now"
+      />
 
       <Box
         p={2}
         sx={{
-          backgroundColor: Theme.palette.light.light,
+          backgroundColor: Theme.palette.background.light,
           bottom: 0,
           display: 'flex',
           justifyContent: 'flex-end',
@@ -520,7 +507,7 @@ const RoomSelection = () => {
           width: '100vw',
         }}
       >
-        <Box px={3}>
+        <Box px={4}>
           <NavLink to="guest-details">
             <Button
               variant="contained"

@@ -1,38 +1,54 @@
 const Store = {
     env: {
         colors: {
-            primary: '#6dc7b8'
-        }
+            primary: {
+                main: "#6dc7b8",
+            },
+        },
+        fonts: {
+            weight: {
+                light: 300,
+                regular: 400,
+                medium: 500,
+                bold: 700,
+                black: 800,
+            },
+            style: {
+                sansSerif: "Montserrat",
+                serif: "PlayFair Display",
+            }
+        },
+    },
+    filters: {
+        language: "EN",
+        currency: "PHP",
+        guests: {
+            adults: null,
+            children: null,
+        },
+        reservationDates: {
+            start: null,
+            end: null,
+        },
     },
     roomSelection: {
-        superiorSeaView: [
-            {
-                adults: 1,
-                children: 0,
-                addOns: {
-                    adults: 3,
-                    children: 0,
-                },
-                rates: 0
-            },
-        ],
-        standardRoom: [
-
-        ],
-        rates: {
-            superiorSeaView: [
-                { name: 'SSV-1', price: 1500 },
-                { name: 'SSV-2', price: 1750 },
-                { name: 'SSV-3', price: 2000 },
-            ]
-        }
+        deluxeSeaView: [],
+        superiorSeaView: [],
+        standardRoom: [],
     },
     guestDetails: {
 
     },
     payment: {
 
-    }
+    },
+    prices: [
+        {
+            name: "",
+            quantity: 1,
+            value: 1000,
+        }
+    ],
 }
 
 export default Store;

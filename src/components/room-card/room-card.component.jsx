@@ -1,134 +1,352 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
   Box,
-  // Button,
-  // ButtonGroup,
+  Button,
+  ButtonGroup,
   Card,
   Chip,
-  // Divider,
+  Collapse,
   FormControl,
   Grid,
-  InputLabel,
   MenuItem,
   Select,
-  // TextField,
-  // Typography,
+  Typography,
+  Zoom,
 } from '@material-ui/core'
-import { Theme } from '../components.component'
+import { IoBedOutline, IoPeopleOutline } from 'react-icons/io5'
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai'
+import { BsTextareaResize } from 'react-icons/bs'
+import { AppContext, Theme } from '..'
+// import { intlFormat } from 'date-fns'
 
 const RoomCard = (props) => {
-  const [rate, setRate] = useState(0)
+  const iconSize = 10,
+    // eslint-disable-next-line
+    { info, setInfo } = useContext(AppContext),
+    [showAddOns, setShowAddOns] = useState(false),
+    [rate, setRate] = useState(''),
+    [children, setChildren] = useState(
+      info.reservationInformation &&
+        info.filters.guests.children >
+          info.reservationInformation.room[props.id].RoomAttributes.maxChild
+        ? info.reservationInformation.room[props.id].RoomAttributes.maxChild
+        : info.filters && info.filters.guests.children
+        ? info.filters.guests.children
+        : 0,
+    ),
+    [adults, setAdults] = useState(
+      info.reservationInformation &&
+        info.filters.guests.adults >
+          info.reservationInformation.room[props.id].RoomAttributes.maxPax
+        ? info.reservationInformation.room[props.id].RoomAttributes.maxPax
+        : info.filters && info.filters.guests.adults
+        ? info.filters.guests.adults
+        : 1,
+    ),
+    cardInfo = [
+      {
+        icon: <IoPeopleOutline />,
+        label: info.reservationInformation
+          ? info.reservationInformation.room[props.id].RoomAttributes.maxPax +
+            info.reservationInformation.room[props.id].RoomAttributes.maxPax +
+            ' people'
+          : null,
+      },
+      {
+        icon: <IoBedOutline />,
+        label: info.reservationInformation
+          ? info.reservationInformation.room[props.id].RoomAttributes.BedsNumber
+          : null,
+      },
+      {
+        icon: <BsTextareaResize />,
+        label: info.reservationInformation
+          ? info.reservationInformation.room[props.id].RoomAttributes.RoomSize
+          : null,
+      },
+    ]
+
+  useEffect(() => {})
 
   return (
-    <Grid
-      item
-      xs={props.count > 1 ? 11 : 12}
-      sm={6}
-      sx={props.disabled ? { opacity: 0.5 } : ''}
-    >
-      <Card sx={{ backgroundColor: Theme.palette.light.light }}>
-        <Box p={3}>
+    <Grid item xs={props.count > 1 ? 11 : 12} md={6}>
+      <Zoom in={true}>
+        <Card
+          sx={{
+            backgroundColor: Theme.palette.background.light,
+            position: 'relative',
+          }}
+        >
           <Grid container>
             <Grid
               item
               xs={12}
+              sm={4}
               sx={{
                 display: 'flex',
+                justifyContent: 'flex-center',
                 alignItems: 'center',
-                justifyContent: 'space-between',
               }}
             >
-              <FormControl variant="filled" sx={{ width: '70%' }}>
-                <InputLabel id="demo-simple-select-filled-label">
-                  Age
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-filled-label"
-                  id="demo-simple-select-filled"
-                  value={rate}
-                  onChange={setRate}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-              <Chip
-                label={'₱ ' + 1000}
+              <Box
                 sx={{
-                  backgroundColor: Theme.palette.secondary.main,
-                  color: 'white',
-                  fontWeight: Theme.typography.fontWeightBold,
-                  borderRadius: Theme.shape.borderRadiusSm,
+                  width: {
+                    xs: '100%',
+                    sm: '225px',
+                  },
+                  position: 'relative',
+                  height: { sm: '100%' },
+                  maxHeight: {
+                    sm: '350px',
+                  },
+                  borderRadius: Theme.shape.borderRadius,
+                  overflow: { sm: 'hidden' },
                 }}
-              />
+              >
+                <Box
+                  component="img"
+                  src={props.img}
+                  sx={{
+                    width: { xs: '100%', sm: 'auto' },
+                    height: { sm: '100%' },
+                  }}
+                />
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={8}>
+              <Box p={3}>
+                <Grid container spacing={3}>
+                  <Grid item xs={8} sx={{}}>
+                    <FormControl
+                      sx={{ mr: 1, mt: -3, minWidth: 120, width: '100%' }}
+                    >
+                      <Select
+                        defaultValue={10}
+                        value={rate}
+                        onChange={(e) => setRate(e.target.value)}
+                        variant="filled"
+                        displayEmpty
+                        disableUnderline={true}
+                        sx={{
+                          ...Theme.cardSelect,
+                          backgroundColor: Theme.palette.background.light,
+                        }}
+                      >
+                        <MenuItem value="">Best Available Rate</MenuItem>
+                        <MenuItem value={10}>Rate 2</MenuItem>
+                        <MenuItem value={20}>Rate 3</MenuItem>
+                        <MenuItem value={30}>Best Available Rate</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={4}
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'flex-end',
+                    }}
+                  >
+                    <Chip
+                      label={
+                        '₱ ' +
+                        (info.reservationInformation
+                          ? info.reservationInformation.room[props.id]
+                              .RoomRates[0][4]
+                          : 1000)
+                      }
+                      sx={{
+                        backgroundColor: Theme.palette.secondary.main,
+                        color: 'white',
+                        fontWeight: Theme.typography.fontWeightBold,
+                        borderRadius: Theme.shape.borderRadiusSm,
+                      }}
+                    />
+                  </Grid>
+
+                  {cardInfo.map((i) => (
+                    <Grid
+                      item
+                      xs={12 / cardInfo.length}
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-evenly',
+                      }}
+                    >
+                      {i.icon}
+                      <Typography
+                        variant="roomCardLabel"
+                        sx={{ textAlign: 'center' }}
+                      >
+                        {i.label}
+                      </Typography>
+                    </Grid>
+                  ))}
+
+                  <Grid item xs={12}>
+                    <Card
+                      sx={{
+                        backgroundColor: Theme.palette.light.main,
+                        width: '100%',
+                      }}
+                    >
+                      <Grid container>
+                        {/* Adults Tab START */}
+                        <Grid
+                          item
+                          py={2}
+                          xs={6}
+                          sx={{
+                            textAlign: 'center',
+                          }}
+                        >
+                          <Box pb={2}>
+                            <Typography variant="filterText">
+                              {adults} Adult{adults === 1 ? '' : 's'}
+                            </Typography>
+                          </Box>
+                          <ButtonGroup variant="contained">
+                            <Button
+                              sx={{
+                                backgroundColor: Theme.palette.background.light,
+                              }}
+                              disabled={adults === 0 ? true : false}
+                              // eslint-disable-next-line
+                              disabled={
+                                info.reservationInformation &&
+                                adults ===
+                                  info.reservationInformation.room[props.id]
+                                    .RoomAttributes.maxPax
+                                  ? true
+                                  : false
+                              }
+                              onClick={() =>
+                                adults === 0
+                                  ? ''
+                                  : setAdults((adults) => adults - 1)
+                              }
+                            >
+                              <AiOutlineMinus size={iconSize} />
+                            </Button>
+                            <Button
+                              sx={{
+                                backgroundColor: Theme.palette.background.light,
+                              }}
+                              onClick={() =>
+                                info.reservationInformation.room &&
+                                adults ===
+                                  info.reservationInformation.room[props.id]
+                                    .RoomAttributes.maxPax
+                                  ? ''
+                                  : setAdults((adults) => adults + 1)
+                              }
+                            >
+                              <AiOutlinePlus size={iconSize} />
+                            </Button>
+                          </ButtonGroup>
+                        </Grid>
+                        {/* Adults Tab END */}
+
+                        {/* Children Tab START */}
+                        <Grid
+                          item
+                          py={2}
+                          xs={6}
+                          sx={{
+                            textAlign: 'center',
+                          }}
+                        >
+                          <Box pb={2}>
+                            <Typography variant="filterText">
+                              {children} Child{children === 1 ? '' : 'ren'}
+                            </Typography>
+                          </Box>
+                          <ButtonGroup variant="contained">
+                            <Button
+                              sx={{
+                                backgroundColor: Theme.palette.background.light,
+                              }}
+                              disabled={children === 0 ? true : false}
+                              onClick={() =>
+                                children === 0
+                                  ? ''
+                                  : setChildren((children) => children - 1)
+                              }
+                            >
+                              <AiOutlineMinus size={iconSize} />
+                            </Button>
+                            <Button
+                              sx={{
+                                backgroundColor: Theme.palette.background.light,
+                              }}
+                              disabled={
+                                info.reservationInformation &&
+                                children ===
+                                  info.reservationInformation.room[props.id]
+                                    .RoomAttributes.maxChild
+                                  ? true
+                                  : false
+                              }
+                              onClick={() =>
+                                info.reservationInformation.room &&
+                                children ===
+                                  info.reservationInformation.room[props.id]
+                                    .RoomAttributes.maxChild
+                                  ? ''
+                                  : setChildren((children) => children + 1)
+                              }
+                            >
+                              {console.log(info)}
+                              <AiOutlinePlus size={iconSize} />
+                            </Button>
+                          </ButtonGroup>
+                        </Grid>
+                        {/* Children Tab END */}
+                      </Grid>
+                    </Card>
+                  </Grid>
+
+                  <Grid item py={0} my={0} xs={12}>
+                    <Collapse in={showAddOns}>
+                      <Box>Testing</Box>
+                    </Collapse>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Button
+                      sx={{
+                        width: '100%',
+                        fontWeight: Theme.typography.fontWeightBold,
+                      }}
+                      onClick={() => setShowAddOns(!showAddOns)}
+                    >
+                      <Box py={0}>{showAddOns ? 'Hide' : 'Show'} Add-Ons</Box>
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Box>
             </Grid>
           </Grid>
-        </Box>
-      </Card>
+          {props.disabled ? (
+            <Box
+              sx={{
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                height: '100%',
+                width: '100%',
+                backgroundColor: 'rgba(255,255,255,.75)',
+                backdropFilter: 'blur(1.5px)',
+              }}
+            ></Box>
+          ) : (
+            <></>
+          )}
+        </Card>
+      </Zoom>
     </Grid>
   )
 }
 
 export default RoomCard
-
-// const etc = `        <div className={this.props.length < 2 ? "col-12 col-md-6 py-2" : "col-11 col-md-6 py-2"}>
-// <div className={"card bg-white border-radius-lg border-0 " + (this.props.disabled ? "opacity-50" : "")}>
-//     <div className={this.props.disabled ? "position-absolute w-100 h-100 top-0 left-0" : ""}></div>
-//     <div className="card-body p-3 grid">
-//         <div className="row px-3">
-//             <div className="col-8 text-center d-flex mb-3">
-//                 <select className="form-select bg-light border-0" aria-label="Default select example">
-//                     <option selected disabled>
-//                         Rate
-//                     </option>
-//                     <option defaultValue="1">One</option>
-//                     <option defaultValue="2">Two</option>
-//                     <option defaultValue="3">Three</option>
-//                 </select>
-//             </div>
-//             <div className="col-4 justify-content-end">
-//                 <span className="badge bg-secondary border-radius w-100 fw-bold text-start text-white px-3 py-2">
-//                     ₱
-//                 </span>
-//             </div>
-//         </div>
-//         <div className="row gx-3 px-3">
-//             <div className="col text-center border-radius-lg d-flex">
-//                 <div className="px-3 h-100 d-flex align-items-center bg-light">
-//                     <RiUserSmileLine />
-//                 </div>
-//                 <select className="form-select bg-light border-0" aria-label="Default select example">
-//                     <option selected disabled>
-//                         Adult
-//                     </option>
-//                     <option defaultValue="1">One</option>
-//                     <option defaultValue="2">Two</option>
-//                     <option defaultValue="3">Three</option>
-//                 </select>
-//             </div>
-//             <div className="col text-center border-radius-lg d-flex">
-//                 <div className="px-3 h-100 d-flex align-items-center bg-light">
-//                     <MdOutlineChildCare />
-//                 </div>
-//                 <select className="form-select bg-light border-0" aria-label="Default select example">
-//                     <option selected disabled>
-//                         Child
-//                     </option>
-//                     <option defaultValue="1">One</option>
-//                     <option defaultValue="2">Two</option>
-//                     <option defaultValue="3">Three</option>
-//                 </select>
-//             </div>
-//         </div>
-//         <div className="row">
-//             <div className="col-12">
-//                 <button className="btn btn-white w-100 border-radius text-primary fw-bold p-2 mt-4">Show Add-ons</button>
-//             </div>
-//         </div>
-//     </div>
-// </div>
-// </div >`

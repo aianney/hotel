@@ -1,5 +1,4 @@
 .payment {
-  margin-top: -180px;
   padding: 30px;
 }
 
@@ -17,6 +16,13 @@
   display: flex;
   justify-content: space-between;
 }
+
+.item_span_one {
+  font-size: 1.17em;
+  font-weight: bold;
+  color: black;
+}
+
 /* .items h3 {
   font-size: 20px !important;
   color: black;
@@ -33,8 +39,9 @@
   font-size: 15px !important;
 } */
 
-.btn-payment {
+.payment-button {
   float: right;
+  background-color: #71c7b8 !important;
 }
 
 .payments {
@@ -54,12 +61,17 @@
     margin-left: -40px !important;
   }
 
+  .css-ayy8wd-MuiGrid-root {
+    display: none;
+  }
+
   .item {
     width: 51vh;
   }
 
   .payment {
-    margin-top: 0px;
+    margin-top: 0;
+    margin-left: 0;
   }
   /* .payment-content-one {
     display: block;
