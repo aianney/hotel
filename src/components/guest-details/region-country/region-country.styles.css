@@ -3,6 +3,7 @@
 }
 
 select {
+  font: inherit;
   margin: 1em !important;
   padding: 15.5px 14px;
   border-radius: 4px;
@@ -29,6 +30,6 @@ select:hover {
 
 @media screen and (device-width: 375px) and (device-height: 667px) {
   select {
-    min-width: 45%;
+    min-width: 44%;
   }
 }

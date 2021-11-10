@@ -3,6 +3,7 @@ import { Box } from '@material-ui/core'
 import PaymentContent from '../../components/payment-method/payment-content/payment-content.component'
 import PageStepper from '../../components/page-stepper/page-stepper.component'
 import { AppContext } from '../../components'
+import './payment.styles.css'
 
 const Payment = ({ handlePressGuestDetails }) => {
   const { info } = useContext(AppContext)
