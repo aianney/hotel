@@ -3,6 +3,7 @@ import { HiOutlineLocationMarker, HiOutlineMail, HiOutlinePhone } from 'react-ic
 import { Theme } from "../../components";
 import { Box, Card, Grid, Typography } from "@material-ui/core";
 import { BsPhone } from 'react-icons/bs';
+import ContactUsImage from '../../assets/media/images/contact-us.png';
 
 const iconSize = "75%",
     cards = [
@@ -88,39 +89,43 @@ const ContactCard = props => {
             <>
                 <Grid
                     container
-                    p={3}
+                    p={4}
                 >
                     <Grid
                         item
                         xs={12}
+                        sx={{
+                            display: "block"
+                        }}
+                    >
+                        <Box>
+                            <Typography
+                                variant="pageTitle"
+                            >
+                                Contact Us
+                            </Typography>
+                        </Box>
+                        <Box>
+                            <Typography
+                                variant="pageSubtitle"
+                            >
+                                If you have any inquiries, feel free to contact us through the following ways:
+                            </Typography>
+                        </Box>
+                    </Grid>
+                    <Grid
+                        item
+                        xs={12}
                         sm={6}
-                        >
+                        ml={0}
+                        mt={3}
+
+                        sx={{ zIndex: 1 }}
+                    >
                         <Grid
                             container
                             spacing={3}
                         >
-                            <Grid
-                                item
-                                xs={12}
-                                sx={{
-                                    display: "block"
-                                }}
-                            >
-                                <Box>
-                                    <Typography
-                                        variant="pageTitle"
-                                    >
-                                        Contact Us
-                                    </Typography>
-                                </Box>
-                                <Box>
-                                    <Typography
-                                        variant="pageSubtitle"
-                                    >
-                                        If you have any inquiries, feel free to contact us through the following ways:
-                                    </Typography>
-                                </Box>
-                            </Grid>
                             {
                                 cards.map((card, index) => (
                                     <Grid
@@ -143,8 +148,33 @@ const ContactCard = props => {
                             }
                         </Grid>
                     </Grid>
-                    <Grid>
-
+                    <Grid item xs={12} md={6} sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        position: {
+                            xs: "fixed",
+                            md: "relative"
+                        },
+                        height: {
+                            xs: "100vh",
+                            md: "auto",
+                        },
+                        width: {
+                            xs: "100vw",
+                            md: "auto",
+                        },
+                        opacity: {
+                            xs: .25,
+                            md: 1,
+                        },
+                        top: {
+                            xs: 30,
+                            md: "",
+                        },
+                        left: 0
+                    }}>
+                        <Box component="img" src={ContactUsImage} sx={{ width: { xs: "90%", md: "70%" } }} />
                     </Grid>
                 </Grid>
             </>

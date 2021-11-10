@@ -12,7 +12,6 @@ import {
 } from './pages'
 import { ThemeProvider } from '@mui/material/styles'
 import { Box } from '@material-ui/core'
-import './app.css'
 
 const App = () => {
   const [info, setInfo] = useState(Store),
@@ -20,7 +19,7 @@ const App = () => {
 
   return (
     <ThemeProvider theme={Theme}>
-      <Box pt={8} sx={{ backgroundColor: Theme.palette.light.main }}>
+      <Box pt={7.5} sx={{ backgroundColor: Theme.palette.light.main }}>
         <Router>
           <AppContext.Provider value={value}>
             <NavBar />
@@ -33,7 +32,11 @@ const App = () => {
                 component={RoomAmenities}
               />
               <Route exact path="/guest-details" component={GuestDetails} />
-              <Route exact path="/payments" component={Payment} />
+              <Route
+                exact
+                path="/payments"
+                render={(props) => <Payment {...props} />}
+              />
               <Route path="/contact-us" component={ContactUs} />
               <Route component={PageNotFound} />
             </Switch>

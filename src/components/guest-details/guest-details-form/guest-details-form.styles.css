@@ -8,27 +8,17 @@
   width: 126%;
 }
 
-/* guestdetails-whole-content */
 .css-35wrdh-MuiPaper-root-MuiCard-root {
-  background-color: #fafafa !important;
+  background-color: none !important;
 }
 
-.guest-details {
-  margin-left: 0px;
-  margin-top: 30px;
+.birthday {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: rgba(0, 0, 0, 0.54);
 }
 
-.guest-details h5 {
-  color: black;
-}
-
-/* .birthday {
-    margin-top: 5px;
-    margin-bottom: 10px;
-    color: rgba(0, 0, 0, 0.54);
-  } */
-
-.button_guest__details {
+.button-register {
   width: 100px !important;
   background-color: #71c7b8 !important;
   float: right !important;
@@ -109,6 +99,6 @@
   }
 
   .css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
-    width: 265px;
+    width: 335px;
   }
 }

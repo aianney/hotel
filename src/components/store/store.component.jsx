@@ -10,12 +10,13 @@ const Store = {
                 light: 300,
                 regular: 400,
                 medium: 500,
+                semibold: 600,
                 bold: 700,
                 black: 800,
             },
             style: {
-                sansSerif: "Montserrat",
-                serif: "PlayFair Display",
+                sansSerif: `"DM Sans", "Heebo", "Montserrat"`,
+                serif: `"Poppins", "Source Sans Pro", "Raleway", "PlayFair Display"`,
             }
         },
     },

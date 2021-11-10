@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Box } from '@material-ui/core'
 import PaymentContent from '../../components/payment-method/payment-content/payment-content.component'
 import PageStepper from '../../components/page-stepper/page-stepper.component'
+import { AppContext } from '../../components'
 
 const Payment = ({ handlePressGuestDetails }) => {
+  const { info } = useContext(AppContext)
+
   return (
     <Box p={4}>
+      {console.log(info.roomSelection)}
       <Box mb={4}>
         <PageStepper activeStep={2} onClick={handlePressGuestDetails} />
       </Box>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector'
+//import Theme from '../../theme/theme.component'
 import './region-country.styles.css'
 
 class RegionCountry extends React.Component {
@@ -21,6 +22,7 @@ class RegionCountry extends React.Component {
     return (
       <div className="region-country">
         <CountryDropdown
+          // sx={{ borderRadius: Theme.shape.borderRadiusSm }}
           value={country}
           onChange={(val) => this.selectCountry(val)}
         />

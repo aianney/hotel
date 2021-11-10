@@ -5,27 +5,39 @@ import { Box, Button } from '@material-ui/core'
 const CustomButton = ({ children, ...props }) => {
   return (
     <>
-      <Box px={4}>
-        <Button
-          {...props}
-          variant="contained"
-          sx={{
-            borderRadius: Theme.shape.borderRadius,
-          }}
-        >
-          <Box
-            px={2}
-            py={1}
+      <Box p={2}
+        sx={{
+          backgroundColor: Theme.palette.background.light,
+          bottom: 0,
+          left: 0,
+          display: "flex",
+          justifyContent: "flex-end",
+          position: "fixed",
+          width: "100vw",
+          boxSizing: "border-box",
+          zIndex: 200,
+        }}
+      >
+        <Box>
+          <Button
+            {...props}
+            variant="contained"
             sx={{
-              fontWeight: Theme.typography.fontWeightBold,
-              textDecoration: 'none',
-              color: 'unset',
+              borderRadius: Theme.shape.borderRadius,
             }}
           >
-            {' '}
-            {children}
-          </Box>
-        </Button>
+            <Box px={2}
+              py={1}
+              sx={{
+                fontWeight: Theme.typography.fontWeightBold,
+                textDecoration: "none",
+                color: "unset",
+              }}
+            >
+              {children}
+            </Box>
+          </Button>
+        </Box>
       </Box>
     </>
   )

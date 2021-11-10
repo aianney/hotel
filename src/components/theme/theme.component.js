@@ -32,18 +32,10 @@ let Theme = createTheme({
         padding: 0,
     },
     typography: {
-        fontFamily: `
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Store.env.fonts.style.sansSerif,
-        Arial,
-        sans-serif,
-        "Apple Color Emoji",
-        "Segoe UI Emoji",
-        "Segoe UI Symbol",
-        `,
+        fontFamily: {
+            sansSerif: Store.env.fonts.style.sansSerif,
+            serif: Store.env.fonts.style.serif,
+        },
         fontSize: 16,
         fontWeightLight: Store.env.fonts.weight.light,
         fontWeightRegular: Store.env.fonts.weight.regular,
@@ -57,7 +49,7 @@ let Theme = createTheme({
             fontFamily: Store.env.fonts.style.sansSerif,
         },
         pageTitle: {
-            fontFamily: `PlayFair Display`,
+            fontFamily: Store.env.fonts.style.serif,
             fontSize: 28,
             fontWeight: Store.env.fonts.weight.black,
         },
@@ -73,8 +65,16 @@ let Theme = createTheme({
             textAlign: `right`,
         },
         introTitle: {
-            fontSize: 45,
-            fontWeight: Store.env.fonts.weight.black,
+            fontFamily: Store.env.fonts.style.serif,
+            fontSize: 40,
+            fontWeight: Store.env.fonts.weight.bold,
+        },
+        introSubtitle: {
+            fontFamily: Store.env.fonts.style.sansSerif,
+            fontSize: 14,
+            fontWeight: Store.env.fonts.weight.medium,
+            lineHeight: 2,
+            color: `#999`,
         },
         pageSubtitle: {
             fontFamily: Store.env.fonts.style.sansSerif,
@@ -106,9 +106,25 @@ let Theme = createTheme({
             textTransform: `capitalize`,
             fontWeight: Store.env.fonts.weight.bold,
         },
+        priceBreakdownTitle: {
+            fontFamily: Store.env.fonts.style.sansSerif,
+            fontSize: 20,
+            fontWeight: Store.env.fonts.weight.bold,
+        },
+        priceBreakdownTitlePrice: {
+            fontFamily: Store.env.fonts.style.sansSerif,
+            fontSize: 18,
+            fontWeight: Store.env.fonts.weight.medium,
+        },
         roomCardLabel: {
             fontFamily: Store.env.fonts.style.sansSerif,
             fontSize: 12,
+        },
+        roomTypeTitle: {
+            fontFamily: Store.env.fonts.style.serif,
+            fontSize: 22,
+            fontWeight: Store.env.fonts.weight.bold,
+            color: Store.env.colors.primary.main,
         }
     },
 });
