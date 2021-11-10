@@ -17,6 +17,7 @@ import CustomButton from '../../custom-button/custom-button.component'
 import AppContext from '../../app-context/app-context.component'
 
 function GuestDetailsForm({ props }) {
+  // const [error, setError] = React.useState('')
   const { info, setInfo } = React.useContext(AppContext)
   const history = useHistory()
   const [userCredentials, setUserCredentials] = React.useState({
