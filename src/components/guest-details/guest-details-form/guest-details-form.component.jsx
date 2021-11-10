@@ -8,7 +8,6 @@ import {
   Typography,
 } from '@material-ui/core'
 import { useHistory } from 'react-router'
-//import ReCAPTCHA from 'react-google-recaptcha'
 import RegionCountry from '../region-country/region-country.component'
 import BirthdatePicker from '../birthdate/birthdate.component'
 import Theme from '../../theme/theme.component'

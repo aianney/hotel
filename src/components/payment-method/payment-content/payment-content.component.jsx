@@ -5,8 +5,9 @@ import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 import './payment-content.styles.css'
 import PaymentPrice from '../../payment-method/paymentprice/paymentprice.component'
-import PaymentMethod from '../../payment-method/payment-card/payment-card.component'
+import PaymentCard from '../../payment-method/payment-card/payment-card.component'
 import CustomButton from '../../custom-button/custom-button.component'
+import { Typography } from '@material-ui/core'
 import { AppContext } from '../..'
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -22,10 +23,15 @@ export default function PaymentContent({ location }) {
 
   return (
     <div className="payment">
-      <h1>Payment Method</h1>
-      <p>
+      <Typography variant="pageTitle">Payment</Typography>
+      <Typography
+        variant="pageSubtitle"
+        color="textSecondary"
+        component="p"
+        gutterBottom
+      >
         Choose from the following mode of payments to complete your reservation
-      </p>
+      </Typography>
       {/* details */}
       <Box sx={{ width: '100%' }}>
         <Grid container rowSpacing={5} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -67,7 +73,8 @@ export default function PaymentContent({ location }) {
           </Grid> */}
         </Grid>
         <PaymentPrice />
-        <PaymentMethod />
+        {/* <PriceBreakdown /> */}
+        <PaymentCard />
         {/* <PaymentPriceBreakDown /> */}
         <CustomButton className="payment-button">Finish</CustomButton>
       </Box>
