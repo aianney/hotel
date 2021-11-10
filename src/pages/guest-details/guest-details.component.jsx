@@ -1,11 +1,11 @@
 import React from 'react'
 import { GuestDetailsForm, PageStepper } from '../../components'
-import { Box } from '@material-ui/core';
+import { Box } from '@material-ui/core'
 
 const GuestDetails = () => {
   return (
-    <Box p={4}>
-      <Box mb={4}>
+    <Box>
+      <Box mb={2}>
         <PageStepper activeStep={1} />
       </Box>
       <Box>

@@ -80,12 +80,12 @@ function GuestDetailsForm({ props }) {
     event.preventDefault()
     if (
       userCredentials.firstName &&
-      userCredentials.lastName &&
+      userCredentials.lastName
       // userCredentials.nationality &&
       // userCredentials.number &&
       // userCredentials.email &&
       // userCredentials.date &&
-      userCredentials.message
+      // userCredentials.message
     ) {
       history.push(`/payments`, { userCredentials })
     } else {
