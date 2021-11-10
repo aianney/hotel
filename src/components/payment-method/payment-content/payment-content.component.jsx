@@ -5,10 +5,9 @@ import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 import './payment-content.styles.css'
 import PaymentPrice from '../../payment-method/paymentprice/paymentprice.component'
-//import PaymentPriceBreakDown from '../payment-price-breakdown/payment-price-breakdown.component'
+import PaymentMethod from '../../payment-method/payment-card/payment-card.component'
 import CustomButton from '../../custom-button/custom-button.component'
 import { AppContext } from '../..'
-import PaymentMethod from '../payment-price-breakdown/paymentmethod'
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -69,7 +68,6 @@ export default function PaymentContent({ location }) {
         </Grid>
         <PaymentPrice />
         <PaymentMethod />
-
         {/* <PaymentPriceBreakDown /> */}
         <CustomButton className="payment-button">Finish</CustomButton>
       </Box>

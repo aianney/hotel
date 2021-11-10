@@ -5,7 +5,7 @@ import { IoCardSharp } from 'react-icons/io5'
 import { BsPaypal } from 'react-icons/bs'
 import { FaRegMoneyBillAlt } from 'react-icons/fa'
 //import { TiDelete } from 'react-icons/ti'
-import './payment-price-breakdown.styles.css'
+//import './payment-price-breakdown.styles.css'
 import TermsAndCondition from '../../modals/terms&conditions/terms&conditions.component'
 // import { Theme } from '../..'
 
