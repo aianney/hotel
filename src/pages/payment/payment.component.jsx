@@ -9,7 +9,7 @@ const Payment = ({ handlePressGuestDetails }) => {
   const { info } = useContext(AppContext)
 
   return (
-    <Box p={4}>
+    <Box className="payment" p={4}>
       {console.log(info.roomSelection)}
       <Box mb={4}>
         <PageStepper activeStep={2} onClick={handlePressGuestDetails} />
