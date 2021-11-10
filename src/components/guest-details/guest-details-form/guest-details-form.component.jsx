@@ -17,7 +17,7 @@ import CustomButton from '../../custom-button/custom-button.component'
 import AppContext from '../../app-context/app-context.component'
 
 function GuestDetailsForm({ props }) {
-  // const [error, setError] = React.useState('')
+  const [error, setError] = React.useState('')
   const { info, setInfo } = React.useContext(AppContext)
   const history = useHistory()
   const [userCredentials, setUserCredentials] = React.useState({
@@ -40,10 +40,25 @@ function GuestDetailsForm({ props }) {
   }, [userCredentials])
 
   const handleFirstNameInputChange = (event) => {
+    // const firstName = event.target.value
+
+    if (
+      // eslint-disable-next-line
+      !userCredentials.firstName.match(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/)
+    ) {
+      setError('')
+    } else {
+      setError('Invalid Name %<>$\'"')
+    }
     setUserCredentials({ ...userCredentials, firstName: event.target.value })
-    // console.log('firstName')
   }
+
   const handleLastNameInputChange = (event) => {
+    if (!userCredentials.lastName.match(/[%<>\\$'"]/)) {
+      setError('')
+    } else {
+      setError('Invalid LastName %<>$\'"')
+    }
     setUserCredentials({ ...userCredentials, lastName: event.target.value })
   }
   const handleLNumberInputChange = (event) => {
@@ -108,6 +123,8 @@ function GuestDetailsForm({ props }) {
                     sx={{ borderRadius: Theme.shape.borderRadiusSm }}
                     type="first name"
                     name="first name"
+                    helperText={error}
+                    error={!!error}
                     value={userCredentials.firstName}
                     onChange={handleFirstNameInputChange}
                     placeholder="Enter first name"
@@ -122,6 +139,8 @@ function GuestDetailsForm({ props }) {
                     sx={{ borderRadius: Theme.shape.borderRadiusSm }}
                     type="last name"
                     name="last name"
+                    // helperText={error}
+                    // error={!!error}
                     value={userCredentials.lastName}
                     onChange={handleLastNameInputChange}
                     placeholder="Enter last name"
