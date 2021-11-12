@@ -102,7 +102,6 @@ function GuestDetailsForm(props) {
     if (
       userCredentials.firstName &&
       userCredentials.lastName &&
-      userCredentials.nationality &&
       userCredentials.number &&
       userCredentials.email
     ) {
