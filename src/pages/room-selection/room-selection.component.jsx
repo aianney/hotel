@@ -153,7 +153,7 @@ const RoomSelection = () => {
                   ...info.roomSelection.superiorSeaView,
                   ...info.roomSelection.standardRoom,
                 ]
-                  .map((s) => s.price)
+                  .map((room) => room.price)
                   .reduce((a, b) => a + b)
               : 0,
         },
@@ -291,7 +291,7 @@ const RoomSelection = () => {
                   onClick={() => addDSVRoom()}
                   disabled={
                     info.reservationInformation &&
-                    deluxeSeaView.length >=
+                    deluxeSeaView.length >
                       info.reservationInformation.room[0].available
                       ? true
                       : false
@@ -409,7 +409,7 @@ const RoomSelection = () => {
                   onClick={() => addSSVRoom()}
                   disabled={
                     info.reservationInformation &&
-                    superiorSeaView.length >=
+                    superiorSeaView.length >
                       info.reservationInformation.room[1].available
                       ? true
                       : false
@@ -527,7 +527,7 @@ const RoomSelection = () => {
                   onClick={() => addSTDRoom()}
                   disabled={
                     info.reservationInformation &&
-                    standardRoom.length >=
+                    standardRoom.length >
                       info.reservationInformation.room[2].available
                       ? true
                       : false

@@ -14,7 +14,8 @@ import { Theme, AppContext } from '..'
 import moment from 'moment'
 
 const PriceBreakdown = (props) => {
-  const { info } = useContext(AppContext),
+  // eslint-disable-next-line
+  const { info, setInfo } = useContext(AppContext),
     history = useHistory(),
     dateDifference = moment
       .duration(

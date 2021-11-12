@@ -9,7 +9,7 @@ import PriceBreakdown from './price-breakdown/price-breakdown.component'
 import RegionCountry from './guest-details/region-country/region-country.component'
 import RoomCard from './room-card/room-card.component'
 import Store from './store/store.component'
-import TermsAndCondition from './modals/termsandconditions/termsandconditions.component'
+import TermsAndCondition from '../components/modals/termsandconditions/termsandconditions.component'
 import Theme from './theme/theme.component'
 
 export {

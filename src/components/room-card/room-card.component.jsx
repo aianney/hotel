@@ -23,6 +23,22 @@ const RoomCard = (props) => {
     { info, setInfo } = useContext(AppContext),
     [showAddOns, setShowAddOns] = useState(false),
     [rate, setRate] = useState(''),
+    // eslint-disable-next-line
+    [rateValues, setRateValues] = useState(
+      info.reservationInformation
+        ? info.reservationInformation.room[props.id].roomRates
+            .map((rate) => rate[2])
+            .filter((value, index, self) => self.indexOf(value) === index)
+        : [],
+    ),
+    // eslint-disable-next-line
+    [rateNames, setRateNames] = useState(
+      info.reservationInformation
+        ? info.reservationInformation.room[props.id].roomRates
+            .map((rate) => rate[3])
+            .filter((value, index, self) => self.indexOf(value) === index)
+        : [],
+    ),
     [children, setChildren] = useState(
       info.reservationInformation &&
         info.filters.guests.children >
@@ -128,7 +144,7 @@ const RoomCard = (props) => {
                   height: {
                     xs: '200px',
                     sm: '100%',
-                    background: `url(${props.img})`,
+                    backgroundImage: `url(${props.img})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                   },
@@ -149,6 +165,7 @@ const RoomCard = (props) => {
                               ) * info.filters.currencyRate
                             ).toLocaleString(undefined, {
                               minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
                             })
                           : 1000)}
                     </Typography>
@@ -170,10 +187,9 @@ const RoomCard = (props) => {
                           backgroundColor: Theme.palette.background.light,
                         }}
                       >
-                        <MenuItem value="">Best Available Rate</MenuItem>
-                        <MenuItem value={10}>Rate 2</MenuItem>
-                        <MenuItem value={20}>Rate 3</MenuItem>
-                        <MenuItem value={30}>Best Available Rate</MenuItem>
+                        {rateValues.map((rates, index) => (
+                          <MenuItem value={rate}>{rateNames[index]}</MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   </Grid>

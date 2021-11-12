@@ -29,6 +29,7 @@ import moment from 'moment'
 import MobileDatePicker from '@mui/lab/MobileDatePicker'
 import DateFnsUtils from '@date-io/date-fns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
+// import { data } from 'jquery'
 
 const Filter = (props) => {
   const isInitialMount = useRef(true),
@@ -116,7 +117,7 @@ const Filter = (props) => {
         },
       })
         .then((r) => {
-          setCurrencies(r.data)
+          setCurrencies([...r.data, 'PHP'].sort())
         })
         .catch((e) => {
           console.log(e)
@@ -678,10 +679,11 @@ const Filter = (props) => {
                                 backgroundColor: 'rgba(0,0,0,0)',
                               }}
                             >
-                              <MenuItem value="PHP">PHP</MenuItem>
-                              {currencies.map((cur) => (
-                                <MenuItem value={cur}>{cur}</MenuItem>
-                              ))}
+                              {currencies
+                                .sort((a, b) => b - a)
+                                .map((cur) => (
+                                  <MenuItem value={cur}>{cur}</MenuItem>
+                                ))}
                             </Select>
                           </FormControl>
                         </Box>
