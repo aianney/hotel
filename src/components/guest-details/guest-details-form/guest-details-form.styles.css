@@ -74,6 +74,10 @@
   margin-left: -9px;
   margin-right: -20px;
 }
+/* nationality */
+.css-vbm5z2-MuiAutocomplete-root .MuiOutlinedInput-root {
+  padding: 7px !important;
+}
 
 @media screen and (max-width: 1520px) {
   .div.MuiCardPaper-root.MuiCard-root.MuiPaper-elevation1.MuiPaper-rounded {
