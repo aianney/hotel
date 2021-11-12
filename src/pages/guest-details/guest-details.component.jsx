@@ -4,8 +4,8 @@ import { Box } from '@material-ui/core'
 
 const GuestDetails = () => {
   return (
-    <Box p={2}>
-      <Box mb={2}>
+    <Box p={4}>
+      <Box mb={4}>
         <PageStepper activeStep={1} />
       </Box>
       <Box>
