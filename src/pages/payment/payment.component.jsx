@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import { Box } from '@material-ui/core'
+import { Box, Grid } from '@material-ui/core'
 import PageStepper from '../../components/page-stepper/page-stepper.component'
 import { AppContext } from '../../components'
 import './payment.styles.css'
-import PaymentCard from '../../components/payment-method/payment-card/payment-card.component'
+import PaymentContent from '../../components/payment-method/payment-content/payment-content.component'
 import PaymentPrice from '../../components/payment-method/paymentprice/paymentprice.component'
 
 const PaymentPage = ({ handlePressGuestDetails, ...rest }) => {
@@ -30,7 +30,9 @@ const PaymentPage = ({ handlePressGuestDetails, ...rest }) => {
         <PageStepper activeStep={2} onClick={handlePressGuestDetails} />
       </Box>
       {/* <Mods /> */}
-      <PaymentCard />
+      <Grid item xs={6}>
+        <PaymentContent />
+      </Grid>
       <PaymentPrice />
     </Box>
   )

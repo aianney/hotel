@@ -1,6 +1,8 @@
 import React from 'react'
 import axios from 'axios'
-import PaymentCheckout from '../payment-checkout/payment-checkout.component'
+import { Box, Stack, Button } from '@material-ui/core'
+import PaymentIcon from '@mui/icons-material/Payment'
+import TermsAndConditions from '../../modals/termsandconditions/termsandconditions.component'
 
 function App() {
   // console.log({ price, title })
@@ -32,7 +34,14 @@ function App() {
   return (
     <form onSubmit={handleSubmit}>
       {loading && <p>loading payment...</p>}
-      <PaymentCheckout />
+      <Box p={2}>
+        <TermsAndConditions />
+        <Stack direction="row" spacing={2}>
+          <Button type="submit" variant="outlined" startIcon={<PaymentIcon />}>
+            CHECK OUT
+          </Button>
+        </Stack>
+      </Box>
     </form>
   )
 }
