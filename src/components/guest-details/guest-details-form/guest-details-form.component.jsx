@@ -19,6 +19,7 @@ import AppContext from '../../app-context/app-context.component'
 function GuestDetailsForm(props) {
   const [error, setError] = React.useState('')
   const [error1, setError1] = React.useState('')
+  const [error2, setError2] = React.useState('')
   const { info, setInfo } = React.useContext(AppContext)
   const history = useHistory()
   const [userCredentials, setUserCredentials] = React.useState({
@@ -78,15 +79,16 @@ function GuestDetailsForm(props) {
   }
 
   const handleLNumberInputChange = (event) => {
-    setUserCredentials({
-      ...userCredentials,
-      number: event.target.value.toUpperCase(),
-    })
+    const re = /^[0-9\b]+$/
+    if (event.target.value === '' || re.test(event.target.value)) {
+      setError2('')
+    } else {
+      setError2('Invalid phone numer')
+    }
+
+    setUserCredentials({ ...userCredentials, number: event.target.value })
   }
 
-  // const handleLNationalityChange = (event) => {
-  //   setUserCredentials({ ...userCredentials, nationality: event.target.value })
-  // }
   const handleEmailInputChange = (event) => {
     setUserCredentials({ ...userCredentials, email: event.target.value })
   }
@@ -186,11 +188,15 @@ function GuestDetailsForm(props) {
                 <Grid xs={12} sm={5} item>
                   <TextField
                     sx={{ borderRadius: Theme.shape.borderRadiusSm }}
+                    type="text"
                     name="number"
+                    maxLength="10"
+                    helperText={error2}
+                    error={!!error2}
                     value={userCredentials.number}
                     onChange={handleLNumberInputChange}
                     placeholder="Enter phone number"
-                    label="Phone"
+                    label="Phone Number"
                     variant="outlined"
                     fullWidth
                     required
@@ -249,7 +255,11 @@ function GuestDetailsForm(props) {
               </Grid>
               <CustomButton
                 type="submit"
-                disabled={info.guestDetails.email ? false : true}
+                disabled={
+                  info.guestDetails.phoneNumber || info.guestDetails.email
+                    ? false
+                    : true
+                }
               >
                 Proceed
               </CustomButton>

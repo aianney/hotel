@@ -32,4 +32,7 @@
     height: 450px !important;
     overflow-y: auto;
   }
+  .modal__click {
+    margin-top: 40px;
+  }
 }
