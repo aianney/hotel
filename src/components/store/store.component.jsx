@@ -1,55 +1,48 @@
 const Store = {
-    env: {
-        colors: {
-            primary: {
-                main: "#6dc7b8",
-            },
-        },
-        fonts: {
-            weight: {
-                light: 300,
-                regular: 400,
-                medium: 500,
-                semibold: 600,
-                bold: 700,
-                black: 800,
-            },
-            style: {
-                sansSerif: `"DM Sans", "Heebo", "Montserrat"`,
-                serif: `"Poppins", "Source Sans Pro", "Raleway", "PlayFair Display"`,
-            }
-        },
+  env: {
+    colors: {
+      primary: {
+        main: '#6dc7b8',
+      },
     },
-    filters: {
-        language: "EN",
-        currency: "PHP",
-        guests: {
-            adults: null,
-            children: null,
-        },
-        reservationDates: {
-            start: null,
-            end: null,
-        },
+    fonts: {
+      weight: {
+        light: 300,
+        regular: 400,
+        medium: 500,
+        semibold: 600,
+        bold: 700,
+        black: 800,
+      },
+      style: {
+        sansSerif: `"DM Sans", "Heebo", "Montserrat"`,
+        serif: `"Poppins", "Source Sans Pro", "Raleway", "PlayFair Display"`,
+      },
     },
-    roomSelection: {
-        deluxeSeaView: [],
-        superiorSeaView: [],
-        standardRoom: [],
+  },
+  filters: {
+    language: 'EN',
+    currency: null,
+    currencyRate: 1,
+    guests: {
+      adults: null,
+      children: null,
     },
-    guestDetails: {
-
+    reservationDates: {
+      start: '',
+      end: '',
     },
-    payment: {
-
-    },
-    prices: [
-        {
-            name: "",
-            quantity: 1,
-            value: 1000,
-        }
-    ],
+  },
+  roomSelection: {
+    deluxeSeaView: [],
+    superiorSeaView: [],
+    standardRoom: [],
+  },
+  guestDetails: {
+    firstName: '',
+    lastName: '',
+  },
+  payment: {},
 }
 
-export default Store;
+export default Store

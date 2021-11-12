@@ -1,83 +1,105 @@
 import React, { useContext } from 'react'
-import { styled } from '@mui/material/styles'
-import Grid from '@mui/material/Grid'
-import Paper from '@mui/material/Paper'
-import Box from '@mui/material/Box'
+import { Box, Divider, Grid, Typography } from '@material-ui/core'
+import Theme from '../../theme/theme.component'
+import AppContext from '../../app-context/app-context.component'
 import './payment-content.styles.css'
-import PaymentPrice from '../../payment-method/paymentprice/paymentprice.component'
-import PaymentCard from '../../payment-method/payment-card/payment-card.component'
-import CustomButton from '../../custom-button/custom-button.component'
-import { Typography } from '@material-ui/core'
-import { AppContext } from '../..'
 
-const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(2),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-  backgroundColor: '#f9f9f9;',
-}))
+const Payment = (props) => {
+  const { info, setInfo } = useContext(AppContext)
+  console.log(info)
 
-export default function PaymentContent({ location }) {
-  const { info } = useContext(AppContext)
+  React.useEffect(() => {
+    setInfo({
+      ...info,
+      reservationDates: {
+        ...info.filters.reservationDates.start,
+        ...info.filters.reservationDates.end,
+      },
+    })
+    // eslint-disable-next-line
+  }, [info.filters.reservationDates.start, info.filters.reservationDates.end])
 
   return (
-    <div className="payment">
-      <Typography variant="pageTitle">Payment</Typography>
-      <Typography
-        variant="pageSubtitle"
-        color="textSecondary"
-        component="p"
-        gutterBottom
-      >
-        Choose from the following mode of payments to complete your reservation
-      </Typography>
-      {/* details */}
-      <Box sx={{ width: '100%' }}>
-        <Grid container rowSpacing={5} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-          <Grid item xs={6}>
-            <Item className="item">
-              <span className="item_span_one">Name:</span>
-              <span>{`${info.guestDetails.firstName} ${info.guestDetails.lastName}`}</span>
-            </Item>
-            <Item className="item">
-              <span className="item_span_one">Email:</span>
-              <span>{info.guestDetails.email}</span>
-            </Item>
-            <Item className="item">
-              <span className="item_span_one">Phone No:</span>
-              <span>{info.guestDetails.number}</span>
-            </Item>
-            <Item className="item">
-              <span className="item_span_one">Reserved Dates:</span>
-              <span>Oct. 26, 2021 - Oct. 28, 2021</span>
-            </Item>
-          </Grid>
-          {/* <Grid item xs={6}>
-            <Item className="item">
-              <span className="item_span_one">Name:</span>
-              <span>{`${info.guestDetails.firstName} ${info.guestDetails.lastName}`}</span>
-            </Item>
-            <Item className="item">
-              <span className="item_span_one">Email:</span>
-              <span>{info.guestDetails.email}</span>
-            </Item>
-            <Item className="item">
-              <span className="item_span_one">Mobile No.:</span>
-              <span>09263880835</span>
-            </Item>
-            <Item className="item">
-              <span className="item_span_one">Address:</span>
-              <span>Porac IIB Fiesta Communities</span>
-            </Item>
-          </Grid> */}
+    <div className="booking-details">
+      <Box>
+        <Grid item xs={12} sx={{ display: 'flex' }}>
+          <Typography variant="pageTitle" sx={{ display: 'flex' }}>
+            Booking Details
+          </Typography>
         </Grid>
-        <PaymentPrice />
-        {/* <PriceBreakdown /> */}
-        <PaymentCard />
-        {/* <PaymentPriceBreakDown /> */}
-        <CustomButton className="payment-button">Finish</CustomButton>
+        <Grid container spacing={2}>
+          <Grid item xs={6} sx={{ display: 'flex' }}>
+            <Typography
+              variant="priceBreakdownTitle"
+              sx={{ fontWeight: Theme.typography.bold }}
+            >
+              Name :{' '}
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            sx={{ display: 'flex', justifyContent: 'flex-end' }}
+          >
+            <Typography variant="priceBreakdownTitlePrice">
+              {`${info.guestDetails.firstName} ${info.guestDetails.lastName}`}
+            </Typography>
+          </Grid>
+
+          <Grid item xs={6} sx={{ display: 'flex' }}>
+            <Typography
+              variant="priceBreakdownTitle"
+              sx={{ fontWeight: Theme.typography.bold }}
+            >
+              Email :
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            sx={{ display: 'flex', justifyContent: 'flex-end' }}
+          >
+            <Typography variant="priceBreakdownTitlePrice">
+              {info.guestDetails.email}
+            </Typography>
+          </Grid>
+          <Grid item xs={6} sx={{ display: 'flex' }}>
+            <Typography
+              variant="priceBreakdownTitle"
+              sx={{ fontWeight: Theme.typography.bold }}
+            >
+              Contact :
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            sx={{ display: 'flex', justifyContent: 'flex-end' }}
+          >
+            <Typography variant="priceBreakdownTitlePrice">
+              {info.guestDetails.number}
+            </Typography>
+          </Grid>
+          <Divider />
+          <Grid item xs={6} sx={{ display: 'flex' }}>
+            <Typography
+              variant="priceBreakdownTitle"
+              sx={{ fontWeight: Theme.typography.bold }}
+            >
+              Stay Period :
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sx={{ display: 'flex', justifyContent: 'flex-end' }}
+          >
+            <Typography variant="priceBreakdownTitlePrice">{`${info.filters.reservationDates.start} ${info.filters.reservationDates.end}`}</Typography>
+          </Grid>
+        </Grid>
       </Box>
     </div>
   )
 }
+
+export default Payment

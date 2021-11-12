@@ -1,33 +1,36 @@
 import React from 'react'
-import Radio from '@mui/material/Radio'
-import './radio-payment.styles.css'
+import {
+  FormControl,
+  FormControlLabel,
+  Checkbox as MuiCheckbox,
+} from '@material-ui/core'
 
-export default function RadioButtons() {
-  const [selectedValue, setSelectedValue] = React.useState('a')
-  const handleChange = (event) => {
-    setSelectedValue(event.target.value)
-  }
+export default function Checkbox(props) {
+  // eslint-disable-next-line
+  const { name, label, value, onChange } = props
 
-  const controlProps = (item) => ({
-    checked: selectedValue === item,
-    onChange: handleChange,
-    value: item,
-    name: 'size-radio-button-demo',
-    inputProps: { 'aria-label': item },
-  })
+  // const convertToDefEventPara = (name, value) => ({
+  //   target: {
+  //     name,
+  //     value,
+  //   },
+  // })
 
   return (
-    <div>
-      {/* <Radio {...controlProps('a')} size="small" /> */}
-      <Radio {...controlProps('b')} />
-      {/* <Radio
-        {...controlProps('c')}
-        sx={{
-          '& .MuiSvgIcon-root': {
-            fontSize: 28,
-          },
-        }}
-      /> */}
-    </div>
+    <FormControl>
+      <FormControlLabel
+        control={
+          <MuiCheckbox
+            name=""
+            color="primary"
+            checked={value}
+            // onChange={(e) =>
+            //   onChange(convertToDefEventPara(name, e.target.checked))
+            // }
+          />
+        }
+        label={label}
+      />
+    </FormControl>
   )
 }

@@ -15,8 +15,9 @@ import './guest-details-form.styles.css'
 import CustomButton from '../../custom-button/custom-button.component'
 import AppContext from '../../app-context/app-context.component'
 
-function GuestDetailsForm({ props }) {
+function GuestDetailsForm(props) {
   const [error, setError] = React.useState('')
+  const [error1, setError1] = React.useState('')
   const { info, setInfo } = React.useContext(AppContext)
   const history = useHistory()
   const [userCredentials, setUserCredentials] = React.useState({
@@ -25,6 +26,7 @@ function GuestDetailsForm({ props }) {
     nationality: '',
     number: '',
     email: '',
+    homeaddress: '',
     message: '',
   })
 
@@ -38,31 +40,49 @@ function GuestDetailsForm({ props }) {
     // eslint-disable-next-line
   }, [userCredentials])
 
-  const handleFirstNameInputChange = (event) => {
-    // const firstName = event.target.value
-
+  const handleFirstNameInputChange = ({ target }) => {
     if (
       // eslint-disable-next-line
-      !userCredentials.firstName.match(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/)
+      !userCredentials.firstName.match(
+        // eslint-disable-next-line
+        /[!@#$%^&*()_+\-=\s\[\]{};':"\\|,.<>\/?0-9]/,
+      )
     ) {
       setError('')
     } else {
       setError('Invalid Name %<>$\'"')
     }
-    setUserCredentials({ ...userCredentials, firstName: event.target.value })
+    setUserCredentials({
+      ...userCredentials,
+      firstName: target.value.toUpperCase(),
+    })
   }
 
-  const handleLastNameInputChange = (event) => {
-    if (!userCredentials.lastName.match(/[%<>\\$'"]/)) {
-      setError('')
+  const handleLastNameInputChange = ({ target }) => {
+    if (
+      // eslint-disable-next-line
+      !userCredentials.lastName.match(
+        // eslint-disable-next-line
+        /[!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?0-9]/,
+      )
+    ) {
+      setError1('')
     } else {
-      setError('Invalid LastName %<>$\'"')
+      setError1('Invalid Last Name %<>$\'"')
     }
-    setUserCredentials({ ...userCredentials, lastName: event.target.value })
+    setUserCredentials({
+      ...userCredentials,
+      lastName: target.value.toUpperCase(),
+    })
   }
+
   const handleLNumberInputChange = (event) => {
-    setUserCredentials({ ...userCredentials, number: event.target.value })
+    setUserCredentials({
+      ...userCredentials,
+      number: event.target.value.toUpperCase(),
+    })
   }
+
   const handleLNationalityChange = (event) => {
     setUserCredentials({ ...userCredentials, nationality: event.target.value })
   }
@@ -80,14 +100,13 @@ function GuestDetailsForm({ props }) {
     event.preventDefault()
     if (
       userCredentials.firstName &&
-      userCredentials.lastName
-      // userCredentials.nationality &&
-      // userCredentials.number &&
-      // userCredentials.email &&
-      // userCredentials.date &&
-      // userCredentials.message
+      userCredentials.lastName &&
+      userCredentials.nationality &&
+      userCredentials.number &&
+      userCredentials.email
     ) {
       history.push(`/payments`, { userCredentials })
+      console.log(userCredentials)
     } else {
       console.log('invalid', userCredentials)
     }
@@ -130,7 +149,7 @@ function GuestDetailsForm({ props }) {
                     label="First Name"
                     variant="outlined"
                     fullWidth
-                    // required
+                    required
                   />
                 </Grid>
                 <Grid xs={12} sm={4} item>
@@ -138,15 +157,15 @@ function GuestDetailsForm({ props }) {
                     sx={{ borderRadius: Theme.shape.borderRadiusSm }}
                     type="last name"
                     name="last name"
-                    // helperText={error}
-                    // error={!!error}
+                    helperText={error1}
+                    error={!!error1}
                     value={userCredentials.lastName}
                     onChange={handleLastNameInputChange}
                     placeholder="Enter last name"
                     label="Last Name"
                     variant="outlined"
                     fullWidth
-                    // required
+                    required
                   />
                 </Grid>
                 <Grid xs={12} sm={4} item>
@@ -160,7 +179,7 @@ function GuestDetailsForm({ props }) {
                     label="Nationality"
                     variant="outlined"
                     fullWidth
-                    // required
+                    required
                   />
                 </Grid>
                 <Grid xs={12} sm={5} item>
@@ -173,7 +192,7 @@ function GuestDetailsForm({ props }) {
                     label="Phone"
                     variant="outlined"
                     fullWidth
-                    // required
+                    required
                   />
                 </Grid>
                 <Grid xs={12} sm={4} item>
@@ -187,7 +206,7 @@ function GuestDetailsForm({ props }) {
                     label="Email"
                     variant="outlined"
                     fullWidth
-                    // required
+                    required
                   />
                 </Grid>
                 <Grid item xs={12} sm={3}>
@@ -204,7 +223,7 @@ function GuestDetailsForm({ props }) {
                     label="House No/Street/Subd."
                     variant="outlined"
                     fullWidth
-                    // required
+                    //required
                   />
                 </Grid>
                 <Grid item xs={12} sm={12}>
@@ -223,15 +242,13 @@ function GuestDetailsForm({ props }) {
                     placeholder="Type your message here"
                     variant="outlined"
                     fullWidth
-                    // required
+                    //required
                   />
                 </Grid>
-                {/* <ReCAPTCHA className="recapcha" sitekey="Your client site key" /> */}
               </Grid>
               <CustomButton
-                className="button_guest__details "
                 type="submit"
-                // onClick={handlePressPayment}
+                disabled={info.guestDetails.email ? false : true}
               >
                 Proceed
               </CustomButton>

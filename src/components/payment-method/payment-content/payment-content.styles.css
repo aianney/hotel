@@ -1,106 +1,20 @@
-.payment {
-  padding: 30px;
+/* subtitle */
+.css-1hw62bl-MuiTypography-root {
+  font-size: 16px !important;
 }
 
-/* payment one content */
-.css-1k67w8c-MuiPaper-root {
-  background-color: #f9f9f9 !important;
-}
-/* payment-details(name,phone number) */
-.css-1f6u4kq-MuiGrid-root {
-  margin-left: -40px !important;
-}
-.css-1rgu0qh {
-  margin-left: -40px !important;
-}
-
-.item {
-  width: 100%;
-  height: 5%;
-  display: flex;
-  justify-content: space-between;
-}
-
-.item_span_one {
-  font-size: 1.17em;
-  font-weight: bold;
-  color: black;
-}
-
-/* .items h3 {
-    font-size: 20px !important;
-    color: black;
-  } */
-
-/* .payment-content p {
-    text-align: right;
-    font-size: 15px !important;
-  }
-  
-  .items p {
-    margin-top: -35px;
-    text-align: right;
-    font-size: 15px !important;
-  } */
-
-.payment-button {
-  float: right;
-  background-color: #71c7b8 !important;
-}
-
-.payments {
-  display: flex;
-}
-
-.payment-content-one {
-  display: contents;
-}
-
-.payment-cards {
-  display: contents;
+/* guest details  */
+.css-mhc70k-MuiGrid-root {
+  margin-top: -10px !important;
+  margin-bottom: 30px !important;
 }
 
 @media screen and (device-width: 375px) and (device-height: 667px) {
-  .css-1f6u4kq-MuiGrid-root {
-    margin-left: -40px !important;
+  /* booking title */
+  .css-f725qg-MuiTypography-root {
+    font-size: 19px !important;
   }
-
-  .css-ayy8wd-MuiGrid-root {
-    display: none;
-  }
-
-  .item {
-    width: 51vh;
-  }
-
-  .payment {
-    margin-top: 0;
-    margin-left: 0;
-  }
-  /* .payment-content-one {
-      display: block;
-    } */
-
-  /* mui content h3 */
-  .css-cnd76u-MuiPaper-root {
-    width: 340px;
-  }
-
-  /* .items h3 {
-      font-size: 15px !important;
-      color: black;
-    }
-    .items p {
-      font-size: 10px !important;
-    } */
-  /* .css-1f6u4kq-MuiGrid-root > .MuiGrid-item {
-      display: none !important;
-    } */
-  /* payment content o*/
-  .css-ayy8wd-MuiGrid-root {
-    max-width: 51% !important;
-  }
-  .css-1rgu0qh {
+  .css-mhc70k-MuiGrid-root {
     display: none !important;
   }
 }

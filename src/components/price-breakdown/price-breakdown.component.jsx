@@ -1,6 +1,8 @@
 import React, { useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import {
   Box,
+  Button,
   Card,
   Divider,
   Fade,
@@ -9,9 +11,18 @@ import {
   Typography,
 } from '@material-ui/core'
 import { Theme, AppContext } from '..'
+import moment from 'moment'
 
 const PriceBreakdown = (props) => {
-  const { info } = useContext(AppContext)
+  const { info } = useContext(AppContext),
+    history = useHistory(),
+    dateDifference = moment
+      .duration(
+        moment(info.filters.reservationDates.end).diff(
+          moment(info.filters.reservationDates.start),
+        ),
+      )
+      .asDays()
 
   return (
     <>
@@ -26,7 +37,10 @@ const PriceBreakdown = (props) => {
         {/* Backdrop START */}
         <Fade in={props.priceBreakdownOpen}>
           <Box
-            onClick={() => props.setPriceBreakdownOpen(false)}
+            onClick={() => {
+              props.setPriceBreakdownOpen(false)
+              props.setProceed(false)
+            }}
             sx={{
               backdropFilter: 'blur(4px)',
               backgroundColor: 'rgba(0,0,0,.75)',
@@ -56,7 +70,11 @@ const PriceBreakdown = (props) => {
               },
               left: {
                 xs: 0,
-                sm: 30,
+                sm: props.proceed ? 'auto' : 30,
+              },
+              right: {
+                xs: 0,
+                sm: props.proceed ? 30 : 'auto',
               },
               borderRadius: {
                 xs: Theme.shape.borderRadius,
@@ -75,7 +93,10 @@ const PriceBreakdown = (props) => {
             <Box p={4}>
               <Grid container spacing={3}>
                 <Grid item xs={12}>
-                  <Typography variant="filterLabel">Price Breakdown</Typography>
+                  <Typography variant="filterLabel">
+                    Price Breakdown (For {dateDifference} day
+                    {dateDifference !== 1 ? 's' : ''})
+                  </Typography>
                 </Grid>
                 <Grid item xs={6} sx={{ display: 'flex' }}>
                   <Typography
@@ -87,7 +108,7 @@ const PriceBreakdown = (props) => {
                 </Grid>
                 <Grid
                   item
-                  xs={2}
+                  xs={1}
                   sx={{ display: 'flex', justifyContent: 'center' }}
                 >
                   <Typography>
@@ -96,17 +117,39 @@ const PriceBreakdown = (props) => {
                 </Grid>
                 <Grid
                   item
-                  xs={4}
+                  xs={5}
                   sx={{ display: 'flex', justifyContent: 'flex-end' }}
                 >
                   <Typography variant="priceBreakdownTitlePrice">
-                    ₱{' '}
-                    {info.roomSelection.deluxeSeaView
-                      .map((e) => e.price)
-                      .reduce((a, b) => a + b, 0)
-                      .toLocaleString()}
-                    .00
+                    {info.filters.currency && info.filters.currencyRate
+                      ? `${info.filters.currency} ${(
+                          info.roomSelection.deluxeSeaView
+                            .map((e) => e.price)
+                            .reduce((a, b) => a + b, 0) *
+                          info.filters.currencyRate
+                        ).toLocaleString(undefined, {
+                          minimumFractionDigits: 2,
+                        })}`
+                      : 0}
                   </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sx={{
+                    display: info.roomSelection.deluxeSeaView.length
+                      ? 'flex'
+                      : 'none',
+                    justifyContent: 'flex-end',
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => props.setDeluxeSeaView([])}
+                  >
+                    Remove Deluxe Sea View
+                  </Button>
                 </Grid>
                 <Divider />
                 <Grid item xs={6} sx={{ display: 'flex' }}>
@@ -119,7 +162,7 @@ const PriceBreakdown = (props) => {
                 </Grid>
                 <Grid
                   item
-                  xs={2}
+                  xs={1}
                   sx={{ display: 'flex', justifyContent: 'center' }}
                 >
                   <Typography>
@@ -128,17 +171,39 @@ const PriceBreakdown = (props) => {
                 </Grid>
                 <Grid
                   item
-                  xs={4}
+                  xs={5}
                   sx={{ display: 'flex', justifyContent: 'flex-end' }}
                 >
                   <Typography variant="priceBreakdownTitlePrice">
-                    ₱{' '}
-                    {info.roomSelection.superiorSeaView
-                      .map((e) => e.price)
-                      .reduce((a, b) => a + b, 0)
-                      .toLocaleString()}
-                    .00
+                    {info.filters.currency && info.filters.currencyRate
+                      ? `${info.filters.currency} ${(
+                          info.roomSelection.superiorSeaView
+                            .map((e) => e.price)
+                            .reduce((a, b) => a + b, 0) *
+                          info.filters.currencyRate
+                        ).toLocaleString(undefined, {
+                          minimumFractionDigits: 2,
+                        })}`
+                      : 0}
                   </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sx={{
+                    display: info.roomSelection.superiorSeaView.length
+                      ? 'flex'
+                      : 'none',
+                    justifyContent: 'flex-end',
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => props.setSuperiorSeaView([])}
+                  >
+                    Remove Superior Sea View
+                  </Button>
                 </Grid>
                 <Divider />
                 <Grid item xs={6} sx={{ display: 'flex' }}>
@@ -151,7 +216,7 @@ const PriceBreakdown = (props) => {
                 </Grid>
                 <Grid
                   item
-                  xs={2}
+                  xs={1}
                   sx={{ display: 'flex', justifyContent: 'center' }}
                 >
                   <Typography>
@@ -160,17 +225,39 @@ const PriceBreakdown = (props) => {
                 </Grid>
                 <Grid
                   item
-                  xs={4}
+                  xs={5}
                   sx={{ display: 'flex', justifyContent: 'flex-end' }}
                 >
                   <Typography variant="priceBreakdownTitlePrice">
-                    ₱{' '}
-                    {info.roomSelection.standardRoom
-                      .map((e) => e.price)
-                      .reduce((a, b) => a + b, 0)
-                      .toLocaleString()}
-                    .00
+                    {info.filters.currency && info.filters.currencyRate
+                      ? `${info.filters.currency} ${(
+                          info.roomSelection.standardRoom
+                            .map((e) => e.price)
+                            .reduce((a, b) => a + b, 0) *
+                          info.filters.currencyRate
+                        ).toLocaleString(undefined, {
+                          minimumFractionDigits: 2,
+                        })}`
+                      : 0}
                   </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sx={{
+                    display: info.roomSelection.standardRoom.length
+                      ? 'flex'
+                      : 'none',
+                    justifyContent: 'flex-end',
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => props.setStandardRoom([])}
+                  >
+                    Remove All Standard Rooms
+                  </Button>
                 </Grid>
                 <Grid
                   item
@@ -191,12 +278,54 @@ const PriceBreakdown = (props) => {
                     variant="priceBreakdownTitlePrice"
                     sx={{ FontSize: 20 }}
                   >
-                    {` ₱ ${parseInt(
-                      info.roomSelection.totalPayment,
-                    ).toLocaleString()}.00`}
+                    {info.filters.currency && info.filters.currencyRate
+                      ? ` ${info.filters.currency} 
+                                    ${(
+                                      parseInt(
+                                        info.roomSelection.totalPayment,
+                                      ) * info.filters.currencyRate
+                                    ).toLocaleString(undefined, {
+                                      minimumFractionDigits: 2,
+                                    })}`
+                      : 0}
                   </Typography>
                 </Grid>
               </Grid>
+            </Box>
+
+            <Box
+              mb={2}
+              mx={2}
+              sx={{
+                display: props.proceed ? 'flex' : 'none',
+                justifyContent: 'flex-end',
+              }}
+            >
+              <Box>
+                {/* Action Buttons START */}
+                <Button
+                  variant="contained"
+                  sx={{
+                    borderRadius: Theme.shape.borderRadius,
+                  }}
+                  onClick={() => {
+                    history.push('/guest-details')
+                  }}
+                >
+                  <Box
+                    px={2}
+                    py={1}
+                    sx={{
+                      fontWeight: Theme.typography.fontWeightBold,
+                      textDecoration: 'none',
+                      color: 'unset',
+                    }}
+                  >
+                    Proceed
+                  </Box>
+                </Button>
+                {/* Action Buttons END */}
+              </Box>
             </Box>
           </Card>
         </Slide>

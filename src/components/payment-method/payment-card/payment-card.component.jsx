@@ -1,54 +1,18 @@
 import React from 'react'
-// import { Box, Card, Grid, Typography } from '@material-ui/core';
-import RadioButtons from '../radio-payment/radio-payment.component'
-import { IoCardSharp } from 'react-icons/io5'
-//import { BsPaypal } from 'react-icons/bs'
-//import { FaRegMoneyBillAlt } from 'react-icons/fa'
-//import { TiDelete } from 'react-icons/ti'
-//import './payment-price-breakdown.styles.css'
-import TermsAndCondition from '../../modals/terms&conditions/terms&conditions.component'
-// import { Theme } from '../..'
+//import { styled } from '@mui/material/styles'
+import Grid from '@mui/material/Grid'
+//import Paper from '@mui/material/Paper'
+import Box from '@mui/material/Box'
+import PaymentContent from '../payment-content/payment-content.component'
 
-const PaymentCard = () => {
+export default function PaymentCard() {
   return (
-    <div className="grid">
-      <div className="column_two" style={{ backgroundColor: 'white' }}>
-        <div className="item_two">
-          <h3>
-            <IoCardSharp className="__icons" />
-            Credit Card
-          </h3>
-          <p>
-            <RadioButtons />
-          </p>
-        </div>
-        {/* <div className="item_two">
-          <h3>
-            <BsPaypal className="__icons" />
-            Paypal
-          </h3>
-          <p>
-            <RadioButtons />
-          </p>
-        </div> */}
-        {/* <div className="item_two">
-            <h3>
-              <FaRegMoneyBillAlt className="__icons" />
-              Over the Counter
-            </h3>
-            <p>
-              <RadioButtons />
-            </p>
-          </div> */}
-        <div className="item_two">
-          <h3 className="radio_buttons">
-            <RadioButtons className="radio" />I agree to the
-            <TermsAndCondition />
-          </h3>
-        </div>
-      </div>
-    </div>
+    <Box sx={{ width: '100%' }}>
+      {/* <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}> */}
+      <Grid item xs={6}>
+        <PaymentContent />
+      </Grid>
+      {/* </Grid> */}
+    </Box>
   )
 }
-
-export default PaymentCard
