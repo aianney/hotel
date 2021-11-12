@@ -1,0 +1,18 @@
+.button-payment {
+  padding: 3px 60px 3px 60px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+@media screen and (device-width: 375px) and (device-height: 667px) {
+  /* credit details */
+  .css-vf70r1-MuiTypography-root {
+    font-size: 30px !important;
+    font-size: 13px !important;
+    margin-top: 20px !important;
+    margin-left: 30px !important;
+  }
+  .button-payment {
+    margin-left: 80px;
+  }
+}
