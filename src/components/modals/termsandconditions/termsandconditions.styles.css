@@ -26,6 +26,10 @@
   margin-top: 75px;
 }
 
+.css-o3yvkq {
+  overflow-y: auto !important;
+}
+
 @media screen and (device-width: 375px) and (device-height: 667px) {
   .css-o3yvkq {
     width: 250px !important;

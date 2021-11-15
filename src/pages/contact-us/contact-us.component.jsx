@@ -1,26 +1,25 @@
 import React from "react";
-import { HiOutlineLocationMarker, HiOutlineMail, HiOutlinePhone } from 'react-icons/hi';
 import { Theme } from "../../components";
 import { Box, Card, Grid, Typography } from "@material-ui/core";
-import { BsPhone } from 'react-icons/bs';
+import { BsEnvelope, BsGeoAlt, BsPhone, BsTelephone } from 'react-icons/bs';
 import ContactUsImage from '../../assets/media/images/contact-us.png';
 
-const iconSize = "75%",
+const iconSize = "66%",
     cards = [
         {
-            icon: <HiOutlineLocationMarker size={iconSize} color='#fff' />,
+            icon: <BsGeoAlt size={iconSize} color='#fff' />,
             title: 'San Bernardo Road, Subic Bay, Freeport Zone',
             subtitle: 'Address',
             link: 'https://www.google.com/maps?saddr=My+Location&daddr=ACEA+Subic+Beach+Resort+San+Bernardo=Rd+Subic+Bay+Freeport+Zone+2200+Zambales'
         },
         {
-            icon: <HiOutlineMail size={iconSize} color='#fff' />,
+            icon: <BsEnvelope size={iconSize} color='#fff' />,
             title: 'reservations @acea.ph',
             subtitle: 'Email',
             link: 'mailto:reservations@acea.ph'
         },
         {
-            icon: <HiOutlinePhone size={iconSize} color='#fff' />,
+            icon: <BsTelephone size={iconSize} color='#fff' />,
             title: '(047) 252-2232',
             subtitle: 'Landline',
             link: 'tel:(047) 252-2232'

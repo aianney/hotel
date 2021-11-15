@@ -6,6 +6,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  Collapse,
   Divider,
   Grid,
   Typography,
@@ -38,13 +39,6 @@ const RoomAmenities = (props) => {
         })
         .catch((e) => console.log(e))
     },
-    // eslint-disable-next-line
-    name =
-      id === 1
-        ? 'Deluxe Sea View'
-        : id === 2
-        ? 'Superior Sea View'
-        : 'Standard Room',
     arrangeAmenitiesByLength = () => {
       const arranged = amenities.rateInclusions
         ? amenities.rateInclusions.sort((a, b) => b.length - a.length)
@@ -119,11 +113,18 @@ const RoomAmenities = (props) => {
               <Divider />
             </Grid>
 
-            <Grid item xs={12} px={3}>
-              <Typography variant="introSubtitle" px={3}>
-                {amenities.rateInclusions[0]}.
-                {` ${amenities.rateInclusions[1]}`}
-              </Typography>
+            <Grid item xs={12}>
+              <Collapse in={true}>
+                <Box px={3}>
+                  <Typography variant="introSubtitle">
+                    {amenities.rateInclusions[0]}.
+                    {` ${amenities.rateInclusions[1]}`}
+                  </Typography>
+                </Box>
+              </Collapse>
+              <Button variant="text" fullWidth>
+                Show More Info
+              </Button>
             </Grid>
 
             {/* Pictures */}
@@ -151,20 +152,33 @@ const RoomAmenities = (props) => {
                   <Grid
                     item
                     xs={amenities.rateImages.length > 1 ? 11 : 12}
-                    md={6}
+                    sm={6}
+                    md={3}
                   >
                     <Box
-                      component="img"
-                      src={`data:image/png;base64,${img}`}
                       sx={{
                         width: '100%',
                         height: {
-                          xs: '250px',
-                          sm: null,
+                          xs: '40vh',
+                          sm: '300px',
                         },
                         borderRadius: Theme.shape.borderRadius,
+                        overflow: 'hidden',
                       }}
-                    />
+                    >
+                      <Box
+                        component="img"
+                        src={`data:image/png;base64,${img}`}
+                        sx={{
+                          height: '100%',
+                          borderRadius: Theme.shape.borderRadius,
+                          '&:hover': {
+                            transform: 'scale(1.5)',
+                          },
+                          transition: 'all ease-out .5s',
+                        }}
+                      />
+                    </Box>
                   </Grid>
                 ))}
               </Grid>

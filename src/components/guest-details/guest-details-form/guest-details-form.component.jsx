@@ -17,6 +17,7 @@ import CustomButton from '../../custom-button/custom-button.component'
 import AppContext from '../../app-context/app-context.component'
 
 function GuestDetailsForm(props) {
+  // eslint-disable-next-line
   const [error, setError] = React.useState('')
   const [error1, setError1] = React.useState('')
   const [error2, setError2] = React.useState('')
@@ -42,21 +43,15 @@ function GuestDetailsForm(props) {
     // eslint-disable-next-line
   }, [userCredentials])
 
-  const handleFirstNameInputChange = ({ target }) => {
+  const handleFirstNameInputChange = (e) => {
     if (
-      // eslint-disable-next-line
-      !userCredentials.firstName.match(
-        // eslint-disable-next-line
-        /[!@#$%^&*()_+\-=\s\[\]{};':"\\|,.<>\/?0-9]/,
-      )
+      !userCredentials.firstName.match(/^[A-Za-z]$|^[A-Za-z][A-Za-z][A-Za-z]$/)
     ) {
-      setError('')
-    } else {
-      setError('Invalid Name %<>$\'"')
+      setError('Invalid Name')
     }
     setUserCredentials({
       ...userCredentials,
-      firstName: target.value.toUpperCase(),
+      firstName: e.target.value,
     })
   }
 
@@ -70,7 +65,7 @@ function GuestDetailsForm(props) {
     ) {
       setError1('')
     } else {
-      setError1('Invalid Last Name %<>$\'"')
+      setError1('Invalid Last Name')
     }
     setUserCredentials({
       ...userCredentials,
@@ -102,10 +97,10 @@ function GuestDetailsForm(props) {
   const handleSubmit = (event) => {
     event.preventDefault()
     if (
-      userCredentials.firstName &&
-      userCredentials.lastName &&
-      userCredentials.number &&
-      userCredentials.email
+      userCredentials.firstName
+      // userCredentials.lastName &&
+      // userCredentials.number &&
+      // userCredentials.email
     ) {
       history.push(`/payments`, { userCredentials })
       console.log(userCredentials)
@@ -145,6 +140,7 @@ function GuestDetailsForm(props) {
                     name="first name"
                     helperText={error}
                     error={!!error}
+                    // pattern="[a-zA-Z]*"
                     value={userCredentials.firstName}
                     onChange={handleFirstNameInputChange}
                     placeholder="Enter first name"
@@ -160,30 +156,18 @@ function GuestDetailsForm(props) {
                     type="last name"
                     name="last name"
                     helperText={error1}
-                    error={!!error1}
+                    error={error1}
                     value={userCredentials.lastName}
                     onChange={handleLastNameInputChange}
                     placeholder="Enter last name"
                     label="Last Name"
                     variant="outlined"
                     fullWidth
-                    required
+                    // required
                   />
                 </Grid>
                 <Grid xs={12} sm={4} item>
                   <Nationality />
-                  {/* <TextField
-                    sx={{ borderRadius: Theme.shape.borderRadiusSm }}
-                    type="text"
-                    name="nationality"
-                    value={userCredentials.nationality}
-                    onChange={handleLNationalityChange}
-                    placeholder="Enter Nationality"
-                    label="Nationality"
-                    variant="outlined"
-                    fullWidth
-                    required
-                  /> */}
                 </Grid>
                 <Grid xs={12} sm={5} item>
                   <TextField
@@ -199,7 +183,7 @@ function GuestDetailsForm(props) {
                     label="Phone Number"
                     variant="outlined"
                     fullWidth
-                    required
+                    // required
                   />
                 </Grid>
                 <Grid xs={12} sm={4} item>
@@ -213,7 +197,7 @@ function GuestDetailsForm(props) {
                     label="Email"
                     variant="outlined"
                     fullWidth
-                    required
+                    // required
                   />
                 </Grid>
                 <Grid item xs={12} sm={3}>
@@ -234,7 +218,10 @@ function GuestDetailsForm(props) {
                   />
                 </Grid>
                 <Grid item xs={12} sm={12}>
-                  <RegionCountry />
+                  <Box>
+                    {/* <SelectCountry /> */}
+                    <RegionCountry />
+                  </Box>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -256,7 +243,7 @@ function GuestDetailsForm(props) {
               <CustomButton
                 type="submit"
                 disabled={
-                  info.guestDetails.phoneNumber || info.guestDetails.email
+                  info.guestDetails.firstName || info.guestDetails.email
                     ? false
                     : true
                 }

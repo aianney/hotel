@@ -21,13 +21,13 @@ const Payment = (props) => {
 
   return (
     <div className="booking-details">
-      <Box>
+      <Box mb={3}>
         <Grid item xs={12} sx={{ display: 'flex' }}>
           <Typography variant="pageTitle" sx={{ display: 'flex' }}>
             Booking Details
           </Typography>
         </Grid>
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           <Grid item xs={6} sx={{ display: 'flex' }}>
             <Typography
               variant="priceBreakdownTitle"

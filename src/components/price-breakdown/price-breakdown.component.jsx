@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import {
   Box,
@@ -7,16 +7,18 @@ import {
   Divider,
   Fade,
   Grid,
+  IconButton,
   Slide,
   Typography,
 } from '@material-ui/core'
 import { Theme, AppContext } from '..'
 import moment from 'moment'
+import { BsDashCircleFill } from 'react-icons/bs'
 
 const PriceBreakdown = (props) => {
-  // eslint-disable-next-line
-  const { info, setInfo } = useContext(AppContext),
+  const { info } = useContext(AppContext),
     history = useHistory(),
+    alignCenter = { display: 'flex', alignItems: 'center' },
     dateDifference = moment
       .duration(
         moment(info.filters.reservationDates.end).diff(
@@ -24,6 +26,13 @@ const PriceBreakdown = (props) => {
         ),
       )
       .asDays()
+
+  useEffect(() => {
+    if (info.roomSelection.rooms && !info.roomSelection.rooms.length) {
+      props.setPriceBreakdownOpen(false)
+    }
+    // eslint-disable-next-line
+  }, [info])
 
   return (
     <>
@@ -95,238 +104,168 @@ const PriceBreakdown = (props) => {
               <Grid container spacing={3}>
                 <Grid item xs={12}>
                   <Typography variant="filterLabel">
-                    Price Breakdown (For {dateDifference} day
+                    Price Breakdown (Staying for {dateDifference} day
                     {dateDifference !== 1 ? 's' : ''})
                   </Typography>
                 </Grid>
-                <Grid item xs={6} sx={{ display: 'flex' }}>
-                  <Typography
-                    variant="priceBreakdownTitle"
-                    sx={{ fontWeight: Theme.typography.bold }}
-                  >
-                    Deluxe Sea View
-                  </Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={1}
-                  sx={{ display: 'flex', justifyContent: 'center' }}
+                {info.reservationInformation &&
+                info.reservationInformation.room ? (
+                  info.reservationInformation.room.map((room) =>
+                    info.roomSelection.rooms.filter((e) =>
+                      e.id.includes(room.roomType),
+                    ).length ? (
+                      <>
+                        <Grid item xs={5} sx={{ ...alignCenter }}>
+                          <Typography
+                            variant="priceBreakdownTitle"
+                            sx={{ fontWeight: Theme.typography.bold }}
+                          >
+                            {room.roomAttributes.roomName}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={1} sx={{ ...alignCenter }}>
+                          <Typography>
+                            x
+                            {info.roomSelection.rooms
+                              ? info.roomSelection.rooms.filter((e) =>
+                                  e.id.includes(room.roomType),
+                                ).length
+                              : 0}
+                          </Typography>
+                        </Grid>
+                        <Grid
+                          item
+                          xs={5}
+                          sx={{ ...alignCenter, justifyContent: 'flex-end' }}
+                        >
+                          <Typography variant="priceBreakdownTitlePrice">
+                            {info.filters.currency && info.filters.currencyRate
+                              ? `${info.filters.currency} ${(
+                                  info.roomSelection.rooms
+                                    .filter((e) => e.id.includes(room.roomType))
+                                    .map(
+                                      (e) =>
+                                        e.price +
+                                        (e.addOns
+                                          ? e.addOns
+                                              .map(
+                                                (addOn) =>
+                                                  addOn.count * addOn.price,
+                                              )
+                                              .reduce((a, b) => a + b)
+                                          : 0),
+                                    )
+                                    .reduce((a, b) => a + b, 0) *
+                                  info.filters.currencyRate
+                                ).toLocaleString(undefined, {
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                                })}`
+                              : 0}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={1} ml={-3}>
+                          <IconButton
+                            color="error"
+                            sx={{ width: 'auto' }}
+                            onClick={() =>
+                              props.setRooms(
+                                props.rooms
+                                  .filter((e) =>
+                                    !e.id.includes(room.roomType) ? e : null,
+                                  )
+                                  .filter((n) => n),
+                              )
+                            }
+                          >
+                            <BsDashCircleFill />
+                          </IconButton>
+                        </Grid>
+                        <Divider />
+                      </>
+                    ) : (
+                      <> </>
+                    ),
+                  )
+                ) : (
+                  <></>
+                )}
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                mt={3}
+                sx={{ ...alignCenter, justifyContent: 'flex-end' }}
+              >
+                <Typography
+                  variant="priceBreakdownTitle"
+                  sx={{ fontWeight: Theme.typography.bold }}
                 >
-                  <Typography>
-                    x{info.roomSelection.deluxeSeaView.length}
-                  </Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={5}
-                  sx={{ display: 'flex', justifyContent: 'flex-end' }}
-                >
-                  <Typography variant="priceBreakdownTitlePrice">
-                    {info.filters.currency && info.filters.currencyRate
-                      ? `${info.filters.currency} ${(
-                          info.roomSelection.deluxeSeaView
-                            .map((e) => e.price)
-                            .reduce((a, b) => a + b, 0) *
-                          info.filters.currencyRate
-                        ).toLocaleString(undefined, {
-                          minimumFractionDigits: 2,
-                        })}`
-                      : 0}
-                  </Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  sx={{
-                    display: info.roomSelection.deluxeSeaView.length
-                      ? 'flex'
-                      : 'none',
-                    justifyContent: 'flex-end',
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    color="error"
-                    onClick={() => props.setDeluxeSeaView([])}
-                  >
-                    Remove Deluxe Sea View
-                  </Button>
-                </Grid>
-                <Divider />
-                <Grid item xs={6} sx={{ display: 'flex' }}>
-                  <Typography
-                    variant="priceBreakdownTitle"
-                    sx={{ fontWeight: Theme.typography.bold }}
-                  >
-                    Superior Sea View
-                  </Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={1}
-                  sx={{ display: 'flex', justifyContent: 'center' }}
-                >
-                  <Typography>
-                    x{info.roomSelection.superiorSeaView.length}
-                  </Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={5}
-                  sx={{ display: 'flex', justifyContent: 'flex-end' }}
-                >
-                  <Typography variant="priceBreakdownTitlePrice">
-                    {info.filters.currency && info.filters.currencyRate
-                      ? `${info.filters.currency} ${(
-                          info.roomSelection.superiorSeaView
-                            .map((e) => e.price)
-                            .reduce((a, b) => a + b, 0) *
-                          info.filters.currencyRate
-                        ).toLocaleString(undefined, {
-                          minimumFractionDigits: 2,
-                        })}`
-                      : 0}
-                  </Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  sx={{
-                    display: info.roomSelection.superiorSeaView.length
-                      ? 'flex'
-                      : 'none',
-                    justifyContent: 'flex-end',
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    color="error"
-                    onClick={() => props.setSuperiorSeaView([])}
-                  >
-                    Remove Superior Sea View
-                  </Button>
-                </Grid>
-                <Divider />
-                <Grid item xs={6} sx={{ display: 'flex' }}>
-                  <Typography
-                    variant="priceBreakdownTitle"
-                    sx={{ fontWeight: Theme.typography.bold }}
-                  >
-                    Standard Room
-                  </Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={1}
-                  sx={{ display: 'flex', justifyContent: 'center' }}
-                >
-                  <Typography>
-                    x{info.roomSelection.standardRoom.length}
-                  </Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={5}
-                  sx={{ display: 'flex', justifyContent: 'flex-end' }}
-                >
-                  <Typography variant="priceBreakdownTitlePrice">
-                    {info.filters.currency && info.filters.currencyRate
-                      ? `${info.filters.currency} ${(
-                          info.roomSelection.standardRoom
-                            .map((e) => e.price)
-                            .reduce((a, b) => a + b, 0) *
-                          info.filters.currencyRate
-                        ).toLocaleString(undefined, {
-                          minimumFractionDigits: 2,
-                        })}`
-                      : 0}
-                  </Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  sx={{
-                    display: info.roomSelection.standardRoom.length
-                      ? 'flex'
-                      : 'none',
-                    justifyContent: 'flex-end',
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    color="error"
-                    onClick={() => props.setStandardRoom([])}
-                  >
-                    Remove All Standard Rooms
-                  </Button>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Typography
-                    variant="priceBreakdownTitle"
-                    sx={{ FontSize: 22.5 }}
-                  >
-                    {'Total: '}
-                  </Typography>
-                  <Typography
-                    variant="priceBreakdownTitlePrice"
-                    sx={{ FontSize: 20 }}
-                  >
-                    {info.filters.currency && info.filters.currencyRate
-                      ? ` ${info.filters.currency} 
-                                    ${(
-                                      parseInt(
-                                        info.roomSelection.totalPayment,
-                                      ) * info.filters.currencyRate
-                                    ).toLocaleString(undefined, {
-                                      minimumFractionDigits: 2,
-                                    })}`
-                      : 0}
-                  </Typography>
-                </Grid>
+                  {`Total:`}
+                </Typography>
+                <Typography variant="priceBreakdownTitle">
+                  {info.filters.currency && info.filters.currencyRate
+                    ? `${info.filters.currency} ${(
+                        info.roomSelection.totalPayment *
+                        info.filters.currencyRate
+                      ).toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}`
+                    : 0}
+                </Typography>
               </Grid>
             </Box>
 
-            <Box
-              mb={2}
-              mx={2}
-              sx={{
-                display: props.proceed ? 'flex' : 'none',
-                justifyContent: 'flex-end',
-              }}
-            >
-              <Box>
-                {/* Action Buttons START */}
-                <Button
-                  variant="contained"
+            <Box mb={2} mx={2} sx={{ ...alignCenter, justifyContent: 'end' }}>
+              <Button
+                variant="text"
+                onClick={() => {
+                  props.setPriceBreakdownOpen(false)
+                }}
+              >
+                <Box
+                  px={2}
+                  py={1}
                   sx={{
-                    borderRadius: Theme.shape.borderRadius,
-                  }}
-                  onClick={() => {
-                    history.push('/guest-details')
+                    fontWeight: Theme.typography.fontWeightBold,
+                    textDecoration: 'none',
+                    color: 'unset',
                   }}
                 >
-                  <Box
-                    px={2}
-                    py={1}
-                    sx={{
-                      fontWeight: Theme.typography.fontWeightBold,
-                      textDecoration: 'none',
-                      color: 'unset',
-                    }}
-                  >
-                    Proceed
-                  </Box>
-                </Button>
-                {/* Action Buttons END */}
-              </Box>
+                  Add More Rooms
+                </Box>
+              </Button>
+              {/* Action Buttons START */}
+              <Button
+                variant="contained"
+                sx={{
+                  display: props.proceed ? 'flex' : 'none',
+                  justifyContent: 'flex-end',
+                  borderRadius: Theme.shape.borderRadius,
+                }}
+                onClick={() => {
+                  history.push('/guest-details')
+                }}
+                disabled={
+                  info.roomSelection.rooms && info.roomSelection.rooms.length
+                    ? false
+                    : true
+                }
+              >
+                <Box
+                  px={2}
+                  py={1}
+                  sx={{
+                    fontWeight: Theme.typography.fontWeightBold,
+                    textDecoration: 'none',
+                    color: 'unset',
+                  }}
+                >
+                  Proceed
+                </Box>
+              </Button>
+              {/* Action Buttons END */}
             </Box>
           </Card>
         </Slide>

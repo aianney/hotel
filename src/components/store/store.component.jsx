@@ -25,8 +25,8 @@ const Store = {
     currency: null,
     currencyRate: 1,
     guests: {
-      adults: null,
-      children: null,
+      adults: '',
+      children: '',
     },
     reservationDates: {
       start: '',
@@ -34,9 +34,7 @@ const Store = {
     },
   },
   roomSelection: {
-    deluxeSeaView: [],
-    superiorSeaView: [],
-    standardRoom: [],
+    rooms: [],
   },
   guestDetails: {
     firstName: '',

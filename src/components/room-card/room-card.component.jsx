@@ -12,27 +12,24 @@ import {
   Typography,
   Zoom,
 } from '@material-ui/core'
-import { IoBedOutline, IoPeopleOutline } from 'react-icons/io5'
-import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai'
-import { BsTextareaResize } from 'react-icons/bs'
+import { IoBedOutline } from 'react-icons/io5'
+import { BsPeople, BsDash, BsPlus, BsTextareaResize } from 'react-icons/bs'
 import { AppContext, Theme } from '..'
 
 const RoomCard = (props) => {
-  const iconSize = 10,
+  const iconSize = 12,
     // eslint-disable-next-line
     { info, setInfo } = useContext(AppContext),
     [showAddOns, setShowAddOns] = useState(false),
     [rate, setRate] = useState(''),
-    // eslint-disable-next-line
-    [rateValues, setRateValues] = useState(
+    [rateValues] = useState(
       info.reservationInformation
         ? info.reservationInformation.room[props.id].roomRates
             .map((rate) => rate[2])
             .filter((value, index, self) => self.indexOf(value) === index)
         : [],
     ),
-    // eslint-disable-next-line
-    [rateNames, setRateNames] = useState(
+    [rateNames] = useState(
       info.reservationInformation
         ? info.reservationInformation.room[props.id].roomRates
             .map((rate) => rate[3])
@@ -57,8 +54,17 @@ const RoomCard = (props) => {
         ? info.filters.guests.adults
         : 1,
     ),
-    [additionalAdults, setAdditionalAdults] = useState(0),
-    [environmentFee, setEnvironmentFee] = useState(0),
+    [addOns, setAddOns] = useState(
+      info.reservationInformation.addOnList.map((addOn) => {
+        const addOnTemplate = {
+          id: addOn.id,
+          description: addOn.descr,
+          price: parseInt(addOn.price),
+          count: 0,
+        }
+        return addOnTemplate
+      }),
+    ),
     addAdult = () => {
       setAdults((adults) => adults + 1)
     },
@@ -71,28 +77,50 @@ const RoomCard = (props) => {
     removeChild = () => {
       setChildren((children) => children - 1)
     },
-    addAdditionalAdult = () => {
-      setAdditionalAdults(additionalAdults + 1)
+    addtoAddOn = (addOnId) => {
+      let updates = info.roomSelection.rooms[props.id].addOns.map((addOn) =>
+        addOn.id === addOnId
+          ? {
+              ...addOn,
+              count: addOn.count + 1,
+            }
+          : addOn,
+      )
+
+      setAddOns(updates)
     },
-    removeAdditionalAdult = () => {
-      setAdditionalAdults(additionalAdults - 1)
-    },
-    addEnvironmentFee = () => {
-      setEnvironmentFee(environmentFee + 1)
-    },
-    removeEnvironmentFee = () => {
-      setEnvironmentFee(environmentFee - 1)
+    removefromAddOn = (addOnId) => {
+      let updates = info.roomSelection.rooms[props.id].addOns.map((addOn) =>
+        addOn.id === addOnId
+          ? {
+              ...addOn,
+              count: addOn.count - 1,
+            }
+          : addOn,
+      )
+
+      setAddOns(updates)
     },
     updateRoomContent = () => {
-      if (props.roomType) {
-        props.roomType[props.index].adults = adults
-        props.roomType[props.index].children = children
-        props.onRoomChange(props.roomType)
-      }
+      let updates = props.rooms
+        ? props.rooms.map((room) =>
+            room.id === props.roomId
+              ? {
+                  id: room.id,
+                  adults: adults,
+                  children: children,
+                  addOns: addOns,
+                  price: room.price,
+                }
+              : room,
+          )
+        : []
+
+      props.setRooms(updates)
     },
     cardInfo = [
       {
-        icon: <IoPeopleOutline />,
+        icon: <BsPeople />,
         label: info.reservationInformation
           ? info.reservationInformation.room[props.id].roomAttributes.maxPax +
             info.reservationInformation.room[props.id].roomAttributes.maxPax +
@@ -116,7 +144,7 @@ const RoomCard = (props) => {
   useEffect(() => {
     updateRoomContent()
     // eslint-disable-next-line
-  }, [children, adults])
+  }, [addOns, adults, children])
 
   return (
     <Grid item xs={props.count > 1 ? 11 : 12} md={6}>
@@ -144,7 +172,11 @@ const RoomCard = (props) => {
                   height: {
                     xs: '200px',
                     sm: '100%',
-                    backgroundImage: `url(${props.img})`,
+                    transform: `scale(${showAddOns ? 1.25 : 1}) translate(${
+                      showAddOns ? `-10%` : `0%`
+                    })`,
+                    transition: 'all ease-out .5s',
+                    backgroundImage: `url("${props.img}")`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                   },
@@ -154,15 +186,27 @@ const RoomCard = (props) => {
             <Grid item xs={12} sm={8}>
               <Box p={3}>
                 <Grid container spacing={3}>
-                  <Grid item xs={12}>
+                  <Grid
+                    item
+                    xs={12}
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                    }}
+                  >
                     <Typography variant="pageTitle" ml={1}>
                       {`${info.filters.currency} ` +
                         (info.reservationInformation
                           ? (
-                              parseInt(
+                              (parseInt(
                                 info.reservationInformation.room[props.id]
                                   .roomRates[0][4],
-                              ) * info.filters.currencyRate
+                              ) +
+                                addOns
+                                  .map((addOn) => addOn.count * addOn.price)
+                                  .reduce((a, b) => a + b)) *
+                              info.filters.currencyRate
                             ).toLocaleString(undefined, {
                               minimumFractionDigits: 2,
                               maximumFractionDigits: 2,
@@ -173,7 +217,7 @@ const RoomCard = (props) => {
 
                   <Grid item xs={12} sx={{}}>
                     <FormControl
-                      sx={{ mr: 1, mt: -3, minWidth: 120, width: '100%' }}
+                      sx={{ mr: 1, mt: -5, minWidth: 120, width: '100%' }}
                     >
                       <Select
                         defaultValue={10}
@@ -184,7 +228,16 @@ const RoomCard = (props) => {
                         disableUnderline={true}
                         sx={{
                           ...Theme.cardSelect,
-                          backgroundColor: Theme.palette.background.light,
+                          backgroundColor: 'rgba(0,0,0,0)',
+                          '&:hover': {
+                            backgroundColor: 'rgba(0,0,0,0)',
+                          },
+                          '&:active': {
+                            backgroundColor: 'rgba(0,0,0,0)',
+                          },
+                          '&:focus': {
+                            backgroundColor: 'rgba(0,0,0,0)',
+                          },
                         }}
                       >
                         {rateValues.map((rates, index) => (
@@ -247,7 +300,7 @@ const RoomCard = (props) => {
                                   : removeAdult()
                               }
                             >
-                              <AiOutlineMinus size={iconSize} />
+                              <BsDash size={iconSize} />
                             </Button>
                             <Button
                               sx={{
@@ -270,7 +323,7 @@ const RoomCard = (props) => {
                                   : addAdult()
                               }
                             >
-                              <AiOutlinePlus size={iconSize} />
+                              <BsPlus size={iconSize} />
                             </Button>
                           </ButtonGroup>
                         </Grid>
@@ -300,7 +353,7 @@ const RoomCard = (props) => {
                                 children === 0 ? '' : removeChild()
                               }
                             >
-                              <AiOutlineMinus size={iconSize} />
+                              <BsDash size={iconSize} />
                             </Button>
                             <Button
                               sx={{
@@ -323,7 +376,7 @@ const RoomCard = (props) => {
                                   : addChild()
                               }
                             >
-                              <AiOutlinePlus size={iconSize} />
+                              <BsPlus size={iconSize} />
                             </Button>
                           </ButtonGroup>
                         </Grid>
@@ -337,109 +390,100 @@ const RoomCard = (props) => {
                     timeout={{ enter: 500, exit: 500 }}
                     sx={{ width: '110%' }}
                   >
-                    <Box pl={3} pt={3}>
-                      <Card
-                        sx={{
-                          backgroundColor: Theme.palette.light.main,
-                          width: '100%',
-                        }}
-                      >
-                        <Grid container>
-                          {/* Additional Adults START */}
-                          <Grid
-                            item
-                            py={2}
-                            xs={6}
+                    {addOns ? (
+                      addOns.map((addOn, index) => (
+                        <Box pl={3} pt={3}>
+                          <Card
                             sx={{
-                              textAlign: 'center',
+                              backgroundColor: Theme.palette.light.main,
+                              width: '100%',
                             }}
                           >
-                            <Box pb={2}>
-                              <Typography variant="filterText">
-                                {additionalAdults} Additional Adult
-                                {additionalAdults === 1 ? '' : 's'}
-                              </Typography>
+                            <Box px={3}>
+                              <Grid container>
+                                {/* AddOns START */}
+                                <Grid
+                                  item
+                                  py={2}
+                                  xs={12}
+                                  sx={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                  }}
+                                >
+                                  <Box>
+                                    <Typography variant="filterText">
+                                      {addOn.count} - {addOn.description}
+                                    </Typography>
+                                    <Box>
+                                      <Typography
+                                        variant="filterText"
+                                        sx={{
+                                          fontWeight: 400,
+                                          fontStyle: 'italic',
+                                        }}
+                                      >
+                                        {`${info.filters.currency} ` +
+                                          (
+                                            addOn.count *
+                                            addOn.price *
+                                            info.filters.currencyRate
+                                          ).toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                          })}
+                                      </Typography>
+                                    </Box>
+                                  </Box>
+                                  <ButtonGroup
+                                    variant="contained"
+                                    sx={{ height: 22.5 }}
+                                  >
+                                    <Button
+                                      sx={{
+                                        backgroundColor:
+                                          Theme.palette.background.light,
+                                      }}
+                                      disabled={
+                                        addOn.count === 0 ? true : false
+                                      }
+                                      onClick={() =>
+                                        info.reservationInformation.room &&
+                                        info.reservationInformation.room
+                                          .length &&
+                                        addOn.count === 0
+                                          ? ''
+                                          : removefromAddOn(addOn.id)
+                                      }
+                                    >
+                                      <BsDash size={iconSize} />
+                                    </Button>
+                                    <Button
+                                      sx={{
+                                        backgroundColor:
+                                          Theme.palette.background.light,
+                                      }}
+                                      onClick={() =>
+                                        info.reservationInformation.room &&
+                                        info.reservationInformation.room.length
+                                          ? addtoAddOn(addOn.id)
+                                          : ''
+                                      }
+                                    >
+                                      <BsPlus size={iconSize} />
+                                    </Button>
+                                  </ButtonGroup>
+                                </Grid>
+                                {/* AddOns Tab END */}
+                              </Grid>
                             </Box>
-                            <ButtonGroup variant="contained">
-                              <Button
-                                sx={{
-                                  backgroundColor:
-                                    Theme.palette.background.light,
-                                }}
-                                disabled={adults === 0 ? true : false}
-                                onClick={() =>
-                                  info.reservationInformation.room &&
-                                  additionalAdults === 0
-                                    ? ''
-                                    : removeAdditionalAdult
-                                }
-                              >
-                                <AiOutlineMinus size={iconSize} />
-                              </Button>
-                              <Button
-                                sx={{
-                                  backgroundColor:
-                                    Theme.palette.background.light,
-                                }}
-                                onClick={() =>
-                                  info.reservationInformation.room &&
-                                  adults ===
-                                    info.reservationInformation.room[props.id]
-                                      .roomAttributes.maxPax
-                                    ? ''
-                                    : addAdditionalAdult
-                                }
-                              >
-                                <AiOutlinePlus size={iconSize} />
-                              </Button>
-                            </ButtonGroup>
-                          </Grid>
-                          {/* Adults Tab END */}
-
-                          {/* Children Tab START */}
-                          <Grid
-                            item
-                            py={2}
-                            xs={6}
-                            sx={{
-                              textAlign: 'center',
-                            }}
-                          >
-                            <Box pb={2}>
-                              <Typography variant="filterText">
-                                {environmentFee} Environment Fee
-                              </Typography>
-                            </Box>
-                            <ButtonGroup variant="contained">
-                              <Button
-                                sx={{
-                                  backgroundColor:
-                                    Theme.palette.background.light,
-                                }}
-                                disabled={environmentFee === 0 ? true : false}
-                                onClick={() =>
-                                  environmentFee === 0
-                                    ? ''
-                                    : removeEnvironmentFee
-                                }
-                              >
-                                <AiOutlineMinus size={iconSize} />
-                              </Button>
-                              <Button
-                                sx={{
-                                  backgroundColor:
-                                    Theme.palette.background.light,
-                                }}
-                                onClick={() => addEnvironmentFee}
-                              >
-                                <AiOutlinePlus size={iconSize} />
-                              </Button>
-                            </ButtonGroup>
-                          </Grid>
-                          {/* Children Tab END */}
-                        </Grid>
-                      </Card>
-                    </Box>
+                          </Card>
+                        </Box>
+                      ))
+                    ) : (
+                      <></>
+                    )}
                   </Collapse>
 
                   <Grid item xs={12}>

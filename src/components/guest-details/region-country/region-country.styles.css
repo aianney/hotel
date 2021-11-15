@@ -23,13 +23,18 @@ select:hover {
 
 .region-country {
   margin-top: -13px;
-  margin-left: -13px;
+  margin-left: -15px;
   display: flex;
   width: 100%;
 }
 
 @media screen and (device-width: 375px) and (device-height: 667px) {
   select {
-    min-width: 44%;
+    min-width: 43%;
+  }
+  .region-country {
+    margin-left: -15px;
+    display: flex;
+    width: 100%;
   }
 }

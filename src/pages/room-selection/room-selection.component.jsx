@@ -1,24 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useHistory, NavLink } from 'react-router-dom'
-import { Box, Button, ButtonGroup, Grid, Typography } from '@material-ui/core'
+import { useHistory } from 'react-router-dom'
+import { Box, Button, Grid, Typography } from '@material-ui/core'
 import {
   AppContext,
   CustomButton,
   Filter,
   PageStepper,
   PriceBreakdown,
-  RoomCard,
+  Room,
   Theme,
 } from '../../components'
-import {
-  AiOutlineCalendar,
-  AiOutlineInfoCircle,
-  AiOutlineMinus,
-  AiOutlinePlus,
-} from 'react-icons/ai'
-import StandardRoomImage from '../../assets/media/images/standard-room.png'
-import SuperiorSeaViewImage from '../../assets/media/images/superior-sea-view.png'
-import DeluxeSeaViewImage from '../../assets/media/images/deluxe-sea-view.png'
+import { BsSliders } from 'react-icons/bs'
 
 const RoomSelection = () => {
   const { info, setInfo } = useContext(AppContext),
@@ -27,23 +19,26 @@ const RoomSelection = () => {
       room: {
         adults: info.filters.guests.adults,
         children: info.filters.guests.children,
-        addOns: {
-          adults: 0,
-          children: 0,
-        },
+        addOns: info.reservationInformation
+          ? info.reservationInformation.addOnList
+              .map((addOn) => {
+                const addOnTemplate = {
+                  id: addOn.id,
+                  description: addOn.descr,
+                  price: parseInt(addOn.price),
+                  count: 0,
+                }
+                return addOnTemplate
+              })
+              .sort()
+          : [],
       },
     },
     history = useHistory(),
     [filterOpen, setFilterOpen] = useState(false),
     [priceBreakdownOpen, setPriceBreakdownOpen] = useState(false),
     [dateChange, setDateChange] = useState(false),
-    [deluxeSeaView, setDeluxeSeaView] = useState(
-      info.roomSelection.deluxeSeaView,
-    ),
-    [superiorSeaView, setSuperiorSeaView] = useState(
-      info.roomSelection.superiorSeaView,
-    ),
-    [standardRoom, setStandardRoom] = useState(info.roomSelection.standardRoom),
+    [rooms, setRooms] = useState(info.roomSelection.rooms),
     [proceed, setProceed] = useState(false),
     // Function to go back to Intro Page if no data has been set START
     backToIntro = () => {
@@ -57,103 +52,60 @@ const RoomSelection = () => {
     // Function to go back to Intro Page if no data has been set END
 
     // Functions for Deluxe Sea View START
-    addDSVRoom = () => {
-      setDeluxeSeaView((dsv) => [
-        ...dsv,
+    addRoom = (index) => {
+      setRooms((room) => [
+        ...room,
         {
           ...defaults.room,
-          id: 'DSV-' + deluxeSeaView.length,
+          id: info.reservationInformation
+            ? rooms.length +
+              '-' +
+              info.reservationInformation.room[index].roomType
+            : null,
           price: info.reservationInformation
-            ? info.reservationInformation.room[0].roomRates
+            ? info.reservationInformation.room[index].roomRates
                 .filter((e) => e[3])
                 .map((e) => parseFloat(e[4]))
                 .reduce((a, b) => a + b)
             : 0,
           rate: info.reservationInformation
-            ? info.reservationInformation.room[0].roomRates[0][3]
+            ? info.reservationInformation.room[index].roomRates[0][3]
             : 0,
         },
       ])
     },
-    removeDSVRoom = () => {
-      setDeluxeSeaView(
-        deluxeSeaView.filter((r, index) => index !== deluxeSeaView.length - 1),
-      )
-    },
-    // Functions for Deluxe Sea View END
-
-    // Functions for Superior Sea View START
-    addSSVRoom = () => {
-      setSuperiorSeaView((ssv) => [
-        ...ssv,
-        {
-          ...defaults.room,
-          id: 'SSV-' + superiorSeaView.length,
-          price: info.reservationInformation
-            ? info.reservationInformation.room[1].roomRates
-                .filter((e) => e[3])
-                .map((e) => parseFloat(e[4]))
-                .reduce((a, b) => a + b)
-            : 0,
-          rate: info.reservationInformation
-            ? info.reservationInformation.room[1].roomRates[0][3]
-            : 0,
-        },
-      ])
-    },
-    removeSSVRoom = () => {
-      setSuperiorSeaView(
-        superiorSeaView.filter(
-          (r, index) => index !== superiorSeaView.length - 1,
+    removeRoom = (roomType) => {
+      setRooms(
+        rooms.filter(
+          (r, index) =>
+            index !==
+            rooms
+              .map((room, index) =>
+                room.id.indexOf(roomType) !== -1 ? index : null,
+              )
+              .filter((e) => e != null)
+              .slice(-1)[0],
         ),
       )
     },
-    // Functions for Superior Sea View END
-
-    // Functions for Standard Room START
-    addSTDRoom = () => {
-      setStandardRoom((std) => [
-        ...std,
-        {
-          ...defaults.room,
-          id: 'STD-' + standardRoom.length,
-          price: info.reservationInformation
-            ? info.reservationInformation.room[2].roomRates
-                .filter((e) => e[3])
-                .map((e) => parseFloat(e[4]))
-                .reduce((a, b) => a + b)
-            : 0,
-          rate: info.reservationInformation
-            ? info.reservationInformation.room[2].roomRates[0][3]
-            : 0,
-        },
-      ])
-    },
-    removeSTDRoom = () => {
-      setStandardRoom(
-        standardRoom.filter((r, index) => index !== standardRoom.length - 1),
-      )
-    },
-    // Functions for Standard Room END
+    // Functions for Deluxe Sea View END
 
     updateTotalPayment = () => {
       setInfo({
         ...info,
         roomSelection: {
           ...info.roomSelection,
-          deluxeSeaView: deluxeSeaView,
-          superiorSeaView: superiorSeaView,
-          standardRoom: standardRoom,
+          rooms: rooms,
           totalPayment:
-            info.roomSelection.deluxeSeaView.length ||
-            info.roomSelection.superiorSeaView.length ||
-            info.roomSelection.standardRoom.length
-              ? [
-                  ...info.roomSelection.deluxeSeaView,
-                  ...info.roomSelection.superiorSeaView,
-                  ...info.roomSelection.standardRoom,
-                ]
-                  .map((room) => room.price)
+            rooms && rooms.length
+              ? rooms
+                  .map(
+                    (room) =>
+                      room.price +
+                      room.addOns
+                        .map((addOn) => addOn.price * addOn.count)
+                        .reduce((a, b) => a + b),
+                  )
                   .reduce((a, b) => a + b)
               : 0,
         },
@@ -166,14 +118,12 @@ const RoomSelection = () => {
       'Acea Beach Resort - Select the rooms that you want to book'
 
     if (dateChange) {
-      setDeluxeSeaView([])
-      setSuperiorSeaView([])
-      setStandardRoom([])
+      setRooms([])
     }
 
     updateTotalPayment()
     // eslint-disable-next-line
-  }, [deluxeSeaView, superiorSeaView, standardRoom, dateChange])
+  }, [rooms, dateChange])
 
   return (
     <>
@@ -221,364 +171,28 @@ const RoomSelection = () => {
               onClick={() => setFilterOpen((filterOpen) => !filterOpen)}
               p={0}
             >
-              <AiOutlineCalendar size={iconSize} />
+              <BsSliders size={iconSize} />
             </Button>
           </Grid>
         </Grid>
       </Box>
-      {/* Deluxe Sea View Selection START */}
-      <Box mb={4}>
-        <Grid container spacing={3}>
-          <Grid
-            item
-            px={3}
-            xs={12}
-            sx={{
-              alignItems: 'center',
-              display: 'flex',
-              justifyContent: 'space-between',
-              width: '100%',
-            }}
-          >
-            <Box pl={3}>
-              <NavLink
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-                to="/room-selection/1"
-              >
-                <Typography variant="roomTypeTitle" mr={3}>
-                  Deluxe Sea View
-                </Typography>
-                <AiOutlineInfoCircle
-                  size={iconSize}
-                  style={{ color: Theme.palette.primary.main }}
-                />
-              </NavLink>
-            </Box>
-            <Box>
-              <Box mb={1}>
-                <Typography
-                  variant="filterLabel"
-                  sx={{ textAlign: 'end', width: '100%' }}
-                >
-                  No. of Rooms:
-                </Typography>
-              </Box>
-              <ButtonGroup variant="contained">
-                <Button
-                  sx={{
-                    backgroundColor: Theme.palette.background.light,
-                  }}
-                  onClick={() => removeDSVRoom()}
-                  disabled={!deluxeSeaView.length ? true : false}
-                >
-                  <AiOutlineMinus size={iconSize} />
-                </Button>
-                <Button
-                  sx={{
-                    backgroundColor: Theme.palette.light.main,
-                  }}
-                >
-                  {deluxeSeaView.length}
-                </Button>
-                <Button
-                  sx={{
-                    backgroundColor: Theme.palette.background.light,
-                  }}
-                  onClick={() => addDSVRoom()}
-                  disabled={
-                    info.reservationInformation &&
-                    deluxeSeaView.length >
-                      info.reservationInformation.room[0].available
-                      ? true
-                      : false
-                  }
-                >
-                  <AiOutlinePlus />
-                </Button>
-              </ButtonGroup>
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid
-              container
-              px={3}
-              spacing={2}
-              sx={{
-                display: {
-                  xs: 'iflex',
-                  md: '',
-                },
-                overflowX: {
-                  xs: 'scroll',
-                  md: 'auto',
-                },
-                flexWrap: {
-                  xs: 'nowrap',
-                  md: 'wrap',
-                },
-              }}
-            >
-              {!deluxeSeaView.length ? (
-                <RoomCard disabled={true} img={DeluxeSeaViewImage} id={0} />
-              ) : (
-                deluxeSeaView.map((data, index) => (
-                  <RoomCard
-                    key={'DSV-' + index}
-                    img={DeluxeSeaViewImage}
-                    index={index}
-                    data={data}
-                    onRoomChange={setDeluxeSeaView}
-                    roomType={deluxeSeaView}
-                    count={deluxeSeaView.length}
-                    id={0}
-                  />
-                ))
-              )}
-            </Grid>
-          </Grid>
-        </Grid>
-      </Box>
-      {/* Deluxe Sea View Selection END */}
 
-      {/* Superior Sea View Selection START */}
-      <Box mb={4}>
-        <Grid container spacing={3}>
-          <Grid
-            item
-            px={3}
-            xs={12}
-            sx={{
-              alignItems: 'center',
-              display: 'flex',
-              justifyContent: 'space-between',
-              width: '100%',
-            }}
-          >
-            <Box pl={3}>
-              <NavLink
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-                to="/room-selection/2"
-              >
-                <Typography variant="roomTypeTitle" mr={3}>
-                  Superior Sea View
-                </Typography>
-                <AiOutlineInfoCircle
-                  size={iconSize}
-                  style={{ color: Theme.palette.primary.main }}
-                />
-              </NavLink>
-            </Box>
-            <Box>
-              <Box mb={1}>
-                <Typography
-                  variant="filterLabel"
-                  sx={{ textAlign: 'end', width: '100%' }}
-                >
-                  No. of Rooms:
-                </Typography>
-              </Box>
-              <ButtonGroup variant="contained">
-                <Button
-                  sx={{
-                    backgroundColor: Theme.palette.background.light,
-                  }}
-                  onClick={() => removeSSVRoom()}
-                  disabled={!superiorSeaView.length ? true : false}
-                >
-                  <AiOutlineMinus size={iconSize} />
-                </Button>
-                <Button
-                  sx={{
-                    backgroundColor: Theme.palette.light.main,
-                  }}
-                >
-                  {superiorSeaView.length}
-                </Button>
-                <Button
-                  sx={{
-                    backgroundColor: Theme.palette.background.light,
-                  }}
-                  onClick={() => addSSVRoom()}
-                  disabled={
-                    info.reservationInformation &&
-                    superiorSeaView.length >
-                      info.reservationInformation.room[1].available
-                      ? true
-                      : false
-                  }
-                >
-                  <AiOutlinePlus />
-                </Button>
-              </ButtonGroup>
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid
-              container
-              px={3}
-              spacing={2}
-              sx={{
-                display: {
-                  xs: 'iflex',
-                  md: '',
-                },
-                overflowX: {
-                  xs: 'scroll',
-                  md: 'auto',
-                },
-                flexWrap: {
-                  xs: 'nowrap',
-                  md: 'wrap',
-                },
-              }}
-            >
-              {!superiorSeaView.length ? (
-                <RoomCard disabled={true} img={SuperiorSeaViewImage} id={1} />
-              ) : (
-                superiorSeaView.map((data, index) => (
-                  <RoomCard
-                    key={'SSV-' + index}
-                    img={SuperiorSeaViewImage}
-                    index={index}
-                    data={data}
-                    onRoomChange={setSuperiorSeaView}
-                    roomType={superiorSeaView}
-                    count={superiorSeaView.length}
-                    id={1}
-                  />
-                ))
-              )}
-            </Grid>
-          </Grid>
-        </Grid>
-      </Box>
-      {/* Superior Sea View Selection END */}
-
-      {/* Standard Room Selection START */}
-      <Box mb={12}>
-        <Grid container spacing={3}>
-          <Grid
-            item
-            px={3}
-            xs={12}
-            sx={{
-              alignItems: 'center',
-              display: 'flex',
-              justifyContent: 'space-between',
-              width: '100%',
-            }}
-          >
-            <Box pl={3}>
-              <NavLink
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-                to="/room-selection/3"
-              >
-                <Typography variant="roomTypeTitle" mr={3}>
-                  Standard Room
-                </Typography>
-                <AiOutlineInfoCircle
-                  size={iconSize}
-                  style={{ color: Theme.palette.primary.main }}
-                />
-              </NavLink>
-            </Box>
-            <Box>
-              <Box mb={1}>
-                <Typography
-                  variant="filterLabel"
-                  sx={{ textAlign: 'end', width: '100%' }}
-                >
-                  No. of Rooms:
-                </Typography>
-              </Box>
-              <ButtonGroup variant="contained">
-                <Button
-                  sx={{
-                    backgroundColor: Theme.palette.background.light,
-                  }}
-                  onClick={() => removeSTDRoom()}
-                  disabled={!standardRoom.length ? true : false}
-                >
-                  <AiOutlineMinus size={iconSize} />
-                </Button>
-                <Button
-                  sx={{
-                    backgroundColor: Theme.palette.light.main,
-                  }}
-                >
-                  {standardRoom.length}
-                </Button>
-                <Button
-                  sx={{
-                    backgroundColor: Theme.palette.background.light,
-                  }}
-                  onClick={() => addSTDRoom()}
-                  disabled={
-                    info.reservationInformation &&
-                    standardRoom.length >
-                      info.reservationInformation.room[2].available
-                      ? true
-                      : false
-                  }
-                >
-                  <AiOutlinePlus />
-                </Button>
-              </ButtonGroup>
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid
-              container
-              px={3}
-              spacing={2}
-              sx={{
-                display: {
-                  xs: 'iflex',
-                  md: '',
-                },
-                overflowX: {
-                  xs: 'scroll',
-                  md: 'auto',
-                },
-                flexWrap: {
-                  xs: 'nowrap',
-                  md: 'wrap',
-                },
-              }}
-            >
-              {!standardRoom.length ? (
-                <RoomCard disabled={true} img={StandardRoomImage} id={2} />
-              ) : (
-                standardRoom.map((data, index) => (
-                  <RoomCard
-                    key={'STD-' + index}
-                    img={StandardRoomImage}
-                    index={index}
-                    data={data}
-                    onRoomChange={setStandardRoom}
-                    roomType={standardRoom}
-                    count={standardRoom.length}
-                    id={2}
-                  />
-                ))
-              )}
-            </Grid>
-          </Grid>
-        </Grid>
-      </Box>
-      {/* Standard Room Selection END */}
+      {info.reservationInformation ? (
+        info.reservationInformation.room.map((roomInformation, index) => (
+          <>
+            <Room
+              information={roomInformation}
+              index={index}
+              rooms={rooms}
+              addRoom={addRoom}
+              removeRoom={removeRoom}
+              setRooms={setRooms}
+            />
+          </>
+        ))
+      ) : (
+        <></>
+      )}
 
       {/* Filter START */}
       <Filter
@@ -595,9 +209,8 @@ const RoomSelection = () => {
         setPriceBreakdownOpen={setPriceBreakdownOpen}
         proceed={proceed}
         setProceed={setProceed}
-        setDeluxeSeaView={setDeluxeSeaView}
-        setSuperiorSeaView={setSuperiorSeaView}
-        setStandardRoom={setStandardRoom}
+        rooms={rooms}
+        setRooms={setRooms}
       />
       {/* Price Breakdown END */}
 
@@ -608,13 +221,7 @@ const RoomSelection = () => {
           updateTotalPayment()
           setPriceBreakdownOpen(true)
         }}
-        disabled={
-          info.roomSelection.deluxeSeaView.length ||
-          info.roomSelection.superiorSeaView.length ||
-          info.roomSelection.standardRoom.length
-            ? false
-            : true
-        }
+        disabled={info.roomSelection.rooms && !info.roomSelection.rooms.length}
       >
         Proceed
       </CustomButton>
@@ -626,6 +233,9 @@ const RoomSelection = () => {
             setPriceBreakdownOpen((priceBreakdownOpen) => !priceBreakdownOpen)
             updateTotalPayment()
           }}
+          disabled={
+            info.roomSelection.rooms && !info.roomSelection.rooms.length
+          }
           sx={{
             borderRadius: Theme.shape.borderRadius,
           }}

@@ -18,18 +18,18 @@ import {
 } from '@material-ui/core'
 import { AppContext, Theme } from '../index'
 import axios from 'axios'
-import { BsCalendar4Event, BsCalendar4Range } from 'react-icons/bs'
 import {
-  AiOutlineMinus,
-  AiOutlinePlus,
-  AiOutlineTeam,
-  AiOutlineUser,
-} from 'react-icons/ai'
+  BsDash,
+  BsCalendar4Event,
+  BsCalendar4Range,
+  BsPerson,
+  BsPeople,
+  BsPlus,
+} from 'react-icons/bs'
 import moment from 'moment'
 import MobileDatePicker from '@mui/lab/MobileDatePicker'
 import DateFnsUtils from '@date-io/date-fns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
-// import { data } from 'jquery'
 
 const Filter = (props) => {
   const isInitialMount = useRef(true),
@@ -87,13 +87,17 @@ const Filter = (props) => {
     [currencies, setCurrencies] = useState([]),
     [currency, setCurrency] = useState('PHP'),
     [currencyRate, setCurrencyRate] = useState(1),
+    // eslint-disable-next-line
+    [c, setC] = useState([]),
     [noRoom, setNoRoom] = useState(false),
     [bookingError, setBookingError] = useState(''),
     checkDate = () => {
+      // eslint-disable-next-line
       const start = moment(startDate).format('YYYY-MM-DD'),
+        // eslint-disable-next-line
         end = moment(endDate).format('YYYY-MM-DD'),
-        url = `https://hotelreservations.ph/gpDBProcess/process.php?request=getAvailability&dateCheckIn=${start}&dateCheckOut=${end}`
-      // url = `https://hotelreservations.ph/gpDBProcess/process.php?request=getAvailability&dateCheckIn=2022-01-28&dateCheckOut=2022-01-29`;
+        // url = `https://hotelreservations.ph/gpDBProcess/process.php?request=getAvailability&dateCheckIn=${start}&dateCheckOut=${end}`;
+        url = `https://hotelreservations.ph/gpDBProcess/process.php?request=getAvailability&dateCheckIn=2022-01-28&dateCheckOut=2022-01-29`
 
       axios
         .get(url)
@@ -102,7 +106,8 @@ const Filter = (props) => {
             ? errorDate(r.data.remarks)
             : r.data.data[0].room.length === 0
             ? noRoomAvailable()
-            : reserveDate(r.data.data[0])
+            : // console.log(r.data.data[0]);
+              reserveDate(r.data.data[0])
         })
         .catch((e) => console.log(e))
     },
@@ -117,7 +122,10 @@ const Filter = (props) => {
         },
       })
         .then((r) => {
-          setCurrencies([...r.data, 'PHP'].sort())
+          r.data.push('PHP')
+          r.data.splice(r.data.indexOf('CNH'), 1)
+
+          setCurrencies(r.data.sort())
         })
         .catch((e) => {
           console.log(e)
@@ -157,9 +165,7 @@ const Filter = (props) => {
           : {
               ...info,
               roomSelection: {
-                deluxeSeaView: [],
-                superiorSeaView: [],
-                standardRoom: [],
+                rooms: [],
                 totalPayment: 0,
               },
               reservationInformation: data,
@@ -193,19 +199,14 @@ const Filter = (props) => {
         },
         roomSelection: {
           ...info.roomSelection,
-          totalPayment:
-            info.roomSelection.deluxeSeaView.price ||
-            info.roomSelection.superiorSeaView.price ||
-            info.roomSelection.standardRoom.price
-              ? [
-                  ...info.roomSelection.deluxeSeaView,
-                  ...info.roomSelection.superiorSeaView,
-                  ...info.roomSelection.standardRoom,
-                ]
-                  .map((s) => s.price)
-                  .reduce((a, b) => a + b)
-              : 0,
+          rooms: [],
+          totalPayment: info.roomSelection.rooms.length
+            ? info.roomSelection.rooms
+                .map((room) => room.price)
+                .reduce((a, b) => a + b)
+            : 0,
         },
+        reservationInformation: data,
       })
 
       info.filters.reservationDates.start = startDate
@@ -216,6 +217,18 @@ const Filter = (props) => {
       info.filters.currencyRate = currencyRate
 
       setInfo(rooms)
+      setInfo(() => {
+        setInfo({
+          ...info,
+          filters: {
+            ...info.filters,
+            currency: currency,
+            currencyRate: currencyRate,
+          },
+          reservationInformation: data,
+        })
+      })
+
       setNoRoom(false)
       setBookingError('')
 
@@ -258,6 +271,20 @@ const Filter = (props) => {
     currencySetRate()
     // eslint-disable-next-line
   }, [currency])
+
+  useEffect(() => {
+    setInfo({
+      ...info,
+      filters: {
+        ...info.filters,
+        guests: {
+          adults: adults,
+          children: children,
+        },
+      },
+    })
+    // eslint-disable-next-line
+  }, [adults, children])
 
   return (
     <>
@@ -352,7 +379,7 @@ const Filter = (props) => {
                   </Collapse>
                 </Grid>
                 {/* Reservation Dates START */}
-                <Grid item xs={12} md={props.page === 'intro' ? 6 : 4}>
+                <Grid item xs={12} md={4}>
                   <Card
                     sx={{
                       backgroundColor: Theme.palette.light.main,
@@ -434,7 +461,16 @@ const Filter = (props) => {
                           }
                           onChange={() => {}}
                           onAccept={setEndDate}
-                          onClose={() => setEndDatePickerOpen(false)}
+                          onClose={() => {
+                            if (startDate > endDate) {
+                              setEndDate(
+                                new Date(
+                                  startDate.getTime() + 24 * 60 * 60 * 1000,
+                                ),
+                              )
+                            }
+                            setEndDatePickerOpen(false)
+                          }}
                           open={endDatePickerOpen}
                           okText={'Confirm Check-Out Date'}
                           renderInput={({
@@ -487,7 +523,7 @@ const Filter = (props) => {
                 {/* Reservation Dates END */}
 
                 {/* Guests Per Room START */}
-                <Grid item xs={12} md={props.page === 'intro' ? 6 : 4}>
+                <Grid item xs={12} md={4}>
                   <Card
                     sx={{
                       backgroundColor: Theme.palette.light.main,
@@ -515,7 +551,7 @@ const Filter = (props) => {
                             display: 'flex',
                           }}
                         >
-                          <AiOutlineUser size={iconSize * 2} />
+                          <BsPeople size={iconSize * 2} />
                           <Typography variant="filterText" ml={3}>
                             {adults} Adult{adults === 1 ? '' : 's'}
                           </Typography>
@@ -534,7 +570,7 @@ const Filter = (props) => {
                                 : setAdults((adults) => adults - 1)
                             }
                           >
-                            <AiOutlineMinus size={iconSize} />
+                            <BsDash size={iconSize} />
                           </Button>
                           <Button
                             sx={{
@@ -549,7 +585,7 @@ const Filter = (props) => {
                                 : setAdults((adults) => adults + 1)
                             }
                           >
-                            <AiOutlinePlus size={iconSize} />
+                            <BsPlus size={iconSize} />
                           </Button>
                         </ButtonGroup>
                       </Box>
@@ -572,7 +608,7 @@ const Filter = (props) => {
                             display: 'flex',
                           }}
                         >
-                          <AiOutlineTeam size={iconSize * 2} />
+                          <BsPerson size={iconSize * 2} />
                           <Typography variant="filterText" ml={3}>
                             {children} Child{children === 1 ? '' : 'ren'}
                           </Typography>
@@ -591,7 +627,7 @@ const Filter = (props) => {
                                 : setChildren((children) => children - 1)
                             }
                           >
-                            <AiOutlineMinus size={iconSize} />
+                            <BsDash size={iconSize} />
                           </Button>
                           <Button
                             sx={{
@@ -606,7 +642,7 @@ const Filter = (props) => {
                                 : setChildren((children) => children + 1)
                             }
                           >
-                            <AiOutlinePlus size={iconSize} />
+                            <BsPlus size={iconSize} />
                           </Button>
                         </ButtonGroup>
                       </Box>
@@ -616,12 +652,7 @@ const Filter = (props) => {
                 </Grid>
                 {/* Guests Per Room END */}
 
-                <Grid
-                  item
-                  xs={props.page === 'intro' ? 0 : 12}
-                  md={props.page === 'intro' ? 0 : 4}
-                  sx={{ display: props.page === 'intro' ? 'none' : 'block' }}
-                >
+                <Grid item xs={12} md={4}>
                   <Card sx={{ backgroundColor: Theme.palette.light.main }}>
                     <Grid container>
                       <Grid item xs={6}>
@@ -663,7 +694,7 @@ const Filter = (props) => {
                             sx={{ mt: -3, minWidth: 120, width: '100%' }}
                           >
                             <Select
-                              defaultValue={info.filters.currency}
+                              defaultValue={currency}
                               value={
                                 info.filters.currency &&
                                 info.filters.currency === currency
