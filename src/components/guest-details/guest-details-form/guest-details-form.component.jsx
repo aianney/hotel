@@ -42,11 +42,10 @@ function GuestDetailsForm(props) {
     })
     // eslint-disable-next-line
   }, [userCredentials])
+  const pattern = /^(\d|\w)+$/
 
-  const handleFirstNameInputChange = (e) => {
-    if (
-      !userCredentials.firstName.match(/^[A-Za-z]$|^[A-Za-z][A-Za-z][A-Za-z]$/)
-    ) {
+  const handlefirstNameInputChange = (e) => {
+    if (!userCredentials.firstName.match(pattern)) {
       setError('Invalid Name')
     }
     setUserCredentials({
@@ -139,10 +138,8 @@ function GuestDetailsForm(props) {
                     type="first name"
                     name="first name"
                     helperText={error}
-                    error={!!error}
-                    // pattern="[a-zA-Z]*"
                     value={userCredentials.firstName}
-                    onChange={handleFirstNameInputChange}
+                    onChange={handlefirstNameInputChange}
                     placeholder="Enter first name"
                     label="First Name"
                     variant="outlined"
