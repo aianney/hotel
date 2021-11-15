@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
-import { Box, Divider, Grid, Typography } from '@material-ui/core'
+import { Box, Divider, Grid, Typography, IconButton } from '@material-ui/core'
+import { TiDelete } from 'react-icons/ti'
 import Theme from '../../theme/theme.component'
 import AppContext from '../../app-context/app-context.component'
 import PaymentOptions from '../../payment-method/payment-options/payment-options.component'
@@ -139,7 +140,7 @@ const PriceBreakdown = (props) => {
                                     }`}
                                   </Typography>
                                 </Box>
-                                {/* <Box>
+                                <Box>
                                   <Typography
                                     variant="priceBreakdownTitle"
                                     sx={{
@@ -148,14 +149,24 @@ const PriceBreakdown = (props) => {
                                       fontWeight: 500,
                                     }}
                                   >
-                                    {`${info.filters.currency} ${(
-                                      x.price * info.filters.currencyRate
-                                    ).toLocaleString(undefined, {
-                                      minimumFractionDigits: 2,
-                                      maximumFractionDigits: 2,
-                                    })}`}
+                                    <Grid
+                                      item
+                                      xs={6}
+                                      sx={{
+                                        display: 'flex',
+                                        justifyContent: 'flex-end',
+                                      }}
+                                    >
+                                      {/* <Button sx={{ fontSize: '13px' }} variant="contained" color="error">
+              Remove
+            </Button> */}
+                                      <IconButton color="error">
+                                        {' '}
+                                        <TiDelete size={30} />
+                                      </IconButton>
+                                    </Grid>
                                   </Typography>
-                                </Box> */}
+                                </Box>
                               </Box>
                             </Grid>
 
@@ -230,8 +241,8 @@ const PriceBreakdown = (props) => {
         <Grid
           item
           xs={12}
-          mt={6}
-          mb={-3}
+          mt={2}
+          mb={2}
           sx={{ ...alignCenter, justifyContent: 'flex-end' }}
         >
           <Typography
