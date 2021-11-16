@@ -3,6 +3,7 @@ import { Box, Divider, Grid, Typography, IconButton } from '@material-ui/core'
 import { TiDelete } from 'react-icons/ti'
 import Theme from '../../theme/theme.component'
 import AppContext from '../../app-context/app-context.component'
+import PaymentButton from '../payment-button/payment-button.component'
 import PaymentOptions from '../../payment-method/payment-options/payment-options.component'
 
 const PriceBreakdown = (props) => {
@@ -264,6 +265,7 @@ const PriceBreakdown = (props) => {
         </Grid>
 
         <PaymentOptions />
+        <PaymentButton />
       </Box>
     </>
   )

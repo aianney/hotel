@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import Theme from '../../theme/theme.component'
 
-export default function Nationality() {
+export default function Nationality({ handleNationalityInputChange }) {
   return (
     <Autocomplete
       sx={{ borderRadius: Theme.shape.borderRadiusSm }}
@@ -31,6 +31,7 @@ export default function Nationality() {
       renderInput={(params) => (
         <TextField
           {...params}
+          onChange={handleNationalityInputChange}
           label="Nationality"
           inputProps={{
             ...params.inputProps,

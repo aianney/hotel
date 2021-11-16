@@ -30,11 +30,12 @@ select:hover {
 
 @media screen and (device-width: 375px) and (device-height: 667px) {
   select {
-    min-width: 43%;
+    min-width: 100%;
+    width: 10px;
   }
   .region-country {
     margin-left: -15px;
-    display: flex;
+    display: block;
     width: 100%;
   }
 }

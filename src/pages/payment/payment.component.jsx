@@ -1,31 +1,35 @@
-import React, { useContext } from 'react'
+//import React, { useContext } from 'react'
 import { Box, Grid } from '@material-ui/core'
 import PageStepper from '../../components/page-stepper/page-stepper.component'
-import { AppContext } from '../../components'
+//import { AppContext } from '../../components'
 import './payment.styles.css'
 import PaymentContent from '../../components/payment-method/payment-content/payment-content.component'
 import PaymentPrice from '../../components/payment-method/payment-price/payment-price.component'
 //import PaymentOption from '../../components/payment-method/payment-options/payment.options.component'
 
 const PaymentPage = ({ handlePressGuestDetails, ...rest }) => {
-  const {
-    info: guestDetails,
-    payment,
-    roomSelection,
-    filters: reservationDates,
-  } = useContext(AppContext)
+  // const {
+  //   info: guestDetails,
+  //   payment,
+  //   roomSelection,
+  //   filters,
+  //   reservationDates,
+  //   reservationInformation,
+  // } = useContext(AppContext)
 
-  console.log(
-    JSON.stringify({
-      guestDetails,
-      payment,
-      roomSelection,
-      filters: reservationDates,
-    }),
-  )
+  // console.log(
+  //   JSON.stringify({
+  //     guestDetails,
+  //     payment,
+  //     roomSelection,
+  //     filters,
+  //     reservationDates,
+  //     reservationInformation,
+  //   }),
+  // )
 
   return (
-    <Box mb={-6}>
+    <Box mb={-6} p={4}>
       {/* {console.log(info.roomSelection)} */}
       <Box mb={4}>
         <PageStepper activeStep={2} onClick={handlePressGuestDetails} />

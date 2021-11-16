@@ -10,10 +10,9 @@ export default function Birthdate() {
   const [value, setValue] = React.useState(new Date())
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns} >
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Stack spacing={3}>
         <DatePicker
-        
           disableFuture
           label="Birthday"
           openTo="year"

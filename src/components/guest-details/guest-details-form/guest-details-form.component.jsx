@@ -15,17 +15,21 @@ import Nationality from '../../guest-details/nationality/nationality.component'
 import './guest-details-form.styles.css'
 import CustomButton from '../../custom-button/custom-button.component'
 import AppContext from '../../app-context/app-context.component'
+import axios from 'axios'
+//import { State, Country } from 'country-state-city'
+//import CountryState from '../country-state/country-state.components'
 
 function GuestDetailsForm(props) {
-  // eslint-disable-next-line
+  // console.log(Country.getAllCountries())
+  // console.log(State.getAllStates())
   const [error, setError] = React.useState('')
   const [error1, setError1] = React.useState('')
   const [error2, setError2] = React.useState('')
   const { info, setInfo } = React.useContext(AppContext)
   const history = useHistory()
   const [userCredentials, setUserCredentials] = React.useState({
-    firstName: '',
-    lastName: '',
+    firstname: '',
+    lastname: '',
     nationality: '',
     number: '',
     email: '',
@@ -43,36 +47,36 @@ function GuestDetailsForm(props) {
     // eslint-disable-next-line
   }, [userCredentials])
 
-  const pattern = /^[A-Za-z]$|^[A-Za-z][A-Za-z][A-Za-z]$/
-
   const handlefirstNameInputChange = (e) => {
-    if (!userCredentials.firstName.match(pattern)) {
-      setError1('')
+    const { value } = e.target
+
+    setUserCredentials({ ...userCredentials, firstname: e.target.value })
+
+    const regex = new RegExp(/^[-a-zA-Z0-9-()]+(\s+[-a-zA-Z0-9-()]+)*$/)
+
+    const valid = regex.test(value)
+
+    if (valid) {
+      setError('')
     } else {
-      setError1('Invalid Last Name')
+      setError('invalid')
     }
-    setUserCredentials({
-      ...userCredentials,
-      firstName: e.target.value,
-    })
   }
 
-  const handleLastNameInputChange = ({ target }) => {
-    if (
-      // eslint-disable-next-line
-      !userCredentials.lastName.match(
-        // eslint-disable-next-line
-        /[!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?0-9]/,
-      )
-    ) {
+  const handleLastnameInputChange = (e) => {
+    const { value } = e.target
+
+    setUserCredentials({ ...userCredentials, lastname: e.target.value })
+
+    const regex = new RegExp(/^[-a-zA-Z0-9-()]+(\s+[-a-zA-Z0-9-()]+)*$/)
+
+    const valid = regex.test(value)
+
+    if (valid) {
       setError1('')
     } else {
-      setError1('Invalid Last Name')
+      setError1('invalid')
     }
-    setUserCredentials({
-      ...userCredentials,
-      lastName: target.value.toUpperCase(),
-    })
   }
 
   const handleLNumberInputChange = (event) => {
@@ -89,8 +93,12 @@ function GuestDetailsForm(props) {
   const handleEmailInputChange = (event) => {
     setUserCredentials({ ...userCredentials, email: event.target.value })
   }
+
+  const handleNationalityInputChange = (event) => {
+    setUserCredentials({ ...userCredentials, nationality: event.target.value })
+  }
   const handleHomeAddressInputChange = (event) => {
-    setUserCredentials({ ...userCredentials, homeAddress: event.target.value })
+    setUserCredentials({ ...userCredentials, homeaddress: event.target.value })
   }
   const handleLMessageInputChange = (event) => {
     setUserCredentials({ ...userCredentials, message: event.target.value })
@@ -98,11 +106,23 @@ function GuestDetailsForm(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault()
+    const postData = {
+      userCredentials,
+    }
+    axios
+      .post(
+        `https://hotelreservations.ph/gpDBProcess/process.php?request=insertData&data=qq/data`,
+        postData,
+      )
+      .then((response) => {
+        console.log(response)
+      })
+
     if (
-      userCredentials.firstName
+      // userCredentials.firstName
       // userCredentials.lastName &&
       // userCredentials.number &&
-      // userCredentials.email
+      userCredentials.email
     ) {
       history.push(`/payments`, { userCredentials })
       console.log(userCredentials)
@@ -113,7 +133,6 @@ function GuestDetailsForm(props) {
 
   return (
     <div className="guest-details">
-      {/* <Typography gutterBottom variant="h3" align="center"></Typography> */}
       <Typography variant="pageTitle">Guest Details</Typography>
       <Typography
         variant="pageSubtitle"
@@ -141,8 +160,8 @@ function GuestDetailsForm(props) {
                     type="first name"
                     name="first name"
                     helperText={error}
-                    error={error1}
-                    value={userCredentials.firstName}
+                    error={error}
+                    value={userCredentials.firstname}
                     onChange={handlefirstNameInputChange}
                     placeholder="Enter first name"
                     label="First Name"
@@ -158,8 +177,8 @@ function GuestDetailsForm(props) {
                     name="last name"
                     helperText={error1}
                     error={error1}
-                    value={userCredentials.lastName}
-                    onChange={handleLastNameInputChange}
+                    value={userCredentials.lastname}
+                    onChange={handleLastnameInputChange}
                     placeholder="Enter last name"
                     label="Last Name"
                     variant="outlined"
@@ -168,14 +187,13 @@ function GuestDetailsForm(props) {
                   />
                 </Grid>
                 <Grid xs={12} sm={4} item>
-                  <Nationality />
+                  <Nationality onChange={handleNationalityInputChange} />
                 </Grid>
                 <Grid xs={12} sm={5} item>
                   <TextField
                     sx={{ borderRadius: Theme.shape.borderRadiusSm }}
                     type="text"
                     name="number"
-                    maxLength="10"
                     helperText={error2}
                     error={!!error2}
                     value={userCredentials.number}
@@ -209,7 +227,7 @@ function GuestDetailsForm(props) {
                     sx={{ borderRadius: Theme.shape.borderRadiusSm }}
                     type="text"
                     name="house no."
-                    value={userCredentials.homeAddress}
+                    value={userCredentials.homeaddress}
                     onChange={handleHomeAddressInputChange}
                     placeholder="House No"
                     label="House No/Street/Subd."
@@ -219,10 +237,8 @@ function GuestDetailsForm(props) {
                   />
                 </Grid>
                 <Grid item xs={12} sm={12}>
-                  <Box>
-                    {/* <SelectCountry /> */}
-                    <RegionCountry />
-                  </Box>
+                  <RegionCountry />
+                  {/* <CountryState /> */}
                 </Grid>
                 <Grid item xs={12}>
                   <TextField

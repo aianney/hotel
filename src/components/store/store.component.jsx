@@ -39,6 +39,8 @@ const Store = {
   guestDetails: {
     firstName: '',
     lastName: '',
+    nationality: '',
+    birthday: '',
   },
   payment: {},
 }
