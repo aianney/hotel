@@ -4,11 +4,10 @@ import axios from 'axios'
 import { Theme } from '../../components'
 import {
   Box,
-  Button,
   CircularProgress,
-  Collapse,
   Divider,
   Grid,
+  IconButton,
   Typography,
 } from '@material-ui/core'
 import {
@@ -65,68 +64,7 @@ const RoomAmenities = (props) => {
         {amenities && amenities.state === 'Error' ? (
           <Box>No Laman</Box>
         ) : amenities.rateImages && amenities.rateImages[0] ? (
-          <Grid mt={3} container spacing={3}>
-            <Grid item xs={1}>
-              <Button onClick={() => history.push('/room-selection')}>
-                <IoChevronBackSharp size={32} />
-              </Button>
-            </Grid>
-            <Grid item xs={11}>
-              <Typography variant="pageTitle" px={2}>
-                {amenities.roomName}
-              </Typography>
-            </Grid>
-
-            <Grid item xs={12} mt={-1} sx={centering}>
-              <Box sx={centering}>
-                <IoPeopleOutline size={28} />
-                <Typography
-                  variant="roomCardLabel"
-                  pl={1}
-                  sx={{ textAlign: 'center' }}
-                >
-                  {amenities.maxPax} people
-                </Typography>
-              </Box>
-              <Box sx={centering}>
-                <IoBedOutline size={28} />
-                <Typography
-                  variant="roomCardLabel"
-                  pl={1}
-                  sx={{ textAlign: 'center' }}
-                >
-                  {amenities.bedsNumber}
-                </Typography>
-              </Box>
-              <Box sx={centering}>
-                <BsTextareaResize size={28} />
-                <Typography
-                  variant="roomCardLabel"
-                  pl={1}
-                  sx={{ textAlign: 'center' }}
-                >
-                  {amenities.roomSize}
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid items xs={12} pt={5}>
-              <Divider />
-            </Grid>
-
-            <Grid item xs={12}>
-              <Collapse in={true}>
-                <Box px={3}>
-                  <Typography variant="introSubtitle">
-                    {amenities.rateInclusions[0]}.
-                    {` ${amenities.rateInclusions[1]}`}
-                  </Typography>
-                </Box>
-              </Collapse>
-              <Button variant="text" fullWidth>
-                Show More Info
-              </Button>
-            </Grid>
-
+          <Grid mt={1} container spacing={3}>
             {/* Pictures */}
             <Grid item xs={12}>
               <Grid
@@ -184,6 +122,75 @@ const RoomAmenities = (props) => {
               </Grid>
             </Grid>
             {/* Pictures */}
+
+            <Grid item xs={1}>
+              <IconButton onClick={() => history.push('/room-selection')}>
+                <IoChevronBackSharp size={32} />
+              </IconButton>
+            </Grid>
+            <Grid item xs={11}>
+              <Typography variant="pageTitle" px={2}>
+                {amenities.roomName}
+              </Typography>
+            </Grid>
+
+            <Grid item xs={12} mt={-1} sx={centering}>
+              <Box sx={centering}>
+                <IoPeopleOutline size={28} />
+                <Typography
+                  variant="roomCardLabel"
+                  pl={1}
+                  sx={{ textAlign: 'center' }}
+                >
+                  {amenities.maxPax} people
+                </Typography>
+              </Box>
+              <Box sx={centering}>
+                <IoBedOutline size={28} />
+                <Typography
+                  variant="roomCardLabel"
+                  pl={1}
+                  sx={{ textAlign: 'center' }}
+                >
+                  {amenities.bedsNumber}
+                </Typography>
+              </Box>
+              <Box sx={centering}>
+                <BsTextareaResize size={28} />
+                <Typography
+                  variant="roomCardLabel"
+                  pl={1}
+                  sx={{ textAlign: 'center' }}
+                >
+                  {amenities.roomSize}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid items xs={12} pt={5}>
+              <Divider />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Box px={3}>
+                <Typography variant="introSubtitle">
+                  {amenities.rateInclusions[0]}.
+                  {` ${amenities.rateInclusions[1]}`}
+                </Typography>
+              </Box>
+            </Grid>
+            {amenities.rateInclusions.map((rateInclusion, index) =>
+              index > 1 ? (
+                <Grid item xs={6} md={4} mb={-2}>
+                  <Box px={3}>
+                    <Typography variant="introSubtitle">
+                      {`• ${rateInclusion}`}
+                    </Typography>
+                  </Box>
+                </Grid>
+              ) : (
+                <></>
+              ),
+            )}
           </Grid>
         ) : (
           <Box

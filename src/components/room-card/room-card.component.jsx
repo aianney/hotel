@@ -78,28 +78,37 @@ const RoomCard = (props) => {
       setChildren((children) => children - 1)
     },
     addtoAddOn = (addOnId) => {
-      let updates = info.roomSelection.rooms[props.id].addOns.map((addOn) =>
-        addOn.id === addOnId
-          ? {
-              ...addOn,
-              count: addOn.count + 1,
-            }
-          : addOn,
-      )
+      let updates =
+        info.roomSelection &&
+        info.roomSelection.rooms &&
+        info.roomSelection.rooms[props.id] &&
+        info.roomSelection.rooms[props.id].addOns.map((addOn) =>
+          addOn.id === addOnId
+            ? {
+                ...addOn,
+                count: addOn.count + 1,
+              }
+            : addOn,
+        )
 
       setAddOns(updates)
     },
     removefromAddOn = (addOnId) => {
-      let updates = info.roomSelection.rooms[props.id].addOns.map((addOn) =>
-        addOn.id === addOnId
-          ? {
-              ...addOn,
-              count: addOn.count - 1,
-            }
-          : addOn,
-      )
+      let updates =
+        info.roomSelection &&
+        info.roomSelection.rooms &&
+        info.roomSelection.rooms[props.id] &&
+        info.roomSelection.rooms[props.id].addOns.map((addOn) =>
+          addOn.id === addOnId
+            ? {
+                ...addOn,
+                count: addOn.count - 1,
+              }
+            : addOn,
+        )
 
       setAddOns(updates)
+      console.log(addOnId)
     },
     updateRoomContent = () => {
       let updates = props.rooms

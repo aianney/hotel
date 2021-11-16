@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { Box, Divider, Grid, Typography, IconButton } from '@material-ui/core'
-import { TiDelete } from 'react-icons/ti'
+// import { TiDelete } from 'react-icons/ti'
 import Theme from '../../theme/theme.component'
 import AppContext from '../../app-context/app-context.component'
 import PaymentButton from '../payment-button/payment-button.component'
 import PaymentOptions from '../../payment-method/payment-options/payment-options.component'
+import { BsDashCircleFill } from 'react-icons/bs'
 
 const PriceBreakdown = (props) => {
   const { info } = useContext(AppContext),
@@ -20,7 +21,7 @@ const PriceBreakdown = (props) => {
                 e.id.includes(room.roomType),
               ).length ? (
                 <>
-                  <Grid item xs={6} sx={{ ...alignCenter }}>
+                  <Grid item xs={5} sx={{ ...alignCenter }}>
                     <Typography
                       variant="priceBreakdownTitle"
                       sx={{ fontWeight: Theme.typography.bold }}
@@ -68,6 +69,23 @@ const PriceBreakdown = (props) => {
                         : 0}
                     </Typography>
                   </Grid>
+                  <Grid item xs={1} ml={-3}>
+                    <IconButton
+                      color="error"
+                      sx={{ width: 'auto' }}
+                      onClick={() =>
+                        props.setRooms(
+                          props.rooms
+                            .map((e) =>
+                              !e.id.includes(room.roomType) ? e : null,
+                            )
+                            .filter((n) => n),
+                        )
+                      }
+                    >
+                      <BsDashCircleFill />
+                    </IconButton>
+                  </Grid>
                   <Grid item xs={12} mt={-2} mb={1}>
                     <Grid container spacing={1}>
                       {info.roomSelection.rooms
@@ -87,7 +105,7 @@ const PriceBreakdown = (props) => {
                                     {`Room ${i + 1}`}
                                   </Typography>
                                 </Box>
-                                {/* <Box>
+                                <Box>
                                   <Typography
                                     variant="priceBreakdownTitle"
                                     sx={{
@@ -112,7 +130,7 @@ const PriceBreakdown = (props) => {
                                       maximumFractionDigits: 2,
                                     })}`}
                                   </Typography>
-                                </Box> */}
+                                </Box>
                               </Box>
                             </Grid>
 
@@ -150,22 +168,12 @@ const PriceBreakdown = (props) => {
                                       fontWeight: 500,
                                     }}
                                   >
-                                    <Grid
-                                      item
-                                      xs={6}
-                                      sx={{
-                                        display: 'flex',
-                                        justifyContent: 'flex-end',
-                                      }}
-                                    >
-                                      {/* <Button sx={{ fontSize: '13px' }} variant="contained" color="error">
-              Remove
-            </Button> */}
-                                      <IconButton color="error">
-                                        {' '}
-                                        <TiDelete size={30} />
-                                      </IconButton>
-                                    </Grid>
+                                    {`${info.filters.currency} ${(
+                                      x.price * info.filters.currencyRate
+                                    ).toLocaleString(undefined, {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                    })}`}
                                   </Typography>
                                 </Box>
                               </Box>
@@ -242,8 +250,8 @@ const PriceBreakdown = (props) => {
         <Grid
           item
           xs={12}
-          mt={2}
-          mb={2}
+          mt={6}
+          mb={-3}
           sx={{ ...alignCenter, justifyContent: 'flex-end' }}
         >
           <Typography

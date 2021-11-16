@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Box, Button, Grid, Typography } from '@material-ui/core'
+import { Box, Button, Grid, IconButton, Typography } from '@material-ui/core'
 import {
   AppContext,
   CustomButton,
@@ -102,9 +102,11 @@ const RoomSelection = () => {
                   .map(
                     (room) =>
                       room.price +
-                      room.addOns
-                        .map((addOn) => addOn.price * addOn.count)
-                        .reduce((a, b) => a + b),
+                      (room.addOns.length
+                        ? room.addOns
+                            .map((addOn) => addOn.count * addOn.price)
+                            .reduce((a, b) => a + b)
+                        : 0),
                   )
                   .reduce((a, b) => a + b)
               : 0,
@@ -122,6 +124,7 @@ const RoomSelection = () => {
     }
 
     updateTotalPayment()
+
     // eslint-disable-next-line
   }, [rooms, dateChange])
 
@@ -134,45 +137,41 @@ const RoomSelection = () => {
         <Grid container>
           <Grid
             item
-            xs={10}
-            md={6}
+            xs={12}
             sx={{
               display: 'block',
             }}
           >
-            <Box>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
               <Typography variant="pageTitle">Select Rooms</Typography>
+              <IconButton
+                onClick={() => setFilterOpen((filterOpen) => !filterOpen)}
+                p={0}
+              >
+                <BsSliders size={iconSize} />
+              </IconButton>
             </Box>
             <Box mb={3}>
               <Typography variant="pageSubtitle">
                 Select how many rooms you will use while staying.
-              </Typography>
-              <Typography
-                variant="pageSubtitle"
-                sx={{
-                  display: { xs: 'block', md: 'none' },
-                  fontStyle: 'italic',
-                }}
-              >
-                {` (Swipe left or right on the cards if you have selected more than one of the following rooms)`}
+                <Typography
+                  variant="pageSubtitle"
+                  sx={{
+                    display: { xs: 'block', md: 'none' },
+                    fontStyle: 'italic',
+                    fontSize: 16,
+                  }}
+                >
+                  {` (Swipe left or right on the cards if you have selected more than one of the following rooms)`}
+                </Typography>
               </Typography>
             </Box>
-          </Grid>
-          <Grid
-            item
-            xs={2}
-            md={6}
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-            }}
-          >
-            <Button
-              onClick={() => setFilterOpen((filterOpen) => !filterOpen)}
-              p={0}
-            >
-              <BsSliders size={iconSize} />
-            </Button>
           </Grid>
         </Grid>
       </Box>
@@ -187,6 +186,7 @@ const RoomSelection = () => {
               addRoom={addRoom}
               removeRoom={removeRoom}
               setRooms={setRooms}
+              updateTotalPayment={updateTotalPayment}
             />
           </>
         ))

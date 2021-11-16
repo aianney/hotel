@@ -68,6 +68,8 @@ const PriceBreakdown = (props) => {
         <Slide direction="up" in={props.priceBreakdownOpen}>
           <Card
             sx={{
+              maxHeight: '100vh',
+              overflowY: 'scroll',
               backgroundColor: Theme.palette.background.light,
               width: {
                 xs: '100%',
@@ -171,7 +173,7 @@ const PriceBreakdown = (props) => {
                             onClick={() =>
                               props.setRooms(
                                 props.rooms
-                                  .filter((e) =>
+                                  .map((e) =>
                                     !e.id.includes(room.roomType) ? e : null,
                                   )
                                   .filter((n) => n),
@@ -181,6 +183,158 @@ const PriceBreakdown = (props) => {
                             <BsDashCircleFill />
                           </IconButton>
                         </Grid>
+                        <Grid item xs={12} mt={-2} mb={1}>
+                          <Grid container spacing={1}>
+                            {info.roomSelection.rooms
+                              .filter((x) => x.id.includes(room.roomType))
+                              .map((x, i) => (
+                                <>
+                                  <Grid item xs={12}>
+                                    <Box
+                                      px={2}
+                                      sx={{
+                                        ...alignCenter,
+                                        justifyContent: 'space-between',
+                                      }}
+                                    >
+                                      <Box>
+                                        <Typography variant="priceBreakdownTitle">
+                                          {`Room ${i + 1}`}
+                                        </Typography>
+                                      </Box>
+                                      <Box>
+                                        <Typography
+                                          variant="priceBreakdownTitle"
+                                          sx={{
+                                            fontStyle: 'italic',
+                                            fontSize: 16,
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {`${info.filters.currency} ${(
+                                            (x.price +
+                                              (x.addOns.length
+                                                ? x.addOns
+                                                    .map(
+                                                      (addOn) =>
+                                                        addOn.price *
+                                                        addOn.count,
+                                                    )
+                                                    .reduce((a, b) => a + b)
+                                                : 0)) *
+                                            info.filters.currencyRate
+                                          ).toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                          })}`}
+                                        </Typography>
+                                      </Box>
+                                    </Box>
+                                  </Grid>
+
+                                  <Grid item xs={12}>
+                                    <Box
+                                      pl={3}
+                                      pr={2}
+                                      sx={{
+                                        ...alignCenter,
+                                        justifyContent: 'space-between',
+                                      }}
+                                    >
+                                      <Box>
+                                        <Typography
+                                          variant="priceBreakdownTitle"
+                                          sx={{
+                                            fontStyle: 'italic',
+                                            fontSize: 16,
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {`${x.adults} Adult${
+                                            x.adults === 1 ? '' : 's'
+                                          } / ${x.children} Child${
+                                            x.children === 1 ? '' : 'ren'
+                                          }`}
+                                        </Typography>
+                                      </Box>
+                                      <Box>
+                                        <Typography
+                                          variant="priceBreakdownTitle"
+                                          sx={{
+                                            fontStyle: 'italic',
+                                            fontSize: 16,
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {`${info.filters.currency} ${(
+                                            x.price * info.filters.currencyRate
+                                          ).toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                          })}`}
+                                        </Typography>
+                                      </Box>
+                                    </Box>
+                                  </Grid>
+
+                                  {x.addOns.length ? (
+                                    x.addOns.map((addOn, index) =>
+                                      addOn.count ? (
+                                        <Grid item xs={12}>
+                                          <Box
+                                            pl={3}
+                                            pr={2}
+                                            sx={{
+                                              ...alignCenter,
+                                              justifyContent: 'space-between',
+                                            }}
+                                          >
+                                            <Box sx={{ width: '70%' }}>
+                                              <Typography
+                                                variant="priceBreakdownTitle"
+                                                sx={{
+                                                  fontStyle: 'italic',
+                                                  fontSize: 16,
+                                                  fontWeight: 500,
+                                                  wordWrap: 'break-word',
+                                                }}
+                                              >
+                                                {`${addOn.count} - ${addOn.description}`}
+                                              </Typography>
+                                            </Box>
+                                            <Box>
+                                              <Typography
+                                                variant="priceBreakdownTitle"
+                                                sx={{
+                                                  fontStyle: 'italic',
+                                                  fontSize: 16,
+                                                  fontWeight: 500,
+                                                }}
+                                              >
+                                                {`${info.filters.currency} ${(
+                                                  addOn.price *
+                                                  addOn.count *
+                                                  info.filters.currencyRate
+                                                ).toLocaleString(undefined, {
+                                                  minimumFractionDigits: 2,
+                                                  maximumFractionDigits: 2,
+                                                })}`}
+                                              </Typography>
+                                            </Box>
+                                          </Box>
+                                        </Grid>
+                                      ) : (
+                                        <></>
+                                      ),
+                                    )
+                                  ) : (
+                                    <> </>
+                                  )}
+                                </>
+                              ))}
+                          </Grid>
+                        </Grid>
+
                         <Divider />
                       </>
                     ) : (
@@ -194,7 +348,8 @@ const PriceBreakdown = (props) => {
               <Grid
                 item
                 xs={12}
-                mt={3}
+                mt={6}
+                mb={-3}
                 sx={{ ...alignCenter, justifyContent: 'flex-end' }}
               >
                 <Typography

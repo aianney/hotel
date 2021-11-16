@@ -25,22 +25,20 @@ const Store = {
     currency: null,
     currencyRate: 1,
     guests: {
-      adults: '',
-      children: '',
+      adults: null,
+      children: null,
     },
     reservationDates: {
-      start: '',
-      end: '',
+      start: null,
+      end: null,
     },
   },
   roomSelection: {
     rooms: [],
   },
   guestDetails: {
-    firstName: '',
-    lastName: '',
-    nationality: '',
-    birthday: '',
+    firstName: null,
+    lastName: null,
   },
   payment: {},
 }

@@ -22,7 +22,7 @@ export default function SwitchListSecondary() {
 
   return (
     <>
-      <Box p={1} sx={{ width: '100%' }} mt={-1} ml={-1}>
+      <Box p={1} sx={{ width: '100%' }} mt={4} ml={-1}>
         <Typography
           variant="priceBreakdownTitle"
           sx={{ fontWeight: Theme.typography.bold }}

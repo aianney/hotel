@@ -29,7 +29,7 @@ const PaymentPage = ({ handlePressGuestDetails, ...rest }) => {
   // )
 
   return (
-    <Box mb={-6} p={4}>
+    <Box mb={-6} mt={3}>
       {/* {console.log(info.roomSelection)} */}
       <Box mb={4}>
         <PageStepper activeStep={2} onClick={handlePressGuestDetails} />
