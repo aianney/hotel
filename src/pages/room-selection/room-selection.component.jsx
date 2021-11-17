@@ -15,90 +15,32 @@ import { BsSliders } from 'react-icons/bs'
 const RoomSelection = () => {
   const { info, setInfo } = useContext(AppContext),
     iconSize = 22,
-    defaults = {
-      room: {
-        adults: info.filters.guests.adults,
-        children: info.filters.guests.children,
-        addOns: info.reservationInformation
-          ? info.reservationInformation.addOnList
-              .map((addOn) => {
-                const addOnTemplate = {
-                  id: addOn.id,
-                  description: addOn.descr,
-                  price: parseInt(addOn.price),
-                  count: 0,
-                }
-                return addOnTemplate
-              })
-              .sort()
-          : [],
-      },
-    },
     history = useHistory(),
     [filterOpen, setFilterOpen] = useState(false),
     [priceBreakdownOpen, setPriceBreakdownOpen] = useState(false),
     [dateChange, setDateChange] = useState(false),
-    [rooms, setRooms] = useState(info.roomSelection.rooms),
     [proceed, setProceed] = useState(false),
     // Function to go back to Intro Page if no data has been set START
     backToIntro = () => {
       if (
-        info.filters.reservationDates.start === null ||
-        info.filters.reservationDates.end === null
+        !info.filters.reservationDates.start ||
+        !info.filters.reservationDates.end ||
+        !info.reservationInformation
       ) {
         history.push('/')
       }
     },
     // Function to go back to Intro Page if no data has been set END
 
-    // Functions for Deluxe Sea View START
-    addRoom = (index) => {
-      setRooms((room) => [
-        ...room,
-        {
-          ...defaults.room,
-          id: info.reservationInformation
-            ? rooms.length +
-              '-' +
-              info.reservationInformation.room[index].roomType
-            : null,
-          price: info.reservationInformation
-            ? info.reservationInformation.room[index].roomRates
-                .filter((e) => e[3])
-                .map((e) => parseFloat(e[4]))
-                .reduce((a, b) => a + b)
-            : 0,
-          rate: info.reservationInformation
-            ? info.reservationInformation.room[index].roomRates[0][3]
-            : 0,
-        },
-      ])
-    },
-    removeRoom = (roomType) => {
-      setRooms(
-        rooms.filter(
-          (r, index) =>
-            index !==
-            rooms
-              .map((room, index) =>
-                room.id.indexOf(roomType) !== -1 ? index : null,
-              )
-              .filter((e) => e != null)
-              .slice(-1)[0],
-        ),
-      )
-    },
-    // Functions for Deluxe Sea View END
-
     updateTotalPayment = () => {
       setInfo({
         ...info,
         roomSelection: {
           ...info.roomSelection,
-          rooms: rooms,
+          rooms: info.roomSelection.rooms,
           totalPayment:
-            rooms && rooms.length
-              ? rooms
+            info.roomSelection.rooms && info.roomSelection.rooms.length
+              ? info.roomSelection.rooms
                   .map(
                     (room) =>
                       room.price +
@@ -118,15 +60,9 @@ const RoomSelection = () => {
     backToIntro()
     document.title =
       'Acea Beach Resort - Select the rooms that you want to book'
-
-    if (dateChange) {
-      setRooms([])
-    }
-
-    updateTotalPayment()
-
+    console.log(info)
     // eslint-disable-next-line
-  }, [rooms, dateChange])
+  }, [dateChange])
 
   return (
     <>
@@ -182,10 +118,6 @@ const RoomSelection = () => {
             <Room
               information={roomInformation}
               index={index}
-              rooms={rooms}
-              addRoom={addRoom}
-              removeRoom={removeRoom}
-              setRooms={setRooms}
               updateTotalPayment={updateTotalPayment}
             />
           </>
@@ -209,8 +141,6 @@ const RoomSelection = () => {
         setPriceBreakdownOpen={setPriceBreakdownOpen}
         proceed={proceed}
         setProceed={setProceed}
-        rooms={rooms}
-        setRooms={setRooms}
       />
       {/* Price Breakdown END */}
 
@@ -218,7 +148,7 @@ const RoomSelection = () => {
       <CustomButton
         onClick={() => {
           setProceed(true)
-          updateTotalPayment()
+
           setPriceBreakdownOpen(true)
         }}
         disabled={info.roomSelection.rooms && !info.roomSelection.rooms.length}
@@ -231,7 +161,6 @@ const RoomSelection = () => {
         <Button
           onClick={() => {
             setPriceBreakdownOpen((priceBreakdownOpen) => !priceBreakdownOpen)
-            updateTotalPayment()
           }}
           disabled={
             info.roomSelection.rooms && !info.roomSelection.rooms.length

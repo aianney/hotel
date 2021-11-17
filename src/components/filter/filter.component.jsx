@@ -32,7 +32,8 @@ import DateFnsUtils from '@date-io/date-fns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 
 const Filter = (props) => {
-    const isInitialMount = useRef(true),
+    const
+        isInitialMount = useRef(true),
         { info, setInfo } = useContext(AppContext),
         history = useHistory(),
         errorStyle = (activator) => {
@@ -87,8 +88,6 @@ const Filter = (props) => {
         [currencies, setCurrencies] = useState([]),
         [currency, setCurrency] = useState('PHP'),
         [currencyRate, setCurrencyRate] = useState(1),
-        // eslint-disable-next-line
-        [c, setC] = useState([]),
         [noRoom, setNoRoom] = useState(false),
         [bookingError, setBookingError] = useState(''),
         checkDate = () => {
@@ -96,8 +95,8 @@ const Filter = (props) => {
             const start = moment(startDate).format('YYYY-MM-DD'),
                 // eslint-disable-next-line
                 end = moment(endDate).format('YYYY-MM-DD'),
-                // url = `https://hotelreservations.ph/gpDBProcess/process.php?request=getAvailability&dateCheckIn=${start}&dateCheckOut=${end}`;
-                url = `https://hotelreservations.ph/gpDBProcess/process.php?request=getAvailability&dateCheckIn=2022-01-28&dateCheckOut=2022-01-29`
+                url = `https://hotelreservations.ph/gpDBProcess/process.php?request=getAvailability&dateCheckIn=${start}&dateCheckOut=${end}`;
+                // url = `https://hotelreservations.ph/gpDBProcess/process.php?request=getAvailability&dateCheckIn=2022-01-28&dateCheckOut=2022-01-29`
 
             axios
                 .get(url)
@@ -132,7 +131,8 @@ const Filter = (props) => {
                     setDisplayCurrency(false)
                 })
         },
-        currencySetRate = () => {
+
+        getCurrencyRates = () => {
             axios({
                 method: 'get',
                 url: `https://currency-exchange.p.rapidapi.com/exchange?from=PHP&to=${currency}&q=1.0`,
@@ -150,96 +150,68 @@ const Filter = (props) => {
                     setDisplayCurrency(false)
                 })
         },
+
         cancelPanel = () => {
             props.setFilterOpen(false)
             setCurrency(info.filters.currency)
         },
-        filterApply = (data) => {
-            let rooms =
-                info.filters.reservationDates.start === startDate &&
-                    info.filters.reservationDates.end === endDate
-                    ? {
-                        ...info,
-                        reservationInformation: data,
-                    }
-                    : {
-                        ...info,
-                        roomSelection: {
-                            rooms: [],
-                            totalPayment: 0,
-                        },
-                        reservationInformation: data,
-                    }
 
-            if (
-                props.setDateChange &&
-                info.filters.reservationDates.start &&
-                info.filters.reservationDates.end &&
-                (info.filters.reservationDates.start !== startDate ||
-                    info.filters.reservationDates.end !== endDate)
-            ) {
-                props.setDateChange(true)
-                props.setDateChange(false)
-            }
-
-            setInfo({
+        applyFilter = (data) => {
+            let updates = {
                 ...info,
                 filters: {
                     ...info.filters,
-                    reservationDates: {
-                        start: startDate,
-                        end: endDate,
-                    },
+                    currency: currency,
+                    currencyRate: currencyRate,
                     guests: {
                         adults: adults,
                         children: children,
                     },
-                    currency: currency,
-                    currencyRate: currencyRate,
                 },
-                roomSelection: {
-                    ...info.roomSelection,
-                    rooms: [],
-                    totalPayment: info.roomSelection.rooms.length
-                        ? info.roomSelection.rooms
-                            .map((room) => room.price)
-                            .reduce((a, b) => a + b)
-                        : 0,
-                },
-                reservationInformation: data,
-            })
+                reservationInformation: data
+            };
 
-            info.filters.reservationDates.start = startDate
-            info.filters.reservationDates.end = endDate
-            info.filters.guests.adults = adults
-            info.filters.guests.children = children
-            info.filters.currency = currency
-            info.filters.currencyRate = currencyRate
+            setInfo(updates);
 
-            setInfo(rooms)
-            setInfo(() => {
-                setInfo({
+            if (info.filters.reservationDates.start !== startDate || info.filters.reservationDates.end !== endDate) {
+                updates = {
                     ...info,
                     filters: {
                         ...info.filters,
                         currency: currency,
                         currencyRate: currencyRate,
+                        reservationDates: {
+                            start: startDate,
+                            end: endDate,
+                        }
                     },
-                    reservationInformation: data,
-                })
-            })
+                    roomSelection: {
+                        rooms: [],
+                        totalPayment: 0,
+                    },
+                    reservationInformation: data
+                };
+                setInfo(updates)
+            }
+
+            console.log(info);
 
             setNoRoom(false)
             setBookingError('')
 
             props.setFilterOpen(false)
         },
-        setReserveDate = (data) => {
-            filterApply(data)
+
+        continueReservation = (data) => {
+            applyFilter(data)
             history.push({ pathname: '/room-selection' })
         },
+
         reserveDate = (data) =>
-            props.page === 'intro' ? setReserveDate(data) : filterApply(data),
+            props.page === 'intro' ?
+                continueReservation(data) :
+                applyFilter(data),
+
         noRoomAvailable = () => {
             setNoRoom(true)
             setBookingError('')
@@ -247,6 +219,7 @@ const Filter = (props) => {
                 setNoRoom(false)
             }, 5000)
         },
+
         errorDate = (remarks) => {
             setNoRoom(false)
             setBookingError(remarks)
@@ -268,7 +241,7 @@ const Filter = (props) => {
     }, [])
 
     useEffect(() => {
-        currencySetRate()
+        getCurrencyRates()
         // eslint-disable-next-line
     }, [currency])
 
@@ -283,6 +256,7 @@ const Filter = (props) => {
                 },
             },
         })
+        console.log("tite");
         // eslint-disable-next-line
     }, [adults, children])
 
@@ -694,7 +668,7 @@ const Filter = (props) => {
                                                         sx={{ mt: -3, minWidth: 120, width: '100%' }}
                                                     >
                                                         <Select
-                                                            defaultValue={currency}
+                                                            defaultValue={info.filters.currency}
                                                             value={
                                                                 info.filters.currency &&
                                                                     info.filters.currency === currency
@@ -729,6 +703,7 @@ const Filter = (props) => {
                         <Box
                             mb={2}
                             mx={2}
+                            mt={4}
                             sx={{
                                 display: 'flex',
                                 justifyContent: 'flex-end',

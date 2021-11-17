@@ -10,6 +10,7 @@ import {
   ListItemIcon,
   ListItemText,
   Checkbox,
+  Grid,
 } from '@material-ui/core'
 import Theme from '../../theme/theme.component'
 import { TermsAndCondition } from '../..'
@@ -22,13 +23,15 @@ export default function SwitchListSecondary() {
 
   return (
     <>
-      <Box p={1} sx={{ width: '100%' }} mt={4} ml={-1}>
-        <Typography
-          variant="priceBreakdownTitle"
-          sx={{ fontWeight: Theme.typography.bold }}
-        >
-          Choose payment Options
-        </Typography>
+      <Box p={0} sx={{ width: '100%' }} ml={-1} mb={5}>
+        <Grid item xs={12} sx={{ display: 'flex' }}>
+          <Typography
+            variant="priceBreakdownTitle"
+            sx={{ fontWeight: Theme.typography.bold }}
+          >
+            Choose payment Options
+          </Typography>
+        </Grid>
         <List sx={{ width: '100%' }}>
           <ListItem>
             <ListItemIcon>

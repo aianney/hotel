@@ -21,7 +21,7 @@ const Payment = (props) => {
 
   return (
     <div className="booking-details">
-      <Box mb={3}>
+      <Box mb={1}>
         <Grid item xs={12} sx={{ display: 'flex' }}>
           <Typography variant="pageTitle" sx={{ display: 'flex' }}>
             Booking Details

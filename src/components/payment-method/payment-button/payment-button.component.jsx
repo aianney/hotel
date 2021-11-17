@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import CustomButton from '../../custom-button/custom-button.component'
-//import PaymentIcon from '@mui/icons-material/Payment'
+import { Box } from '@material-ui/core'
 import './paymentbutton.styles.css'
 
 function PaymentButton() {
@@ -36,16 +36,18 @@ function PaymentButton() {
     // console.log({ p })
   }
   return (
-    <form onSubmit={handleSubmit}>
-      {loading && <p>loading payment...</p>}
-      <CustomButton
-        type="submit"
-        variant="outlined"
-        // startIcon={<PaymentIcon />}
-      >
-        Pay Now
-      </CustomButton>
-    </form>
+    <Box mt={-5}>
+      <form onSubmit={handleSubmit}>
+        {loading && <p>loading payment...</p>}
+        <CustomButton
+          type="submit"
+          variant="outlined"
+          // startIcon={<PaymentIcon />}
+        >
+          Pay Now
+        </CustomButton>
+      </form>
+    </Box>
   )
 }
 

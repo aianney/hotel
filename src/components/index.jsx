@@ -6,6 +6,7 @@ import GuestDetailsForm from './guest-details/guest-details-form/guest-details-f
 import NavBar from './nav-bar/nav-bar.component'
 import PageStepper from './page-stepper/page-stepper.component'
 import PriceBreakdown from './price-breakdown/price-breakdown.component'
+import PriceBreakdownContent from './price-breakdown-content/price-breakdown-content.component'
 import RegionCountry from './guest-details/region-country/region-country.component'
 import Room from './room/room.component'
 import RoomCard from './room-card/room-card.component'
@@ -22,6 +23,7 @@ export {
   NavBar,
   PageStepper,
   PriceBreakdown,
+  PriceBreakdownContent,
   RegionCountry,
   Room,
   RoomCard,

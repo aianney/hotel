@@ -111,6 +111,10 @@ let Theme = createTheme({
             fontSize: 20,
             fontWeight: Store.env.fonts.weight.bold,
         },
+        priceBreakdownTotal: {
+            fontFamily: Store.env.fonts.style.serif,
+            fontWeight: Store.env.fonts.weight.black,
+        },
         priceBreakdownTitlePrice: {
             fontFamily: Store.env.fonts.style.sansSerif,
             fontSize: 18,

@@ -28,8 +28,8 @@ function GuestDetailsForm(props) {
   const { info, setInfo } = React.useContext(AppContext)
   const history = useHistory()
   const [userCredentials, setUserCredentials] = React.useState({
-    firstname: '',
-    lastname: '',
+    firstName: '',
+    lastName: '',
     nationality: '',
     number: '',
     email: '',
@@ -50,7 +50,7 @@ function GuestDetailsForm(props) {
   const handlefirstNameInputChange = (e) => {
     const { value } = e.target
 
-    setUserCredentials({ ...userCredentials, firstname: e.target.value })
+    setUserCredentials({ ...userCredentials, firstName: e.target.value })
 
     const regex = new RegExp(/^[-a-zA-Z0-9-()]+(\s+[-a-zA-Z0-9-()]+)*$/)
 
@@ -66,7 +66,7 @@ function GuestDetailsForm(props) {
   const handleLastnameInputChange = (e) => {
     const { value } = e.target
 
-    setUserCredentials({ ...userCredentials, lastname: e.target.value })
+    setUserCredentials({ ...userCredentials, lastName: e.target.value })
 
     const regex = new RegExp(/^[-a-zA-Z0-9-()]+(\s+[-a-zA-Z0-9-()]+)*$/)
 
@@ -111,7 +111,8 @@ function GuestDetailsForm(props) {
     }
     axios
       .post(
-        `https://hotelreservations.ph/gpDBProcess/process.php?request=insertData&data=qq/data`,
+        `https://hotelreservations.ph/gpDBProcess/process.php?request=insertData&data=qq/` +
+          JSON.stringify(userCredentials),
         postData,
       )
       .then((response) => {
@@ -161,7 +162,7 @@ function GuestDetailsForm(props) {
                     name="first name"
                     helperText={error}
                     error={error}
-                    value={userCredentials.firstname}
+                    value={userCredentials.firstName}
                     onChange={handlefirstNameInputChange}
                     placeholder="Enter first name"
                     label="First Name"
@@ -177,7 +178,7 @@ function GuestDetailsForm(props) {
                     name="last name"
                     helperText={error1}
                     error={error1}
-                    value={userCredentials.lastname}
+                    value={userCredentials.lastName}
                     onChange={handleLastnameInputChange}
                     placeholder="Enter last name"
                     label="Last Name"

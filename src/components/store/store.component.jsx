@@ -11,8 +11,8 @@ const Store = {
         regular: 400,
         medium: 500,
         semibold: 600,
-        bold: 700,
-        black: 800,
+        bold: 800,
+        black: 900,
       },
       style: {
         sansSerif: `"DM Sans", "Heebo", "Montserrat"`,
@@ -22,7 +22,7 @@ const Store = {
   },
   filters: {
     language: 'EN',
-    currency: null,
+    currency: 'PHP',
     currencyRate: 1,
     guests: {
       adults: null,
@@ -35,10 +35,11 @@ const Store = {
   },
   roomSelection: {
     rooms: [],
+    totalPayment: 0,
   },
   guestDetails: {
-    firstName: null,
-    lastName: null,
+    firstName: '',
+    lastName: '',
   },
   payment: {},
 }
