@@ -21,23 +21,23 @@ const RoomCard = (props) => {
   const { info, setInfo } = useContext(AppContext),
     roomIndex = info.roomSelection.rooms.length
       ? info.roomSelection.rooms
-          .map((room, index) => (room.id.match(props.roomId) ? index : null))
-          .filter((room) => room != null)[0]
+        .map((room, index) => (room.id.match(props.roomId) ? index : null))
+        .filter((room) => room != null)[0]
       : 0,
     [showAddOns, setShowAddOns] = useState(false),
     [rate, setRate] = useState(''),
     [rateValues] = useState(
       info.reservationInformation
         ? info.reservationInformation.room[props.id].roomRates
-            .map((rate) => rate[2])
-            .filter((value, index, self) => self.indexOf(value) === index)
+          .map((rate) => rate[2])
+          .filter((value, index, self) => self.indexOf(value) === index)
         : [],
     ),
     [rateNames] = useState(
       info.reservationInformation
         ? info.reservationInformation.room[props.id].roomRates
-            .map((rate) => rate[3])
-            .filter((value, index, self) => self.indexOf(value) === index)
+          .map((rate) => rate[3])
+          .filter((value, index, self) => self.indexOf(value) === index)
         : [],
     ),
     iconSize = 12,
@@ -48,105 +48,114 @@ const RoomCard = (props) => {
         ),
       )
       .asDays(),
-    [children, setChildren] = useState(
-      info.reservationInformation &&
-        info.filters.guests.children >
-          info.reservationInformation.room[props.id].roomAttributes.maxChild
-        ? info.reservationInformation.room[props.id].roomAttributes.maxChild
-        : info.filters && info.filters.guests.children
-        ? info.filters.guests.children
-        : 0,
-    ),
-    [adults, setAdults] = useState(
-      info.reservationInformation &&
-        info.filters.guests.adults >
-          info.reservationInformation.room[props.id].roomAttributes.maxPax
-        ? info.reservationInformation.room[props.id].roomAttributes.maxPax
-        : info.filters && info.filters.guests.adults
-        ? info.filters.guests.adults
-        : 1,
-    ),
-    // eslint-disable-next-line
-    [addOns, setAddOns] = useState(
-      info.reservationInformation.addOnList.map((addOn) => {
-        const addOnTemplate = {
-          id: addOn.id,
-          description: addOn.descr,
-          price: parseInt(addOn.price),
-          count: 0,
-        }
-        return addOnTemplate
-      }),
-    ),
+
     addAdult = () => {
-      setAdults((adults) => adults + 1)
-
-      let updates =
-        info.roomSelection &&
-        info.roomSelection.rooms &&
-        info.roomSelection.rooms.map((room, i) =>
-          i === roomIndex
-            ? {
-                ...room,
-                adults: room.adults - 1,
-              }
-            : room,
-        )
-
-      setInfo({
-        ...info,
-        roomSelection: {
-          ...info.roomSelection,
-          rooms: updates,
-        },
-      })
-    },
-    removeAdult = () => {
-      let updates =
-        info.roomSelection &&
-        info.roomSelection.rooms &&
-        info.roomSelection.rooms.map((room, i) =>
-          i === roomIndex
-            ? {
-                ...room,
-                adults: room.adults - 1,
-              }
-            : room,
-        )
-
-      setInfo({
-        ...info,
-        roomSelection: {
-          ...info.roomSelection,
-          rooms: updates,
-        },
-      })
-    },
-    addChild = () => {
-      setChildren((children) => children + 1)
-    },
-    removeChild = () => {
-      setChildren((children) => children - 1)
-    },
-    addtoAddOn = (addOnId) => {
-      let addedAddOn =
-          info.roomSelection &&
+      const
+        addedAdult = info.roomSelection &&
           info.roomSelection.rooms &&
           info.roomSelection.rooms.map((room, i) =>
-            room.id.match(props.roomId) && room.addOns.length
+            room.id.match(props.roomId)
               ? {
-                  ...room,
-                  addOns: room.addOns.map((addOn) =>
-                    addOn.id === addOnId
-                      ? {
-                          ...addOn,
-                          count: addOn.count + 1,
-                        }
-                      : addOn,
-                  ),
-                }
+                ...room,
+                adults: room.adults + 1,
+              }
               : room,
           ),
+        updates = {
+          ...info,
+          roomSelection: {
+            ...info.roomSelection,
+            rooms: addedAdult,
+          }
+        }
+
+      setInfo(updates);
+    },
+    removeAdult = () => {
+      const
+        removedAdult = info.roomSelection &&
+          info.roomSelection.rooms &&
+          info.roomSelection.rooms.map((room, i) =>
+            room.id.match(props.roomId)
+              ? {
+                ...room,
+                adults: room.adults - 1,
+              }
+              : room,
+          ),
+        updates = {
+          ...info,
+          roomSelection: {
+            ...info.roomSelection,
+            rooms: removedAdult,
+          }
+        }
+
+      setInfo(updates);
+    },
+    addChild = () => {
+      const
+        addedChild = info.roomSelection &&
+          info.roomSelection.rooms &&
+          info.roomSelection.rooms.map((room, i) =>
+            room.id.match(props.roomId)
+              ? {
+                ...room,
+                children: room.children + 1,
+              }
+              : room,
+          ),
+        updates = {
+          ...info,
+          roomSelection: {
+            ...info.roomSelection,
+            rooms: addedChild,
+          }
+        }
+
+      setInfo(updates);
+    },
+    removeChild = () => {
+      const
+        removedChild = info.roomSelection &&
+          info.roomSelection.rooms &&
+          info.roomSelection.rooms.map((room, i) =>
+            room.id.match(props.roomId)
+              ? {
+                ...room,
+                children: room.children - 1,
+              }
+              : room,
+          ),
+        updates = {
+          ...info,
+          roomSelection: {
+            ...info.roomSelection,
+            rooms: removedChild,
+          }
+        }
+
+      setInfo(updates);
+    },
+    addtoAddOn = (addOnId) => {
+      const addedAddOn =
+        info.roomSelection &&
+        info.roomSelection.rooms &&
+        info.roomSelection.rooms.map((room, i) =>
+          room.id.match(props.roomId) && room.addOns.length
+            ? {
+              ...room,
+              addOns: room.addOns.map((addOn) =>
+                addOn.id === addOnId
+                  ? {
+                    ...addOn,
+                    count: addOn.count + 1,
+                  }
+                  : addOn,
+              ),
+            }
+            : room,
+        ),
         updates = {
           ...info,
           roomSelection: {
@@ -154,40 +163,40 @@ const RoomCard = (props) => {
             rooms: addedAddOn,
             totalPayment: addedAddOn.length
               ? addedAddOn
-                  .map(
-                    (room) =>
-                      room.price +
-                      (room.addOns.length
-                        ? room.addOns
-                            .map((addOn) => addOn.price * addOn.count)
-                            .reduce((a, b) => a + b)
-                        : 0),
-                  )
-                  .reduce((a, b) => a + b)
+                .map(
+                  (room) =>
+                    room.price +
+                    (room.addOns.length
+                      ? room.addOns
+                        .map((addOn) => addOn.price * addOn.count)
+                        .reduce((a, b) => a + b)
+                      : 0),
+                )
+                .reduce((a, b) => a + b)
               : 0,
           },
         }
       setInfo(updates)
     },
     removefromAddOn = (addOnId) => {
-      let removedAddOn =
-          info.roomSelection &&
-          info.roomSelection.rooms &&
-          info.roomSelection.rooms.map((room, i) =>
-            i === roomIndex && room.addOns.length
-              ? {
-                  ...room,
-                  addOns: room.addOns.map((addOn) =>
-                    addOn.id === addOnId
-                      ? {
-                          ...addOn,
-                          count: addOn.count - 1,
-                        }
-                      : addOn,
-                  ),
-                }
-              : room,
-          ),
+      const removedAddOn =
+        info.roomSelection &&
+        info.roomSelection.rooms &&
+        info.roomSelection.rooms.map((room, i) =>
+          i === roomIndex && room.addOns.length
+            ? {
+              ...room,
+              addOns: room.addOns.map((addOn) =>
+                addOn.id === addOnId
+                  ? {
+                    ...addOn,
+                    count: addOn.count - 1,
+                  }
+                  : addOn,
+              ),
+            }
+            : room,
+        ),
         updates = {
           ...info,
           roomSelection: {
@@ -195,16 +204,16 @@ const RoomCard = (props) => {
             rooms: removedAddOn,
             totalPayment: removedAddOn.length
               ? removedAddOn
-                  .map(
-                    (room, i) =>
-                      room.price +
-                      (room.addOns.length
-                        ? room.addOns
-                            .map((addOn) => addOn.price * addOn.count)
-                            .reduce((a, b) => a + b)
-                        : 0),
-                  )
-                  .reduce((a, b) => a + b)
+                .map(
+                  (room, i) =>
+                    room.price +
+                    (room.addOns.length
+                      ? room.addOns
+                        .map((addOn) => addOn.price * addOn.count)
+                        .reduce((a, b) => a + b)
+                      : 0),
+                )
+                .reduce((a, b) => a + b)
               : 0,
           },
         }
@@ -216,8 +225,8 @@ const RoomCard = (props) => {
         icon: <BsPeople />,
         label: info.reservationInformation
           ? info.reservationInformation.room[props.id].roomAttributes.maxPax +
-            info.reservationInformation.room[props.id].roomAttributes.maxPax +
-            ' people'
+          info.reservationInformation.room[props.id].roomAttributes.maxPax +
+          ' people'
           : null,
       },
       {
@@ -260,9 +269,8 @@ const RoomCard = (props) => {
                   height: {
                     xs: '200px',
                     sm: '100%',
-                    transform: `scale(${showAddOns ? 1.25 : 1}) translateY(${
-                      showAddOns ? `-10%` : `0%`
-                    }) translateX(${showAddOns ? `-10%` : `0%`})`,
+                    transform: `scale(${showAddOns ? 1.25 : 1}) translateY(${showAddOns ? `-10%` : `0%`
+                      }) translateX(${showAddOns ? `-10%` : `0%`})`,
                     transition: 'all ease-out .5s',
                     backgroundImage: `url("${props.img}")`,
                     backgroundSize: 'cover',
@@ -287,22 +295,22 @@ const RoomCard = (props) => {
                       {`${info.filters.currency} ` +
                         (info.reservationInformation
                           ? (
-                              (parseInt(
-                                info.reservationInformation.room[props.id]
-                                  .roomRates[0][4],
-                              ) +
-                                (info.roomSelection.rooms.length &&
+                            (parseInt(
+                              info.reservationInformation.room[props.id]
+                                .roomRates[0][4],
+                            ) +
+                              (info.roomSelection.rooms.length &&
                                 info.roomSelection.rooms[roomIndex].addOns
                                   .length
-                                  ? info.roomSelection.rooms[roomIndex].addOns
-                                      .map((addOn) => addOn.count * addOn.price)
-                                      .reduce((a, b) => a + b)
-                                  : 0)) *
-                              info.filters.currencyRate
-                            ).toLocaleString(undefined, {
-                              minimumFractionDigits: 2,
-                              maximumFractionDigits: 2,
-                            })
+                                ? info.roomSelection.rooms[roomIndex].addOns
+                                  .map((addOn) => addOn.count * addOn.price)
+                                  .reduce((a, b) => a + b)
+                                : 0)) *
+                            info.filters.currencyRate
+                          ).toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          })
                           : 1000)}
                       {dateDifference > 1 ? `/day` : ``}
                     </Typography>
@@ -379,14 +387,14 @@ const RoomCard = (props) => {
                           <Box pb={2}>
                             <Typography variant="filterText">
                               {info.roomSelection.rooms &&
-                              info.roomSelection.rooms.length &&
-                              info.roomSelection.rooms[roomIndex]
+                                info.roomSelection.rooms.length &&
+                                info.roomSelection.rooms[roomIndex]
                                 ? info.roomSelection.rooms[roomIndex].adults
                                 : 0}{' '}
                               Adult
                               {info.roomSelection.rooms &&
-                              info.roomSelection.rooms.length &&
-                              info.roomSelection.rooms[roomIndex]
+                                info.roomSelection.rooms.length &&
+                                info.roomSelection.rooms[roomIndex]
                                 ? info.roomSelection.rooms[roomIndex].adults ===
                                   1
                                   ? ''
@@ -403,11 +411,11 @@ const RoomCard = (props) => {
                                 info.roomSelection.rooms &&
                                 info.roomSelection.rooms.length &&
                                 info.roomSelection.rooms[roomIndex] &&
-                                info.roomSelection.rooms[roomIndex].adults < 1
+                                info.roomSelection.rooms[roomIndex].adults <= 1
                               }
                               onClick={() =>
                                 info.reservationInformation.room.length &&
-                                info.roomSelection.rooms[roomIndex].adults === 1
+                                  info.roomSelection.rooms[roomIndex].adults === 1
                                   ? ''
                                   : removeAdult()
                               }
@@ -420,15 +428,16 @@ const RoomCard = (props) => {
                               }}
                               disabled={
                                 info.reservationInformation &&
-                                adults ===
-                                  info.reservationInformation.room[props.id]
-                                    .roomAttributes.maxPax
-                                  ? true
-                                  : false
+                                info.reservationInformation.room &&
+                                info.roomSelection.rooms.length &&
+                                info.roomSelection.rooms[roomIndex].adults >=
+                                info.reservationInformation.room[props.id]
+                                  .roomAttributes.maxPax
                               }
                               onClick={() =>
-                                info.reservationInformation.room.length &&
-                                adults ===
+                                info.reservationInformation.room &&
+                                  info.roomSelection.rooms.length &&
+                                  info.roomSelection.rooms[roomIndex].adults >=
                                   info.reservationInformation.room[props.id]
                                     .roomAttributes.maxPax
                                   ? ''
@@ -452,7 +461,9 @@ const RoomCard = (props) => {
                         >
                           <Box pb={2}>
                             <Typography variant="filterText">
-                              {children} Child{children === 1 ? '' : 'ren'}
+                              {info.roomSelection.rooms.length ?
+                                info.roomSelection.rooms[roomIndex].children : 0} Child{info.roomSelection.rooms.length &&
+                                  info.roomSelection.rooms[roomIndex].children === 1 ? '' : 'ren'}
                             </Typography>
                           </Box>
                           <ButtonGroup variant="contained">
@@ -460,9 +471,13 @@ const RoomCard = (props) => {
                               sx={{
                                 backgroundColor: Theme.palette.background.light,
                               }}
-                              disabled={children === 0 ? true : false}
+                              disabled={
+                                info.roomSelection.rooms.length &&
+                                info.roomSelection.rooms[roomIndex].children === 0
+                              }
                               onClick={() =>
-                                children === 0 ? '' : removeChild()
+                                info.roomSelection.rooms.length &&
+                                  info.roomSelection.rooms[roomIndex].children === 0 ? '' : removeChild()
                               }
                             >
                               <BsDash size={iconSize} />
@@ -473,15 +488,15 @@ const RoomCard = (props) => {
                               }}
                               disabled={
                                 info.reservationInformation &&
-                                children ===
-                                  info.reservationInformation.room[props.id]
-                                    .roomAttributes.maxChild
-                                  ? true
-                                  : false
+                                info.roomSelection.rooms.length &&
+                                info.roomSelection.rooms[roomIndex].children >=
+                                info.reservationInformation.room[props.id]
+                                  .roomAttributes.maxChild
                               }
                               onClick={() =>
                                 info.reservationInformation.room &&
-                                children ===
+                                  info.roomSelection.rooms.length &&
+                                  info.roomSelection.rooms[roomIndex].children >=
                                   info.reservationInformation.room[props.id]
                                     .roomAttributes.maxChild
                                   ? ''
@@ -503,8 +518,8 @@ const RoomCard = (props) => {
                     sx={{ width: '110%' }}
                   >
                     {info.roomSelection.rooms.length &&
-                    info.roomSelection.rooms[roomIndex] &&
-                    info.roomSelection.rooms[roomIndex].addOns ? (
+                      info.roomSelection.rooms[roomIndex] &&
+                      info.roomSelection.rooms[roomIndex].addOns ? (
                       info.roomSelection.rooms[roomIndex].addOns.map(
                         (addOn, index) => (
                           <Box pl={3} pt={3}>
@@ -529,9 +544,8 @@ const RoomCard = (props) => {
                                   >
                                     <Box>
                                       <Typography variant="filterText">
-                                        {`${
-                                          addOn.count ? `(${addOn.count})` : ''
-                                        }`}{' '}
+                                        {`${addOn.count ? `(${addOn.count})` : ''
+                                          }`}{' '}
                                         {addOn.description}
                                       </Typography>
                                       <Box>
@@ -569,9 +583,9 @@ const RoomCard = (props) => {
                                         onClick={() =>
                                           info.reservationInformation.room
                                             .length &&
-                                          info.reservationInformation.room
-                                            .length &&
-                                          addOn.count === 0
+                                            info.reservationInformation.room
+                                              .length &&
+                                            addOn.count === 0
                                             ? ''
                                             : removefromAddOn(addOn.id)
                                         }
@@ -586,8 +600,8 @@ const RoomCard = (props) => {
                                         onClick={() =>
                                           info.reservationInformation.room
                                             .length &&
-                                          info.reservationInformation.room
-                                            .length
+                                            info.reservationInformation.room
+                                              .length
                                             ? addtoAddOn(addOn.id)
                                             : ''
                                         }

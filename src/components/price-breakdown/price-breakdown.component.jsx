@@ -48,8 +48,9 @@ const PriceBreakdown = (props) => {
         <Fade in={props.priceBreakdownOpen}>
           <Box
             onClick={() => {
-              props.setPriceBreakdownOpen(false)
-              props.setProceed(false)
+              props.setPriceBreakdownOpen(false);
+              props.setProceed(false);
+              setShowDetails(false);
             }}
             sx={{
               backdropFilter: 'blur(4px)',
@@ -69,7 +70,7 @@ const PriceBreakdown = (props) => {
           <Card
             sx={{
               maxHeight: { xs: '100vh', sm: '70vh' },
-              overflowY: 'scroll',
+              overflowY: showDetails ? 'scroll' : 'hidden',
               backgroundColor: Theme.palette.background.light,
               width: {
                 xs: '100%',
@@ -165,17 +166,17 @@ const PriceBreakdown = (props) => {
                         >
                           {info.filters.currency && info.filters.currencyRate
                             ? `${info.filters.currency} ${(
-                                (info.roomSelection.rooms.length
-                                  ? info.roomSelection.rooms
-                                      .map((room) => room.price)
-                                      .reduce((a, b) => a + b)
-                                  : 0) *
-                                info.filters.currencyRate *
-                                dateDifference
-                              ).toLocaleString(undefined, {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                              })}`
+                              (info.roomSelection.rooms.length
+                                ? info.roomSelection.rooms
+                                  .map((room) => room.price)
+                                  .reduce((a, b) => a + b)
+                                : 0) *
+                              info.filters.currencyRate *
+                              dateDifference
+                            ).toLocaleString(undefined, {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}`
                             : 0}
                         </Typography>
                       </Box>
@@ -199,26 +200,26 @@ const PriceBreakdown = (props) => {
                         >
                           {info.filters.currency && info.filters.currencyRate
                             ? `${info.filters.currency} ${(
-                                (info.roomSelection.rooms.length
-                                  ? info.roomSelection.rooms
-                                      .map((room) =>
-                                        room.addOns.length
-                                          ? room.addOns
-                                              .map(
-                                                (addOn) =>
-                                                  addOn.count * addOn.price,
-                                              )
-                                              .reduce((a, b) => a + b)
-                                          : 0,
-                                      )
-                                      .reduce((a, b) => a + b)
-                                  : 0) *
-                                info.filters.currencyRate *
-                                dateDifference
-                              ).toLocaleString(undefined, {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                              })}`
+                              (info.roomSelection.rooms.length
+                                ? info.roomSelection.rooms
+                                  .map((room) =>
+                                    room.addOns.length
+                                      ? room.addOns
+                                        .map(
+                                          (addOn) =>
+                                            addOn.count * addOn.price,
+                                        )
+                                        .reduce((a, b) => a + b)
+                                      : 0,
+                                  )
+                                  .reduce((a, b) => a + b)
+                                : 0) *
+                              info.filters.currencyRate *
+                              dateDifference
+                            ).toLocaleString(undefined, {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}`
                             : 0}
                         </Typography>
                       </Box>
@@ -241,13 +242,13 @@ const PriceBreakdown = (props) => {
                         >
                           {info.filters.currency && info.filters.currencyRate
                             ? `${info.filters.currency} ${(
-                                info.roomSelection.totalPayment *
-                                info.filters.currencyRate *
-                                dateDifference
-                              ).toLocaleString(undefined, {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                              })}`
+                              info.roomSelection.totalPayment *
+                              info.filters.currencyRate *
+                              dateDifference
+                            ).toLocaleString(undefined, {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}`
                             : 0}
                         </Typography>
                       </Box>
@@ -261,7 +262,8 @@ const PriceBreakdown = (props) => {
               <Button
                 variant="text"
                 onClick={() => {
-                  props.setPriceBreakdownOpen(false)
+                  props.setPriceBreakdownOpen(false);
+                  setShowDetails(false);
                 }}
               >
                 <Box

@@ -41,16 +41,16 @@ const RoomSelection = () => {
           totalPayment:
             info.roomSelection.rooms && info.roomSelection.rooms.length
               ? info.roomSelection.rooms
-                  .map(
-                    (room) =>
-                      room.price +
-                      (room.addOns.length
-                        ? room.addOns
-                            .map((addOn) => addOn.count * addOn.price)
-                            .reduce((a, b) => a + b)
-                        : 0),
-                  )
-                  .reduce((a, b) => a + b)
+                .map(
+                  (room) =>
+                    room.price +
+                    (room.addOns.length
+                      ? room.addOns
+                        .map((addOn) => addOn.count * addOn.price)
+                        .reduce((a, b) => a + b)
+                      : 0),
+                )
+                .reduce((a, b) => a + b)
               : 0,
         },
       })
@@ -60,7 +60,7 @@ const RoomSelection = () => {
     backToIntro()
     document.title =
       'Acea Beach Resort - Select the rooms that you want to book'
-    console.log(info)
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
     // eslint-disable-next-line
   }, [dateChange])
 

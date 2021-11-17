@@ -293,7 +293,10 @@ const Filter = (props) => {
                             backgroundColor: Theme.palette.background.light,
                             overflowY : {
                                 xs: "scroll",
-                                md: "none"
+                                md: "hidden"
+                            },
+                            maxHeight: {
+                                xs: "100vh",
                             },
                             width: {
                                 xs: '100%',
