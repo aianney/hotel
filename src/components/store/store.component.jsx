@@ -29,8 +29,8 @@ const Store = {
       children: null,
     },
     reservationDates: {
-      start: null,
-      end: null,
+      start: '',
+      end: '',
     },
   },
   roomSelection: {
