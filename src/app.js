@@ -1,6 +1,12 @@
 import React, { useState, useMemo } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { AppContext, NavBar, Store, Theme } from './components'
+import {
+  AppContext,
+  NavBar,
+  ScrollTop,
+  Store,
+  Theme
+} from './components'
 import {
   ContactUs,
   Intro,
@@ -23,6 +29,7 @@ const App = () => {
         <Router>
           <AppContext.Provider value={value}>
             <NavBar />
+            <ScrollTop />
             <Switch>
               <Route exact path="/" component={Intro} />
               <Route exact path="/room-selection" component={RoomSelection} />

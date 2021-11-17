@@ -10,6 +10,7 @@ import PriceBreakdownContent from './price-breakdown-content/price-breakdown-con
 import RegionCountry from './guest-details/region-country/region-country.component'
 import Room from './room/room.component'
 import RoomCard from './room-card/room-card.component'
+import ScrollTop from './scroll-top/scroll-top.component'
 import Store from './store/store.component'
 import TermsAndCondition from '../components/modals/termsandconditions/termsandconditions.component'
 import Theme from './theme/theme.component'
@@ -27,6 +28,7 @@ export {
   RegionCountry,
   Room,
   RoomCard,
+  ScrollTop,
   Store,
   TermsAndCondition,
   Theme,

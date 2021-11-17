@@ -256,7 +256,6 @@ const Filter = (props) => {
                 },
             },
         })
-        console.log("tite");
         // eslint-disable-next-line
     }, [adults, children])
 
@@ -292,6 +291,10 @@ const Filter = (props) => {
                     <Card
                         sx={{
                             backgroundColor: Theme.palette.background.light,
+                            overflowY : {
+                                xs: "scroll",
+                                md: "none"
+                            },
                             width: {
                                 xs: '100%',
                                 sm: '50vw',
