@@ -11,14 +11,17 @@ const Birthdate = () => {
   return (
     <LocalizationProvider dateAdapter={DateFnsUtils}>
       <MobileDatePicker
-        style={{ borderRadius: '4' }}
         showToolbar={false}
-        minDate={new Date()}
         onChange={() => {}}
         onAccept={(newValue) => {
           setBirthdate(newValue)
         }}
         onClose={() => setBirthdateOpen(false)}
+        open={birthdateOpen}
+        maxDate={new Date()}
+        openTo="year"
+        views={['year', 'month', 'day']}
+        // eslint-disable-next-line
         open={birthdateOpen}
         renderInput={({
           ref,
