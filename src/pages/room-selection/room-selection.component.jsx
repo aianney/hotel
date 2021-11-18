@@ -8,7 +8,6 @@ import {
   PageStepper,
   PriceBreakdown,
   Room,
-  Theme,
 } from '../../components'
 import { BsSliders } from 'react-icons/bs'
 
@@ -41,16 +40,16 @@ const RoomSelection = () => {
           totalPayment:
             info.roomSelection.rooms && info.roomSelection.rooms.length
               ? info.roomSelection.rooms
-                .map(
-                  (room) =>
-                    room.price +
-                    (room.addOns.length
-                      ? room.addOns
-                        .map((addOn) => addOn.count * addOn.price)
-                        .reduce((a, b) => a + b)
-                      : 0),
-                )
-                .reduce((a, b) => a + b)
+                  .map(
+                    (room) =>
+                      room.price +
+                      (room.addOns.length
+                        ? room.addOns
+                            .map((addOn) => addOn.count * addOn.price)
+                            .reduce((a, b) => a + b)
+                        : 0),
+                  )
+                  .reduce((a, b) => a + b)
               : 0,
         },
       })
@@ -60,16 +59,16 @@ const RoomSelection = () => {
     backToIntro()
     document.title =
       'Acea Beach Resort - Select the rooms that you want to book'
-    document.body.scrollTop = document.documentElement.scrollTop = 0;
+    document.body.scrollTop = document.documentElement.scrollTop = 0
     // eslint-disable-next-line
   }, [dateChange])
 
   return (
     <>
+      <Box my={4}>
+        <PageStepper activeStep={0} />
+      </Box>
       <Box px={4}>
-        <Box my={4}>
-          <PageStepper activeStep={0} />
-        </Box>
         <Grid container>
           <Grid
             item
@@ -101,7 +100,7 @@ const RoomSelection = () => {
                   sx={{
                     display: { xs: 'block', md: 'none' },
                     fontStyle: 'italic',
-                    fontSize: 16,
+                    fontSize: 14,
                   }}
                 >
                   {` (Swipe left or right on the cards if you have selected more than one of the following rooms)`}
@@ -165,15 +164,11 @@ const RoomSelection = () => {
           disabled={
             info.roomSelection.rooms && !info.roomSelection.rooms.length
           }
-          sx={{
-            borderRadius: Theme.shape.borderRadius,
-          }}
         >
           <Box
             px={2}
             py={1}
             sx={{
-              fontWeight: Theme.typography.fontWeightBold,
               textDecoration: 'none',
               color: 'unset',
             }}

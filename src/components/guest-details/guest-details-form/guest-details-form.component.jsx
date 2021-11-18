@@ -27,6 +27,16 @@ function GuestDetailsForm(props) {
   const [error2, setError2] = React.useState('')
   const { info, setInfo } = React.useContext(AppContext)
   const history = useHistory()
+  // const backToIntro = () => {
+  //   if (
+  //     !info.guestDetails.firstName ||
+  //     !info.guestDetails.lastName ||
+  //     !info.guestDetails
+  //   ) {
+  //     history.push('/')
+  //   }
+  // }
+
   const [userCredentials, setUserCredentials] = React.useState({
     firstName: '',
     lastName: '',
@@ -46,6 +56,10 @@ function GuestDetailsForm(props) {
     })
     // eslint-disable-next-line
   }, [userCredentials])
+  // React.useEffect(() => {
+  //   backToIntro()
+  //   // eslint-disable-next-line
+  // }, [])
 
   const handlefirstNameInputChange = (e) => {
     const { value } = e.target
@@ -134,8 +148,11 @@ function GuestDetailsForm(props) {
 
   return (
     <div className="guest-details">
-      <Typography variant="pageTitle">Guest Details</Typography>
+      <Typography p={1} variant="pageTitle">
+        Guest Details
+      </Typography>
       <Typography
+        p={1}
         variant="pageSubtitle"
         color="textSecondary"
         component="p"
@@ -225,7 +242,7 @@ function GuestDetailsForm(props) {
                 </Grid>
                 <Grid xs={12} sm={12} item>
                   <TextField
-                    sx={{ borderRadius: Theme.shape.borderRadiusSm }}
+                    sx={{ borderRadius: -4 }}
                     type="text"
                     name="house no."
                     value={userCredentials.homeaddress}

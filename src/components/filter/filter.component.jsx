@@ -95,8 +95,8 @@ const Filter = (props) => {
             const start = moment(startDate).format('YYYY-MM-DD'),
                 // eslint-disable-next-line
                 end = moment(endDate).format('YYYY-MM-DD'),
-                url = `https://hotelreservations.ph/gpDBProcess/process.php?request=getAvailability&dateCheckIn=${start}&dateCheckOut=${end}`;
-                // url = `https://hotelreservations.ph/gpDBProcess/process.php?request=getAvailability&dateCheckIn=2022-01-28&dateCheckOut=2022-01-29`
+                // url = `https://hotelreservations.ph/gpDBProcess/process.php?request=getAvailability&dateCheckIn=${start}&dateCheckOut=${end}`;
+                url = `https://hotelreservations.ph/gpDBProcess/process.php?request=getAvailability&dateCheckIn=2022-01-28&dateCheckOut=2022-01-29`;
 
             axios
                 .get(url)
@@ -291,7 +291,7 @@ const Filter = (props) => {
                     <Card
                         sx={{
                             backgroundColor: Theme.palette.background.light,
-                            overflowY : {
+                            overflowY: {
                                 xs: "scroll",
                                 md: "hidden"
                             },
@@ -521,7 +521,7 @@ const Filter = (props) => {
                                                 py={2}
                                                 sx={{
                                                     alignItems: 'center',
-                                                    display: 'flex',
+                                                    display: 'Adlex',
                                                     justifyContent: 'space-between',
                                                 }}
                                             >
@@ -532,7 +532,7 @@ const Filter = (props) => {
                                                     }}
                                                 >
                                                     <BsPeople size={iconSize * 2} />
-                                                    <Typography variant="filterText" ml={3}>
+                                                    <Typography variant="filterText" ml={3} sx={{ fontSize: Theme.typography.fontSize }}>
                                                         {adults} Adult{adults === 1 ? '' : 's'}
                                                     </Typography>
                                                 </Box>
@@ -589,7 +589,7 @@ const Filter = (props) => {
                                                     }}
                                                 >
                                                     <BsPerson size={iconSize * 2} />
-                                                    <Typography variant="filterText" ml={3}>
+                                                    <Typography variant="filterText" ml={3} sx={{ fontSize: Theme.typography.fontSize }}>
                                                         {children} Child{children === 1 ? '' : 'ren'}
                                                     </Typography>
                                                 </Box>
@@ -688,6 +688,9 @@ const Filter = (props) => {
                                                             sx={{
                                                                 ...Theme.cardSelect,
                                                                 backgroundColor: 'rgba(0,0,0,0)',
+                                                                "&focus": {
+                                                                    backgroundColor: 'rgba(0,0,0,0)',
+                                                                }
                                                             }}
                                                         >
                                                             {currencies
@@ -741,20 +744,12 @@ const Filter = (props) => {
 
                                 {/* Action Buttons START */}
                                 <Button
-                                    variant="contained"
-                                    sx={{
-                                        borderRadius: Theme.shape.borderRadius,
-                                    }}
+                                    variant="navigationButton"
                                     onClick={checkDate}
                                 >
                                     <Box
                                         px={2}
                                         py={1}
-                                        sx={{
-                                            fontWeight: Theme.typography.fontWeightBold,
-                                            textDecoration: 'none',
-                                            color: 'unset',
-                                        }}
                                     >
                                         {props.text}
                                     </Box>

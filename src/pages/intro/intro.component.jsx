@@ -8,9 +8,9 @@ const Intro = () => {
         [filterOpen, setFilterOpen] = useState(false),
         chips = ["Relax in Elegance and Comfort", "Wine & Dine to Drinks and Dishes", "Experience Endless Fun and Leisure", "Celebrate Festivities & Gatherings with Us"];
 
-        useEffect(()=> {
-            document.title = "Acea Beach Resort - The Getaway You Deserve";
-        }, []);
+    useEffect(() => {
+        document.title = "Acea Beach Resort - The Getaway You Deserve";
+    }, []);
 
     return (
         <>
@@ -55,7 +55,7 @@ const Intro = () => {
                             {chips.map((content, index) =>
                                 <Box mt={1} key={index}>
                                     <Chip sx={{ backgroundColor: Theme.palette.primary.main, padding: "0 10px", fontFamily: Theme.typography.fontFamily.sansSerif, fontWeight: Theme.typography.fontWeightBold }} label={index + 1} />
-                                    <Typography variant="introSubtitle" sx={{ marginLeft: 2, fontWeight: Theme.typography.fontWeightBold, color: "black" }}>
+                                    <Typography variant="introChips" sx={{ marginLeft: 2, fontWeight: Theme.typography.fontWeightBold, color: "black" }}>
                                         {content}
                                     </Typography>
                                 </Box>
@@ -108,28 +108,20 @@ const Intro = () => {
                     left: 0,
                     position: "fixed",
                     width: "100vw",
+                    boxSizing: "border-box",
                     zIndex: 2,
                 }}
             >
-                <Box px={4}>
-                    <Button
-                        variant="contained"
-                        sx={{
-                            borderRadius: Theme.shape.borderRadius,
-                        }}>
-                        <Box px={2}
-                            py={1}
-                            sx={{
-                                fontWeight: Theme.typography.fontWeightBold,
-                                textDecoration: "none",
-                                color: "unset",
-                            }}
-                            onClick={() => setFilterOpen(true)}
-                        >
-                            Book Now
-                        </Box>
-                    </Button>
-                </Box>
+                <Button
+                    variant="navigationButton"
+                >
+                    <Box px={2}
+                        py={1}
+                        onClick={() => setFilterOpen(true)}
+                    >
+                        Book Now
+                    </Box>
+                </Button>
             </Box>
 
             <Filter filterOpen={filterOpen} setFilterOpen={setFilterOpen} info={info} setInfo={setInfo} page="intro" text="Book Now" />

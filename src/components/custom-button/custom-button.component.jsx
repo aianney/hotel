@@ -21,20 +21,13 @@ const CustomButton = ({ children, ...props }) => {
         <Box>
           <Button
             {...props}
-            variant="contained"
+            variant="navigationButton"
             sx={{
               borderRadius: Theme.shape.borderRadius,
             }}
           >
-            <Box px={2}
-              py={1}
-              sx={{
-                fontWeight: Theme.typography.fontWeightBold,
-                textDecoration: "none",
-                color: "unset",
-              }}
-            >
-              {children}
+            <Box px={2} py={1}>
+            {children}
             </Box>
           </Button>
         </Box>

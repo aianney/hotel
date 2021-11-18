@@ -16,8 +16,7 @@ import {
   RoomAmenities,
   RoomSelection,
 } from './pages'
-import { ThemeProvider } from '@mui/material/styles'
-import { Box } from '@material-ui/core'
+import { Box, ThemeProvider, CssBaseline } from '@mui/material'
 
 const App = () => {
   const [info, setInfo] = useState(Store),
@@ -25,10 +24,11 @@ const App = () => {
 
   return (
     <ThemeProvider theme={Theme}>
-      <Box pt={7.5} sx={{ backgroundColor: Theme.palette.light.main }}>
+      <Box pt={7.5}>
         <Router>
           <AppContext.Provider value={value}>
             <NavBar />
+            <CssBaseline />
             <ScrollTop />
             <Switch>
               <Route exact path="/" component={Intro} />

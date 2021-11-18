@@ -55,7 +55,7 @@ const PriceBreakDownContent = () => {
                                 </Typography>
                                 <IconButton
                                     color="error"
-                                    sx={{ width: 'auto' }}
+                                    sx={{ width: 'auto', fontSize: Theme.typography.fontSizeLg }}
                                     onClick={() =>
                                         removeRoomType(room.roomType)
                                     }
@@ -74,7 +74,6 @@ const PriceBreakDownContent = () => {
                                                     <Box>
                                                         <Typography
                                                             variant="priceBreakdownTitle"
-                                                            sx={{ fontSize: 16 }}
                                                         >
                                                             {`${room.roomAttributes.roomName} ${i + 1}`}
                                                         </Typography>
@@ -84,11 +83,11 @@ const PriceBreakDownContent = () => {
 
                                             {/*Room Rate START */}
                                             <Grid item xs={12}>
-                                                <Box pl={2} sx={{ ...alignCenter, justifyContent: "space-between" }}>
+                                                <Box pl={1} sx={{ ...alignCenter, justifyContent: "space-between" }}>
                                                     <Box>
                                                         <Typography
                                                             variant="priceBreakdownTitle"
-                                                            sx={{ fontStyle: "italic", fontSize: 16, fontWeight: 500 }}
+                                                            sx={{ fontStyle: "italic", fontWeight: 500 }}
                                                         >
                                                             {x.rate}
                                                         </Typography>
@@ -96,7 +95,7 @@ const PriceBreakDownContent = () => {
                                                     <Box>
                                                         <Typography
                                                             variant="priceBreakdownTitle"
-                                                            sx={{ fontStyle: "italic", fontSize: 16, fontWeight: 500 }}
+                                                            sx={{ fontStyle: "italic", fontWeight: 500 }}
                                                         >
                                                             {`${info.filters.currency}
                                                             ${(x.price *
@@ -119,10 +118,10 @@ const PriceBreakDownContent = () => {
                                                         .map(addOn => addOn.count)
                                                         .reduce((a, b) => a + b) ?
                                                     <Grid item xs={12} sx={{ ...alignCenter }}>
-                                                        <Box pl={2} sx={{ width: "50%" }}>
+                                                        <Box pl={1} sx={{ width: "50%" }}>
                                                             <Typography
                                                                 variant="priceBreakdownTitle"
-                                                                sx={{ fontStyle: "italic", fontSize: 14, fontWeight: 500, wordWrap: "break-word" }}
+                                                                sx={{ fontStyle: "italic", fontWeight: 500, wordWrap: "break-word" }}
                                                             >
                                                                 Add Ons:
                                                             </Typography>
@@ -137,11 +136,11 @@ const PriceBreakDownContent = () => {
                                                     x.addOns.map((addOn, index) =>
                                                         addOn.count ?
                                                             <Grid item xs={12}>
-                                                                <Box pl={3} sx={{ ...alignCenter, justifyContent: "space-between" }}>
+                                                                <Box pl={1} sx={{ ...alignCenter, justifyContent: "space-between" }}>
                                                                     <Box sx={{ width: "50%" }}>
                                                                         <Typography
                                                                             variant="priceBreakdownTitle"
-                                                                            sx={{ fontStyle: "italic", fontSize: 14, fontWeight: 500, wordWrap: "break-word" }}
+                                                                            sx={{ fontStyle: "italic", fontWeight: 500, wordWrap: "break-word" }}
                                                                         >
                                                                             {`${addOn.count ? `(${addOn.count})` : ""} ${addOn.description}`}
                                                                         </Typography>
@@ -149,7 +148,7 @@ const PriceBreakDownContent = () => {
                                                                     <Box>
                                                                         <Typography
                                                                             variant="priceBreakdownTitle"
-                                                                            sx={{ fontStyle: "italic", fontSize: 14, fontWeight: 500 }}
+                                                                            sx={{ fontStyle: "italic", fontWeight: 500 }}
                                                                         >
                                                                             {`${info.filters.currency} 
                                                                             ${((addOn.price * addOn.count) *
@@ -173,7 +172,7 @@ const PriceBreakDownContent = () => {
                                                 <Box>
                                                     <Typography
                                                         variant="priceBreakdownTitle"
-                                                        sx={{ fontSize: 16, wordWrap: "break-word" }}
+                                                        sx={{ wordWrap: "break-word" }}
                                                     >
                                                         {`Subtotal for 
                                                         ${room.roomType} 
@@ -202,14 +201,14 @@ const PriceBreakDownContent = () => {
                                     <Box sx={{ ...alignCenter, justifyContent: "flex-end" }}>
                                         <Typography
                                             variant="priceBreakdownTitle"
-                                            sx={{ fontSize: 16, textAlign: "center" }}
+                                            sx={{ textAlign: "center" }}
                                         >
                                             {`Subtotal for ${room.roomAttributes.roomName}: `}
                                         </Typography>
                                     </Box>
                                     <Box sx={{ ...alignCenter, justifyContent: "flex-end" }}>
                                         <Typography variant="priceBreakdownTotal"
-                                            sx={{ fontSize: 20, textAlign: "center" }}
+                                            sx={{ fontSize: "1.5rem", textAlign: "center" }}
                                         >
                                             {`
                                         

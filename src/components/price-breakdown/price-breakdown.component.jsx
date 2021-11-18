@@ -112,7 +112,7 @@ const PriceBreakdown = (props) => {
                         borderRadius: Theme.shape.borderRadius,
                       }}
                     >
-                      <Box p={4}>
+                      <Box p={3}>
                         <PriceBreakDownContent />
                       </Box>
                     </Card>
@@ -154,7 +154,7 @@ const PriceBreakdown = (props) => {
                           variant="priceBreakdownTitle"
                           sx={{
                             fontWeight: Theme.typography.fontWeightBlack,
-                            fontSize: 16,
+                            fontSize: Theme.typography.fontSize,
                             textTransform: 'uppercase',
                           }}
                         >
@@ -162,7 +162,7 @@ const PriceBreakdown = (props) => {
                         </Typography>
                         <Typography
                           variant="priceBreakdownTitle"
-                          sx={{ fontSize: 16 }}
+                          sx={{ fontSize: Theme.typography.fontSize }}
                         >
                           {info.filters.currency && info.filters.currencyRate
                             ? `${info.filters.currency} ${(
@@ -188,7 +188,7 @@ const PriceBreakdown = (props) => {
                           variant="priceBreakdownTitle"
                           sx={{
                             fontWeight: Theme.typography.fontWeightBlack,
-                            fontSize: 16,
+                            fontSize: Theme.typography.fontSize,
                             textTransform: 'uppercase',
                           }}
                         >
@@ -196,7 +196,7 @@ const PriceBreakdown = (props) => {
                         </Typography>
                         <Typography
                           variant="priceBreakdownTitle"
-                          sx={{ fontSize: 16 }}
+                          sx={{ fontSize: Theme.typography.fontSize }}
                         >
                           {info.filters.currency && info.filters.currencyRate
                             ? `${info.filters.currency} ${(
@@ -230,7 +230,7 @@ const PriceBreakdown = (props) => {
                           variant="priceBreakdownTitle"
                           sx={{
                             fontWeight: Theme.typography.fontWeightBlack,
-                            fontSize: 16,
+                            fontSize: Theme.typography.fontSize,
                             textTransform: 'uppercase',
                           }}
                         >
@@ -238,7 +238,7 @@ const PriceBreakdown = (props) => {
                         </Typography>
                         <Typography
                           variant="priceBreakdownTotal"
-                          sx={{ fontSize: 24 }}
+                          sx={{ fontSize: Theme.typography.fontSizeXl }}
                         >
                           {info.filters.currency && info.filters.currencyRate
                             ? `${info.filters.currency} ${(
@@ -270,6 +270,7 @@ const PriceBreakdown = (props) => {
                   px={2}
                   py={1}
                   sx={{
+                    fontSize: Theme.typography.fontSize,
                     fontWeight: Theme.typography.fontWeightBold,
                     textDecoration: 'none',
                     color: 'unset',
@@ -280,7 +281,7 @@ const PriceBreakdown = (props) => {
               </Button>
               {/* Action Buttons START */}
               <Button
-                variant="contained"
+                variant="navigationButton"
                 sx={{
                   display: props.proceed ? 'flex' : 'none',
                   justifyContent: 'flex-end',
@@ -298,11 +299,6 @@ const PriceBreakdown = (props) => {
                 <Box
                   px={2}
                   py={1}
-                  sx={{
-                    fontWeight: Theme.typography.fontWeightBold,
-                    textDecoration: 'none',
-                    color: 'unset',
-                  }}
                 >
                   Proceed
                 </Box>

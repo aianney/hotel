@@ -1,4 +1,5 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -18,7 +19,9 @@ import { AppContext, Theme } from '..'
 import moment from 'moment'
 
 const RoomCard = (props) => {
-  const { info, setInfo } = useContext(AppContext),
+  const
+    { info, setInfo } = useContext(AppContext),
+    history = useHistory(),
     roomIndex = info.roomSelection.rooms.length
       ? info.roomSelection.rooms
         .map((room, index) => (room.id.match(props.roomId) ? index : null))
@@ -27,15 +30,15 @@ const RoomCard = (props) => {
     [showAddOns, setShowAddOns] = useState(false),
     [rate, setRate] = useState(''),
     [rateValues] = useState(
-      info.reservationInformation
-        ? info.reservationInformation.room[props.id].roomRates
+      props.information
+        ? props.information.roomRates
           .map((rate) => rate[2])
           .filter((value, index, self) => self.indexOf(value) === index)
         : [],
     ),
     [rateNames] = useState(
-      info.reservationInformation
-        ? info.reservationInformation.room[props.id].roomRates
+      props.information
+        ? props.information.roomRates
           .map((rate) => rate[3])
           .filter((value, index, self) => self.indexOf(value) === index)
         : [],
@@ -223,22 +226,22 @@ const RoomCard = (props) => {
     cardInfo = [
       {
         icon: <BsPeople />,
-        label: info.reservationInformation
-          ? info.reservationInformation.room[props.id].roomAttributes.maxPax +
-          info.reservationInformation.room[props.id].roomAttributes.maxPax +
+        label: props.information
+          ? props.information.roomAttributes.maxPax +
+          props.information.roomAttributes.maxPax +
           ' people'
           : null,
       },
       {
         icon: <IoBedOutline />,
-        label: info.reservationInformation
-          ? info.reservationInformation.room[props.id].roomAttributes.bedsNumber
+        label: props.information
+          ? props.information.roomAttributes.bedsNumber
           : null,
       },
       {
         icon: <BsTextareaResize />,
-        label: info.reservationInformation
-          ? info.reservationInformation.room[props.id].roomAttributes.roomSize
+        label: props.information
+          ? props.information.roomAttributes.roomSize
           : null,
       },
     ]
@@ -277,6 +280,18 @@ const RoomCard = (props) => {
                     backgroundPosition: 'center',
                   },
                 }}
+                onClick={() => history.push(`/room-selection/
+                ${props.information &&
+                    props.information.roomRates.length ?
+                    props.information.roomRates.map(roomRate =>
+                      roomRate[3].match(rate) ?
+                        roomRate[6] :
+                        null
+                    ).filter(roomRate =>
+                      roomRate !=
+                      null)[0] :
+                    0}
+                `)}
               />
             </Grid>
             <Grid item xs={12} sm={8}>
@@ -293,11 +308,12 @@ const RoomCard = (props) => {
                   >
                     <Typography variant="pageTitle" ml={1}>
                       {`${info.filters.currency} ` +
-                        (info.reservationInformation
+                        (props.information
                           ? (
                             (parseInt(
-                              info.reservationInformation.room[props.id]
-                                .roomRates[0][4],
+                              props.information ?
+                                props.information
+                                  .roomRates[0][4] : 0
                             ) +
                               (info.roomSelection.rooms.length &&
                                 info.roomSelection.rooms[roomIndex].addOns
@@ -339,6 +355,7 @@ const RoomCard = (props) => {
                           '&:focus': {
                             backgroundColor: 'rgba(0,0,0,0)',
                           },
+                          fontSize: Theme.typography.fontSizeLg,
                         }}
                       >
                         {rateValues.map((rates, index) => (
@@ -427,18 +444,17 @@ const RoomCard = (props) => {
                                 backgroundColor: Theme.palette.background.light,
                               }}
                               disabled={
-                                info.reservationInformation &&
-                                info.reservationInformation.room &&
+                                props.information &&
                                 info.roomSelection.rooms.length &&
                                 info.roomSelection.rooms[roomIndex].adults >=
-                                info.reservationInformation.room[props.id]
+                                props.information
                                   .roomAttributes.maxPax
                               }
                               onClick={() =>
-                                info.reservationInformation.room &&
+                                props.information &&
                                   info.roomSelection.rooms.length &&
                                   info.roomSelection.rooms[roomIndex].adults >=
-                                  info.reservationInformation.room[props.id]
+                                  props.information
                                     .roomAttributes.maxPax
                                   ? ''
                                   : addAdult()
@@ -487,17 +503,17 @@ const RoomCard = (props) => {
                                 backgroundColor: Theme.palette.background.light,
                               }}
                               disabled={
-                                info.reservationInformation &&
+                                props.information &&
                                 info.roomSelection.rooms.length &&
                                 info.roomSelection.rooms[roomIndex].children >=
-                                info.reservationInformation.room[props.id]
+                                props.information
                                   .roomAttributes.maxChild
                               }
                               onClick={() =>
-                                info.reservationInformation.room &&
+                                props.information &&
                                   info.roomSelection.rooms.length &&
                                   info.roomSelection.rooms[roomIndex].children >=
-                                  info.reservationInformation.room[props.id]
+                                  props.information
                                     .roomAttributes.maxChild
                                   ? ''
                                   : addChild()
@@ -536,13 +552,9 @@ const RoomCard = (props) => {
                                     item
                                     py={2}
                                     xs={12}
-                                    sx={{
-                                      display: 'flex',
-                                      justifyContent: 'space-between',
-                                      alignItems: 'center',
-                                    }}
+                                    sx={{ textAlign: "center" }}
                                   >
-                                    <Box>
+                                    <Box mb={2}>
                                       <Typography variant="filterText">
                                         {`${addOn.count ? `(${addOn.count})` : ''
                                           }`}{' '}
@@ -554,11 +566,11 @@ const RoomCard = (props) => {
                                           sx={{
                                             fontWeight: 400,
                                             fontStyle: 'italic',
+                                            fontSize: Theme.typography.fontSizeSm,
                                           }}
                                         >
                                           {`${info.filters.currency} ` +
                                             (
-                                              addOn.count *
                                               addOn.price *
                                               info.filters.currencyRate
                                             ).toLocaleString(undefined, {
@@ -631,7 +643,11 @@ const RoomCard = (props) => {
                         }}
                         onClick={() => setShowAddOns(!showAddOns)}
                       >
-                        <Box py={0}>{showAddOns ? 'Hide' : 'Show'} Add-Ons</Box>
+                        <Box py={0}>
+                          <Typography variant="roomCardButton">
+                            {showAddOns ? 'Hide' : 'Show'} Add-Ons
+                          </Typography>
+                        </Box>
                       </Button>
                     </Box>
                   </Grid>

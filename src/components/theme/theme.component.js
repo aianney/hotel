@@ -1,6 +1,41 @@
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import Store from "../store/store.component";
 let Theme = createTheme({
+    components: {
+        MuiSelect: {
+            styleOverrides: {
+                root: {
+                    fontSize: Store.env.fonts.size.xl,
+                }
+            }
+        },
+        MuiButton: {
+            variants: [
+                {
+                    props: { variant: "navigationButton" },
+                    style: {
+                        background: Store.env.colors.primary.main,
+                        fontSize: Store.env.fonts.size.md,
+                        fontWeight: Store.env.fonts.weight.bold,
+                        textDecoration: "none",
+                        color: "unset",
+                    }
+                }
+            ],
+            styleOverrides: {
+                root: {
+                    borderRadius: "1rem"
+                }
+            }
+        },
+        MuiCard: {
+            styleOverrides: {
+                roots: {
+                    borderRadius: "1rem",
+                }
+            }
+        }
+    },
     palette: {
         background: {
             light: `#ffffff`,
@@ -21,14 +56,14 @@ let Theme = createTheme({
     },
     shadows: [`none`],
     shape: {
-        borderRadius: `1em`,
-        borderRadiusLg: `2em`,
-        borderRadiusSm: `.5em`,
+        borderRadius: `1rem`,
+        borderRadiusLg: `1.25rem`,
+        borderRadiusSm: `.75rem`,
     },
     cardSelect: {
         backgroundColor: `#fafafa`,
         fontWeight: Store.env.fonts.weight.bold,
-        fontSize: 20,
+        fontSize: Store.env.fonts.size.md,
         padding: 0,
     },
     typography: {
@@ -36,7 +71,11 @@ let Theme = createTheme({
             sansSerif: Store.env.fonts.style.sansSerif,
             serif: Store.env.fonts.style.serif,
         },
-        fontSize: 16,
+        fontSizeXs: Store.env.fonts.size.xs,
+        fontSizeSm: Store.env.fonts.size.sm,
+        fontSize: Store.env.fonts.size.md,
+        fontSizeLg: Store.env.fonts.size.lg,
+        fontSizeXl: Store.env.fonts.size.xl,
         fontWeightLight: Store.env.fonts.weight.light,
         fontWeightRegular: Store.env.fonts.weight.regular,
         fontWeightMedium: Store.env.fonts.weight.medium,
@@ -66,26 +105,32 @@ let Theme = createTheme({
         },
         introTitle: {
             fontFamily: Store.env.fonts.style.serif,
-            fontSize: 40,
+            fontSize: Store.env.fonts.size.xl,
             fontWeight: Store.env.fonts.weight.bold,
         },
         introSubtitle: {
             fontFamily: Store.env.fonts.style.sansSerif,
-            fontSize: 14,
+            fontSize: Store.env.fonts.size.md,
             fontWeight: Store.env.fonts.weight.medium,
             lineHeight: 2,
             color: `#999`,
         },
+        introChips: {
+            fontFamily: Store.env.fonts.style.sansSerif,
+            fontSize: Store.env.fonts.size.sm,
+            fontWeight: Store.env.fonts.weight.medium,
+            lineHeight: 2,
+        },
         pageSubtitle: {
             fontFamily: Store.env.fonts.style.sansSerif,
-            fontSize: 18,
+            fontSize: Store.env.fonts.size.md,
             fontStyle: `italic`,
             color: `#999`,
         },
         title: {
             color: Store.env.colors.primary.main,
             fontWeight: Store.env.fonts.weight.bold,
-            fontSize: 20,
+            fontSize: Store.env.fonts.size.lg,
         },
         filterLabel: {
             color: Store.env.colors.primary.main,
@@ -94,12 +139,10 @@ let Theme = createTheme({
         },
         filterText: {
             fontFamily: Store.env.fonts.style.sansSerif,
-            fontsize: 30,
+            fontsize: Store.env.fonts.size.md,
             fontWeight: Store.env.fonts.weight.bold,
             color: `black`,
             textTransform: `capitalize`,
-            padding: 0,
-            margin: 0,
             width: `100%`,
         },
         navBarLink: {
@@ -108,7 +151,7 @@ let Theme = createTheme({
         },
         priceBreakdownTitle: {
             fontFamily: Store.env.fonts.style.sansSerif,
-            fontSize: 20,
+            fontSize: Store.env.fonts.size.md,
             fontWeight: Store.env.fonts.weight.bold,
         },
         priceBreakdownTotal: {
@@ -117,16 +160,22 @@ let Theme = createTheme({
         },
         priceBreakdownTitlePrice: {
             fontFamily: Store.env.fonts.style.sansSerif,
-            fontSize: 18,
+            fontSize: Store.env.fonts.size.md,
             fontWeight: Store.env.fonts.weight.medium,
         },
         roomCardLabel: {
             fontFamily: Store.env.fonts.style.sansSerif,
-            fontSize: 12,
+            fontSize: Store.env.fonts.size.sm,
+        },
+        roomCardButton: {
+            fontSize: Store.env.fonts.size.md,
+        },
+        roomCardPrice: {
+            fontSize: Store.env.fonts.size.xl
         },
         roomTypeTitle: {
             fontFamily: Store.env.fonts.style.serif,
-            fontSize: 22,
+            fontSize: Store.env.fonts.size.lg,
             fontWeight: Store.env.fonts.weight.bold,
             color: Store.env.colors.primary.main,
         }

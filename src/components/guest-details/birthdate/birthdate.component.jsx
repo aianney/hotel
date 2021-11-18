@@ -1,29 +1,47 @@
-import React from 'react'
-import TextField from '@mui/material/TextField'
-import AdapterDateFns from '@mui/lab/AdapterDateFns'
-import LocalizationProvider from '@mui/lab/LocalizationProvider'
-import DatePicker from '@mui/lab/DatePicker'
-import Stack from '@mui/material/Stack'
-import './birthdate.styles.css'
+import React, { useState } from 'react'
+import { TextField } from '@mui/material'
+import { LocalizationProvider, MobileDatePicker } from '@mui/lab'
+import DateFnsUtils from '@date-io/date-fns'
+import moment from 'moment'
 
-export default function Birthdate() {
-  const [value, setValue] = React.useState(new Date())
-
+const Birthdate = () => {
+  const [birthdate, setBirthdate] = useState(new Date())
+  const [birthdateOpen, setBirthdateOpen] = useState(false)
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Stack spacing={3}>
-        <DatePicker
-          disableFuture
-          label="Birthday"
-          openTo="year"
-          views={['year', 'month', 'day']}
-          value={value}
-          onChange={(newValue) => {
-            setValue(newValue)
-          }}
-          renderInput={(params) => <TextField {...params} />}
-        />
-      </Stack>
+    <LocalizationProvider dateAdapter={DateFnsUtils}>
+      <MobileDatePicker
+        style={{ borderRadius: '4' }}
+        showToolbar={false}
+        minDate={new Date()}
+        onChange={() => {}}
+        onAccept={(newValue) => {
+          setBirthdate(newValue)
+        }}
+        onClose={() => setBirthdateOpen(false)}
+        open={birthdateOpen}
+        renderInput={({
+          ref,
+          inputProps,
+          disabled,
+          onChange,
+          value,
+          ...other
+        }) => (
+          <div ref={ref} {...other}>
+            <TextField
+              variant="outlined"
+              readOnly
+              ref={ref}
+              onChange={onChange}
+              value={moment(birthdate).format('MMMM DD. YYYY')}
+              onClick={() => setBirthdateOpen(true)}
+            />
+          </div>
+        )}
+        value={birthdate}
+      />
     </LocalizationProvider>
   )
 }
+
+export default Birthdate
