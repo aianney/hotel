@@ -7,3 +7,8 @@
 .css-1qccgt9-MuiInputBase-root-MuiOutlinedInput-root {
   width: 286px !important;
 }
+@media screen and (device-width: 414px) and (device-height: 736px) {
+  .css-1qccgt9-MuiInputBase-root-MuiOutlinedInput-root {
+    width: 355px !important;
+  }
+}
