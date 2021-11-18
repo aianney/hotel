@@ -1,3 +1,9 @@
-.MuiOutlinedInput-root.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-formControl{
-    border-radius: 0px;
+/* mui input border radius */
+.css-1qccgt9-MuiInputBase-root-MuiOutlinedInput-root {
+  border-radius: 4px !important;
+}
+
+/* mui input */
+.css-1qccgt9-MuiInputBase-root-MuiOutlinedInput-root {
+  width: 260px !important;
 }

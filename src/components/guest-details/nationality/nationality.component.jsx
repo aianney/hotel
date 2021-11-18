@@ -2,12 +2,11 @@ import React from 'react'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
-import Theme from '../../theme/theme.component'
+import './nationality.styles.css'
 
-export default function Nationality({ handleNationalityInputChange }) {
+export default function SelectCountry() {
   return (
     <Autocomplete
-      sx={{ borderRadius: Theme.shape.borderRadiusSm }}
       id="country-select-demo"
       options={countries}
       autoHighlight
@@ -25,13 +24,12 @@ export default function Nationality({ handleNationalityInputChange }) {
             srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
             alt=""
           />
-          {option.label} ({option.code})
+          {option.label}
         </Box>
       )}
       renderInput={(params) => (
         <TextField
           {...params}
-          onChange={handleNationalityInputChange}
           label="Nationality"
           inputProps={{
             ...params.inputProps,
@@ -45,19 +43,19 @@ export default function Nationality({ handleNationalityInputChange }) {
 
 // From https://bitbucket.org/atlassian/atlaskit-mk-2/raw/4ad0e56649c3e6c973e226b7efaeb28cb240ccb0/packages/core/select/src/data/countries.js
 const countries = [
-  { code: 'AD', label: 'Andorra' },
+  { code: 'AD', label: 'Andorra', phone: '376' },
   {
     code: 'AE',
     label: 'United Arab Emirates',
     phone: '971',
   },
-  { code: 'AF', label: 'Afghanistan' },
+  { code: 'AF', label: 'Afghanistan', phone: '93' },
   {
     code: 'AG',
     label: 'Antigua and Barbuda',
     phone: '1-268',
   },
-  { code: 'AI', label: 'Anguilla' },
+  { code: 'AI', label: 'Anguilla', phone: '1-264' },
   { code: 'AL', label: 'Albania', phone: '355' },
   { code: 'AM', label: 'Armenia', phone: '374' },
   { code: 'AO', label: 'Angola', phone: '244' },

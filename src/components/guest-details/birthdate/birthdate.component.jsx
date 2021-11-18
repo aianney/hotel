@@ -3,6 +3,7 @@ import { TextField } from '@mui/material'
 import { LocalizationProvider, MobileDatePicker } from '@mui/lab'
 import DateFnsUtils from '@date-io/date-fns'
 import moment from 'moment'
+import './birthdate.styles.css'
 
 const Birthdate = () => {
   const [birthdate, setBirthdate] = useState(new Date())
@@ -33,7 +34,7 @@ const Birthdate = () => {
               readOnly
               ref={ref}
               onChange={onChange}
-              value={moment(birthdate).format('MMMM DD. YYYY')}
+              value={moment(birthdate).format('MMMM DD, YYYY')}
               onClick={() => setBirthdateOpen(true)}
             />
           </div>

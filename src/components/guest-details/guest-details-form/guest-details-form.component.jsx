@@ -11,7 +11,7 @@ import { useHistory } from 'react-router'
 import RegionCountry from '../region-country/region-country.component'
 import BirthdatePicker from '../birthdate/birthdate.component'
 import Theme from '../../theme/theme.component'
-import Nationality from '../../guest-details/nationality/nationality.component'
+import Nationality from '../nationality/nationality.component'
 import './guest-details-form.styles.css'
 import CustomButton from '../../custom-button/custom-button.component'
 import AppContext from '../../app-context/app-context.component'
@@ -161,7 +161,7 @@ function GuestDetailsForm(props) {
         Fill in the following details to proceed to payment
       </Typography>
 
-      <Box mb={10}>
+      <Box ml={1}>
         <Card
           style={{
             paddingLeft: '25',
