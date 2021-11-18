@@ -3,10 +3,16 @@
   border-radius: 4px !important;
 }
 
-@media screen and (device-width: 414px) and (device-height: 736px) {
-  .css-1qh2z2i-MuiInputBase-root-MuiOutlinedInput-root {
+@media screen and (device-width: 375px) and (device-height: 812px) {
+  .css-1wbhkzw {
     border-radius: 4px !important;
   }
+}
+
+@media screen and (device-width: 414px) and (device-height: 736px) {
+  /* .css-1qh2z2i-MuiInputBase-root-MuiOutlinedInput-root {
+    border-radius: 4px !important;
+  } */
   .css-1wbhkzw {
     border-radius: 4px !important;
   }
