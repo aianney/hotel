@@ -28,7 +28,12 @@
     border-radius: 4px !important;
   }
 }
-
+@media screen and (device-width: 375px) and (device-height: 667px) {
+  .css-uhas1q {
+    width: 355px !important;
+    border-radius: 4px !important;
+  }
+}
 @media screen and (device-width: 320px) and (device-height: 568px) {
   .css-1qccgt9-MuiInputBase-root-MuiOutlinedInput-root {
     width: 262px !important;
