@@ -1,3 +1,8 @@
+select {
+  padding: 16.5px 14px !important;
+  margin-top: 15px !important;
+}
+
 @media screen and (device-width: 375px) and (device-height: 667px) {
   .css-1em9ut6-MuiGrid-root {
     max-width: 96% !important;
