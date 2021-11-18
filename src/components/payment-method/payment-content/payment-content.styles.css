@@ -9,6 +9,12 @@
   margin-bottom: 30px !important;
 }
 
+@media screen and (device-width: 414px) and (device-height: 736px) {
+  .css-a5rdam-MuiGrid-root {
+    display: none !important;
+  }
+}
+
 @media screen and (device-width: 375px) and (device-height: 667px) {
   /* booking title */
   .css-f725qg-MuiTypography-root {
