@@ -1,11 +1,10 @@
 import React from 'react'
 import Box from '@mui/material/Box'
-import { TextField, Grid } from '@mui/material'
+import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
-import Theme from '../../theme/theme.component'
 import './nationality.styles.css'
 
-export default function SelectCountry() {
+export default function CountrySelect() {
   return (
     <Autocomplete
       id="country-select-demo"
@@ -25,21 +24,19 @@ export default function SelectCountry() {
             srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
             alt=""
           />
-          {option.label}
+          {option.label} ({option.code}) +{option.phone}
         </Box>
       )}
       renderInput={(params) => (
-        <Grid>
-          <TextField
-            sx={{ borderRadius: Theme.shape.borderRadiusSm }}
-            {...params}
-            label="Nationality"
-            inputProps={{
-              ...params.inputProps,
-              autoComplete: 'new-password', // disable autocomplete and autofill
-            }}
-          />
-        </Grid>
+        <TextField
+          fullWidth
+          {...params}
+          label="Nationality"
+          inputProps={{
+            ...params.inputProps,
+            autoComplete: 'new-password', // disable autocomplete and autofill
+          }}
+        />
       )}
     />
   )

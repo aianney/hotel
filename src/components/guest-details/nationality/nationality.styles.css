@@ -1,9 +1,9 @@
-/* nationality border */
+/* nationality border  */
 .css-1qh2z2i-MuiInputBase-root-MuiOutlinedInput-root {
   border-radius: 4px !important;
 }
 
-@media screen and (device-width: 375px) and (device-height: 812px) {
+/* @media screen and (device-width: 375px) and (device-height: 812px) {
   .css-1wbhkzw {
     border-radius: 4px !important;
   }
@@ -13,11 +13,11 @@
   /* .css-1qh2z2i-MuiInputBase-root-MuiOutlinedInput-root {
     border-radius: 4px !important;
   } */
-  .css-1wbhkzw {
+/* .css-1wbhkzw {
     border-radius: 4px !important;
   }
-}
-@media screen and (device-width: 411px) and (device-height: 823px) {
+} */
+/* @media screen and (device-width: 411px) and (device-height: 823px) {
   .css-1wbhkzw {
     border-radius: 4px !important;
   }
@@ -41,4 +41,4 @@
   .css-1wbhkzw {
     border-radius: 4px !important;
   }
-}
+} */

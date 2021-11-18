@@ -1,5 +1,13 @@
 import React from 'react'
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector'
+import {
+  // Box,
+  // Card,
+  // CardContent,
+  Grid,
+  // TextField,
+  // Typography,
+} from '@material-ui/core'
 import './region-country.styles.css'
 
 class RegionCountry extends React.Component {
@@ -19,17 +27,28 @@ class RegionCountry extends React.Component {
   render() {
     const { country, region } = this.state
     return (
-      <div className="region-country">
-        <CountryDropdown
-          value={country}
-          onChange={(val) => this.selectCountry(val)}
-        />
-        <RegionDropdown
-          country={country}
-          value={region}
-          onChange={(val) => this.selectRegion(val)}
-        />
-      </div>
+      <>
+        <Grid container spacing={1} ml={-1}>
+          <Grid xs={12} item>
+            <CountryDropdown
+              style={{ width: '100%', paddingTop: '24' }}
+              value={country}
+              fullWidth
+              onChange={(val) => this.selectCountry(val)}
+            />
+          </Grid>
+          <Grid xs={12} item>
+            <RegionDropdown
+              style={{ width: '100%' }}
+              country={country}
+              value={region}
+              fullWidth
+              variant="outlined"
+              onChange={(val) => this.selectRegion(val)}
+            />
+          </Grid>
+        </Grid>
+      </>
     )
   }
 }
