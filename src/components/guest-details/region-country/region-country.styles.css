@@ -27,6 +27,17 @@ select:hover {
   display: flex;
   width: 100%;
 }
+@media screen and (device-width: 375px) and (device-height: 812px) {
+  select {
+    min-width: 99.7% !important;
+    width: 10px;
+  }
+  .region-country {
+    margin-left: -15px;
+    display: block;
+    width: 100%;
+  }
+}
 @media screen and (device-width: 414px) and (device-height: 736px) {
   select {
     min-width: 99.7% !important;
@@ -42,6 +53,17 @@ select:hover {
 @media screen and (device-width: 375px) and (device-height: 667px) {
   select {
     min-width: 95.7% !important;
+    width: 10px;
+  }
+  .region-country {
+    margin-left: -15px;
+    display: block;
+    width: 100%;
+  }
+}
+@media screen and (device-width: 320px) and (device-height: 568px) {
+  select {
+    min-width: 100% !important;
     width: 10px;
   }
   .region-country {
