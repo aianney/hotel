@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { TextField } from '@mui/material'
+import { TextField, Grid } from '@mui/material'
 import { LocalizationProvider, MobileDatePicker } from '@mui/lab'
 import DateFnsUtils from '@date-io/date-fns'
 import moment from 'moment'
+import Theme from '../../theme/theme.component'
 import './birthdate.styles.css'
 
 const Birthdate = () => {
@@ -31,8 +32,9 @@ const Birthdate = () => {
           value,
           ...other
         }) => (
-          <div ref={ref} {...other}>
+          <Grid ref={ref} {...other}>
             <TextField
+              sx={{ borderRadius: Theme.shape.borderRadiusSm }}
               variant="outlined"
               readOnly
               ref={ref}
@@ -40,7 +42,7 @@ const Birthdate = () => {
               value={moment(birthdate).format('MMMM DD, YYYY')}
               onClick={() => setBirthdateOpen(true)}
             />
-          </div>
+          </Grid>
         )}
         value={birthdate}
       />

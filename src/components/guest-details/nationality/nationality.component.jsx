@@ -1,7 +1,8 @@
 import React from 'react'
 import Box from '@mui/material/Box'
-import TextField from '@mui/material/TextField'
+import { TextField, Grid } from '@mui/material'
 import Autocomplete from '@mui/material/Autocomplete'
+import Theme from '../../theme/theme.component'
 import './nationality.styles.css'
 
 export default function SelectCountry() {
@@ -28,14 +29,17 @@ export default function SelectCountry() {
         </Box>
       )}
       renderInput={(params) => (
-        <TextField
-          {...params}
-          label="Nationality"
-          inputProps={{
-            ...params.inputProps,
-            autoComplete: 'new-password', // disable autocomplete and autofill
-          }}
-        />
+        <Grid>
+          <TextField
+            sx={{ borderRadius: Theme.shape.borderRadiusSm }}
+            {...params}
+            label="Nationality"
+            inputProps={{
+              ...params.inputProps,
+              autoComplete: 'new-password', // disable autocomplete and autofill
+            }}
+          />
+        </Grid>
       )}
     />
   )
