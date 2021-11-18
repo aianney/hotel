@@ -175,7 +175,7 @@ function GuestDetailsForm(props) {
               <Grid container spacing={3}>
                 <Grid xs={12} sm={4} item>
                   <TextField
-                    sx={{ borderRadius: Theme.shape.borderRadiusSm }}
+                    // sx={{ borderRadius: Theme.shape.borderRadiusSm }}
                     type="first name"
                     name="first name"
                     helperText={error}
@@ -191,7 +191,7 @@ function GuestDetailsForm(props) {
                 </Grid>
                 <Grid xs={12} sm={4} item>
                   <TextField
-                    sx={{ borderRadius: Theme.shape.borderRadiusSm }}
+                    // sx={{ borderRadius: Theme.shape.borderRadiusSm }}
                     type="last name"
                     name="last name"
                     helperText={error1}
@@ -210,7 +210,7 @@ function GuestDetailsForm(props) {
                 </Grid>
                 <Grid xs={12} sm={5} item>
                   <TextField
-                    sx={{ borderRadius: Theme.shape.borderRadiusSm }}
+                    // sx={{ borderRadius: Theme.shape.borderRadiusSm }}
                     type="text"
                     name="number"
                     helperText={error2}
@@ -226,7 +226,7 @@ function GuestDetailsForm(props) {
                 </Grid>
                 <Grid xs={12} sm={4} item>
                   <TextField
-                    sx={{ borderRadius: Theme.shape.borderRadiusSm }}
+                    // sx={{ borderRadius: Theme.shape.borderRadiusSm }}
                     type="email"
                     name="email"
                     value={userCredentials.email}
@@ -261,7 +261,7 @@ function GuestDetailsForm(props) {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    sx={{ borderRadius: Theme.shape.borderRadiusSm }}
+                    // sx={{ borderRadius: Theme.shape.borderRadiusSm }}
                     type="text"
                     name="message"
                     value={userCredentials.message}

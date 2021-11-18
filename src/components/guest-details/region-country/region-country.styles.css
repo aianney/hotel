@@ -1,6 +1,8 @@
 select {
   padding: 16.5px 14px !important;
   margin-top: 15px !important;
+  border-color: #999 !important;
+  border-radius: 4px !important;
 }
 
 @media screen and (device-width: 375px) and (device-height: 667px) {
