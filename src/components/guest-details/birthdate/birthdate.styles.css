@@ -8,6 +8,13 @@
   width: 286px !important;
 }
 
+@media screen and (device-width: 411px) and (device-height: 823px) {
+  .css-uhas1q {
+    width: 300px !important;
+    border-radius: 4px !important;
+  }
+}
+
 @media screen and (device-width: 375px) and (device-height: 812px) {
   .css-uhas1q {
     width: 316px !important;

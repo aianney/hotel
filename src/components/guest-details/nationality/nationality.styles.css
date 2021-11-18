@@ -17,7 +17,16 @@
     border-radius: 4px !important;
   }
 }
-
+@media screen and (device-width: 411px) and (device-height: 823px) {
+  .css-1wbhkzw {
+    border-radius: 4px !important;
+  }
+}
+@media screen and (device-width: 411px) and (device-height: 731px) {
+  .css-1wbhkzw {
+    border-radius: 4px !important;
+  }
+}
 @media screen and (device-width: 375px) and (device-height: 667px) {
   .css-1wbhkzw {
     border-radius: 4px !important;

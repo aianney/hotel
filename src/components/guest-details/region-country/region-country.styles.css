@@ -72,6 +72,29 @@ select:hover {
     width: 100%;
   }
 }
+@media screen and (device-width: 411px) and (device-height: 823px) {
+  select {
+    min-width: 100% !important;
+    width: 10px;
+  }
+  .region-country {
+    margin-left: -15px;
+    display: block;
+    width: 100%;
+  }
+}
+@media screen and (device-width: 411px) and (device-height: 731px) {
+  select {
+    min-width: 100% !important;
+    width: 10px;
+  }
+  .region-country {
+    margin-left: -15px;
+    display: block;
+    width: 100%;
+  }
+}
+
 @media screen and (device-width: 320px) and (device-height: 568px) {
   select {
     min-width: 100% !important;
