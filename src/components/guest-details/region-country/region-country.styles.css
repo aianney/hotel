@@ -1,3 +1,9 @@
+@media screen and (device-width: 375px) and (device-height: 667px) {
+  .css-1em9ut6-MuiGrid-root {
+    max-width: 96% !important;
+  }
+}
+
 /* .css-wdtwov-MuiGrid-root {
   margin-left: 33px !important;
 }
