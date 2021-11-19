@@ -34,6 +34,7 @@ export default function TermsAndCondition() {
               transform: 'translate(-50%, -50%)',
               width: { md: 550, xs: 320 },
               height: { md: 550, xs: 450 },
+              lineHeight: { sx: 1.9 },
               bgcolor: 'background.paper',
               boxShadow: 24,
               p: 4,
@@ -53,7 +54,12 @@ export default function TermsAndCondition() {
               Terms and Condition
             </Typography>
             <Grid item xs={12}>
-              <Typography id="modal-modal-description">
+              <Typography
+                sx={{
+                  lineHeight: { sx: 1.9 },
+                }}
+                id="modal-modal-description"
+              >
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
                 {/* eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                 enim ad minim veniam, quis nostrud exercitation ullamco laboris

@@ -272,7 +272,6 @@ function GuestDetailsForm(props) {
                 </Grid>
                 <Grid item xs={12}>
                   <RegionCountry />
-                  {/* <CountryState /> */}
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
