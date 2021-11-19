@@ -145,7 +145,7 @@ function GuestDetailsForm(props) {
   return (
     <div className="guest-details">
       <Box px={4}>
-        <Grid container>
+        <Grid container px={3} spacing={2}>
           <Grid
             item
             xs={12}
@@ -173,10 +173,9 @@ function GuestDetailsForm(props) {
       <Box p={-1} sx={{ mx: { xs: 0, sm: 3 }, mb: { xs: 10, sm: 16 } }}>
         <Card
           sx={{
-            // backgroundColor: Theme.palette.light,
+            backgroundColor: Theme.palette.light,
             fontFamily: Theme.typography.body1,
-            width: '100%',
-            padding: 0,
+            padding: 2,
           }}
         >
           {/* {
