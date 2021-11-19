@@ -16,12 +16,8 @@ import './guest-details-form.styles.css'
 import CustomButton from '../../custom-button/custom-button.component'
 import AppContext from '../../app-context/app-context.component'
 import axios from 'axios'
-//import { State, Country } from 'country-state-city'
-//import CountryState from '../country-state/country-state.components'
 
 function GuestDetailsForm(props) {
-  // console.log(Country.getAllCountries())
-  // console.log(State.getAllStates())
   const [error, setError] = React.useState('')
   const [error1, setError1] = React.useState('')
   const [error2, setError2] = React.useState('')
@@ -95,7 +91,7 @@ function GuestDetailsForm(props) {
   }
 
   const handleLNumberInputChange = (event) => {
-    const re = /^[0-9\b]+$/
+    const re = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/
     if (event.target.value === '' || re.test(event.target.value)) {
       setError2('')
     } else {
@@ -174,12 +170,13 @@ function GuestDetailsForm(props) {
           </Grid>
         </Grid>
       </Box>
-      <Box sx={{ mx: { xs: 0, sm: 3 }, mb: { xs: 10, sm: 16 } }}>
+      <Box p={-1} sx={{ mx: { xs: 0, sm: 3 }, mb: { xs: 10, sm: 16 } }}>
         <Card
           sx={{
-            backgroundColor: Theme.palette.light,
+            // backgroundColor: Theme.palette.light,
             fontFamily: Theme.typography.body1,
-            padding: 2,
+            width: '100%',
+            padding: 0,
           }}
         >
           {/* {
