@@ -51,7 +51,7 @@ export default function TermsAndCondition() {
               </button>
             </Grid>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              Terms and Condition
+              TERMS AND CONDITIONS
             </Typography>
             <Grid item xs={12}>
               <Typography
@@ -60,67 +60,46 @@ export default function TermsAndCondition() {
                 }}
                 id="modal-modal-description"
               >
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                {/* eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. */}
+                <ul>
+                  <li> Room rates are quoted in Philippine Peso.</li>
+                  <li>
+                    Room rates are inclusive of service charges and taxes.
+                  </li>
+                  <li>Check-in time is 2:00 pm. Check-out is 12:00 noon.</li>
+                  <li>
+                    Payment for SBMA Environmental Fee (ETAF) of 100.00 net per
+                    room per night on top of room rates and incidental deposit.
+                  </li>
+                  <li>
+                    Guarantedd reservations are required. The full payment is
+                    payable at booking time via Devit or Credit Card
+                  </li>
+                  <li>
+                    The 72 hours free cancellation period is from the time of
+                    arrival date.
+                  </li>
+                  <li>
+                    After the 72-hour cancelation, a full charge will incur
+                  </li>
+                  <li>No refund for No Show and Shortened Stay</li>
+                  <li>
+                    Amendment to reservations is allowed 72 hours prior to
+                    arrival. However, room rate difference may apply and is
+                    subject to availability.
+                  </li>
+                  <li>Only children </li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                </ul>
+                <Typography id="modal-modal-title" variant="h6" component="h2">
+                  House Rules
+                </Typography>
                 <Grid item xs={12}>
                   <ul>
-                    <li>
-                      {' '}
-                      Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                      laboris nisi ut aliquip ex ea commodo consequat.
-                    </li>
-                    <li>
-                      {' '}
-                      Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                      laboris nisi ut aliquip ex ea commodo consequat.
-                    </li>
+                    <li></li>
                   </ul>
-                  {/* Duis aute irure dolor in reprehenderit in voluptate velit esse
-                  cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                  occaecat cupidatat non proident, sunt in culpa qui officia
-                  deserunt mollit anim id est laborum. Lorem ipsum dolor sit
-                  amet, consectetur adipisicing elit, sed do eiusmod tempor
-                  incididunt ut labore et dolore magna aliqua. */}
-                </Grid>
-                <Grid item xs={12}>
-                  <ul>
-                    <li>
-                      {' '}
-                      Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                      laboris nisi ut aliquip ex ea commodo consequat.
-                    </li>
-                    <li>
-                      {' '}
-                      Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                      laboris nisi ut aliquip ex ea commodo consequat.
-                    </li>
-                  </ul>
-                  Duis aute irure dolor in reprehenderit in voluptate velit esse
-                  cillum dolore eu fugiat nulla pariatur.
-                </Grid>
-                <Grid item xs={12}>
-                  <ul>
-                    <li>
-                      {' '}
-                      Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                      laboris nisi ut aliquip ex ea commodo consequat.
-                    </li>
-                    <li>
-                      {' '}
-                      Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                      laboris nisi ut aliquip ex ea commodo consequat.
-                    </li>
-                    <li>
-                      {' '}
-                      Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                      laboris nisi ut aliquip ex ea commodo consequat.
-                    </li>
-                  </ul>
-                  Duis aute irure dolor in reprehenderit in voluptate velit esse
-                  cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                  occaecat cupidatat non proident, sunt in culpa qui officia.
                 </Grid>
               </Typography>
               <Grid

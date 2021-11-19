@@ -147,7 +147,6 @@ const RoomSelection = () => {
       <CustomButton
         onClick={() => {
           setProceed(true)
-
           setPriceBreakdownOpen(true)
         }}
         disabled={info.roomSelection.rooms && !info.roomSelection.rooms.length}

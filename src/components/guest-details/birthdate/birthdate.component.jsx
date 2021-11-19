@@ -1,14 +1,39 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 import { TextField, Grid } from '@mui/material'
 import { LocalizationProvider, MobileDatePicker } from '@mui/lab'
 import DateFnsUtils from '@date-io/date-fns'
 import moment from 'moment'
-// import Theme from '../../theme/theme.component'
+import { AppContext } from '../..'
 import './birthdate.styles.css'
 
-const Birthdate = () => {
-  const [birthdate, setBirthdate] = useState(new Date())
-  const [birthdateOpen, setBirthdateOpen] = useState(false)
+const Birthdate = (props) => {
+  const isInitialMount = useRef(true),
+    { info, setInfo } = useContext(AppContext),
+    [birthdate, setBirthdate] = useState(new Date()),
+    [birthdateOpen, setBirthdateOpen] = useState(false),
+    updateBirthday = () => {
+      moment().diff(moment(birthdate).format('YYYY-MM-DD'), 'year') < 18
+        ? props.setErrorBirthday(
+            'You must be 18 years old or above to book rooms',
+          )
+        : setInfo({
+            ...info,
+            guestDetails: {
+              ...info.guestDetails,
+              birthdate,
+            },
+          })
+    }
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false
+    } else {
+      updateBirthday()
+    }
+    // eslint-disable-next-line
+  }, [birthdate])
+
   return (
     <LocalizationProvider
       dateAdapter={DateFnsUtils}
@@ -40,12 +65,18 @@ const Birthdate = () => {
             <TextField
               style={{ width: '100%' }}
               fullWidth
+              helperText={props.errorBirthday}
+              error={props.errorBirthday}
               variant="outlined"
+              label="Birthday"
               readOnly
               ref={ref}
               onChange={onChange}
               value={moment(birthdate).format('MMMM DD, YYYY')}
               onClick={() => setBirthdateOpen(true)}
+              sx={{
+                borderRadius: '4px',
+              }}
             />
           </Grid>
         )}
