@@ -1,19 +1,7 @@
 import React from 'react'
 import { Grid, Modal, Typography, Box } from '@material-ui/core'
+import Theme from '../../theme/theme.component'
 //import './termsandconditions.styles.css'
-
-// const style = {
-//   position: 'absolute',
-//   top: '50%',
-//   left: '50%',
-//   transform: 'translate(-50%, -50%)',
-//   width: 550,
-//   height: 550,
-//   bgcolor: 'background.paper',
-//   border: '2px solid #000',
-//   boxShadow: 24,
-//   p: 4,
-// }
 
 export default function TermsAndCondition() {
   const [open, setOpen] = React.useState(false)
@@ -23,10 +11,14 @@ export default function TermsAndCondition() {
   return (
     <>
       <Grid xs={12} sm={6}>
-        <h3 className="modal__click" onClick={handleOpen}>
-          {' '}
+        <Typography
+          style={{ color: '#71c7b8', cursor: 'pointer' }}
+          onClick={handleOpen}
+          variant="priceBreakdownTitle"
+          sx={{ fontWeight: Theme.typography.bold }}
+        >
           I agree to the Terms and Conditions
-        </h3>
+        </Typography>
         <Modal
           open={open}
           onClose={handleClose}
@@ -40,54 +32,111 @@ export default function TermsAndCondition() {
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              width: { md: 550, xs: 280 },
-              height: 550,
+              width: { md: 550, xs: 320 },
+              height: { md: 550, xs: 550 },
               bgcolor: 'background.paper',
-              border: '2px solid #000',
               boxShadow: 24,
               p: 4,
               overflowY: 'auto',
-              // width: { xs: '100%', sm: '250px' },
-              // height: {
-              //   xs: '200px',
-              //   sm: '100%',
-              // },
             }}
           >
-            <button className="titleCloseBtn" onClick={handleClose}>
-              X
-            </button>
+            <Grid
+              item
+              xs={12}
+              sx={{ display: 'flex', justifyContent: 'flex-end' }}
+            >
+              <button onClick={handleClose} className="button-agreed">
+                X
+              </button>
+            </Grid>
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Terms and Condition
             </Typography>
-            <Typography
-              id="modal-modal-description"
-              // sx={{ mt: 2 }}
-            >
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis
-            </Typography>
-            {/* <button onClick={handleClose} className="button-agreed">
-              Agreed
-            </button>
-            <button onClick={handleClose} className="button-cancel">
-              Cancel
-            </button> */}
+            <Grid item xs={12}>
+              <Typography id="modal-modal-description">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                {/* eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. */}
+                <Grid item xs={12}>
+                  <ul>
+                    <li>
+                      {' '}
+                      Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                      laboris nisi ut aliquip ex ea commodo consequat.
+                    </li>
+                    <li>
+                      {' '}
+                      Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                      laboris nisi ut aliquip ex ea commodo consequat.
+                    </li>
+                  </ul>
+                  {/* Duis aute irure dolor in reprehenderit in voluptate velit esse
+                  cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                  occaecat cupidatat non proident, sunt in culpa qui officia
+                  deserunt mollit anim id est laborum. Lorem ipsum dolor sit
+                  amet, consectetur adipisicing elit, sed do eiusmod tempor
+                  incididunt ut labore et dolore magna aliqua. */}
+                </Grid>
+                <Grid item xs={12}>
+                  <ul>
+                    <li>
+                      {' '}
+                      Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                      laboris nisi ut aliquip ex ea commodo consequat.
+                    </li>
+                    <li>
+                      {' '}
+                      Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                      laboris nisi ut aliquip ex ea commodo consequat.
+                    </li>
+                  </ul>
+                  Duis aute irure dolor in reprehenderit in voluptate velit esse
+                  cillum dolore eu fugiat nulla pariatur.
+                </Grid>
+                <Grid item xs={12}>
+                  <ul>
+                    <li>
+                      {' '}
+                      Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                      laboris nisi ut aliquip ex ea commodo consequat.
+                    </li>
+                    <li>
+                      {' '}
+                      Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                      laboris nisi ut aliquip ex ea commodo consequat.
+                    </li>
+                    <li>
+                      {' '}
+                      Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                      laboris nisi ut aliquip ex ea commodo consequat.
+                    </li>
+                  </ul>
+                  Duis aute irure dolor in reprehenderit in voluptate velit esse
+                  cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                  occaecat cupidatat non proident, sunt in culpa qui officia.
+                </Grid>
+              </Typography>
+              <Grid
+                item
+                xs={12}
+                sx={{ display: 'flex', justifyContent: 'flex-end' }}
+              >
+                <button onClick={handleClose} className="button-agreed">
+                  Agreed
+                </button>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                mt={-3}
+                sx={{ display: 'flex', justifyContent: 'flex-start' }}
+              >
+                <button onClick={handleClose} className="button-cancel">
+                  Cancel
+                </button>
+              </Grid>
+            </Grid>
           </Box>
         </Modal>
       </Grid>
