@@ -141,7 +141,6 @@ function GuestDetailsForm(props) {
       userCredentials.email
     ) {
       history.push(`/payments`, { userCredentials })
-      console.log(userCredentials)
     } else {
       console.log('invalid', userCredentials)
     }
@@ -175,14 +174,17 @@ function GuestDetailsForm(props) {
           </Grid>
         </Grid>
       </Box>
-      <Box ml={1}>
+      <Box sx={{ mx: { xs: 0, sm: 3 }, mb: { xs: 10, sm: 16 } }}>
         <Card
-          style={{
-            paddingLeft: '25',
+          sx={{
             backgroundColor: Theme.palette.light,
             fontFamily: Theme.typography.body1,
+            padding: 2,
           }}
         >
+          {/* {
+            JSON.stringify(userCredentials)
+          } */}
           <CardContent>
             <form onSubmit={handleSubmit}>
               <Grid container spacing={3}>
@@ -254,9 +256,8 @@ function GuestDetailsForm(props) {
                 <Grid item xs={12} sm={3}>
                   <BirthdatePicker />
                 </Grid>
-                <Grid xs={12} sm={12} item>
+                <Grid item xs={12}>
                   <TextField
-                    sx={{ borderRadius: -4 }}
                     type="text"
                     name="house no."
                     value={userCredentials.homeaddress}
@@ -264,11 +265,12 @@ function GuestDetailsForm(props) {
                     placeholder="House No"
                     label="House No/Street/Subd."
                     variant="outlined"
+                    // disabled={!info.guestDetails.region}
                     fullWidth
                     //required
                   />
                 </Grid>
-                <Grid item xs={12} sm={12}>
+                <Grid item xs={12}>
                   <RegionCountry />
                   {/* <CountryState /> */}
                 </Grid>
@@ -292,9 +294,9 @@ function GuestDetailsForm(props) {
               <CustomButton
                 type="submit"
                 disabled={
-                  info.guestDetails.firstName || info.guestDetails.email
-                    ? false
-                    : true
+                  !info.guestDetails.firstName ||
+                  !info.guestDetails.lastName ||
+                  !info.guestDetails.email
                 }
               >
                 Proceed

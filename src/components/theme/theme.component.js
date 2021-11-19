@@ -19,6 +19,9 @@ let Theme = createTheme({
             fontWeight: Store.env.fonts.weight.bold,
             textDecoration: 'none',
             color: 'unset',
+            '&:hover': {
+              background: Store.env.colors.primary.dark,
+            },
           },
         },
       ],

@@ -1,51 +1,78 @@
-import React from 'react'
-import { CountryDropdown, RegionDropdown } from 'react-country-region-selector'
-import {
-  Grid
-} from '@material-ui/core'
-import './region-country.styles.css'
+import React, { useState, useEffect, useContext } from 'react'
+import { CountryRegionData } from 'react-country-region-selector'
+import { AppContext } from '../..'
+import { Grid, Select, MenuItem } from '@material-ui/core'
 
-class RegionCountry extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = { country: '', region: '' }
-  }
+const RegionCountry = () => {
+  const { info, setInfo } = useContext(AppContext),
+    countries = CountryRegionData.map((country) => country[0]),
+    [country, setCountry] = useState('Philippines'),
+    [region, setRegion] = useState(''),
+    [regionIndex, setRegionIndex] = useState(175),
+    regionInput = (countrySelected) => {
+      const index = CountryRegionData.map((countryData, i) =>
+        countryData[0].match(countrySelected) ? i : null,
+      ).filter((n) => n != null)[0]
+      setRegionIndex(index)
+    }
 
-  selectCountry(val) {
-    this.setState({ country: val })
-  }
+  useEffect(() => {
+    setInfo({
+      ...info,
+      guestDetails: {
+        ...info.guestDetails,
+        country: country,
+        region: '',
+      },
+    })
+    // eslint-disable-next-line
+  }, [country])
 
-  selectRegion(val) {
-    this.setState({ region: val })
-  }
+  useEffect(() => {
+    setInfo({
+      ...info,
+      guestDetails: {
+        ...info.guestDetails,
+        region: region,
+      },
+    })
+    // eslint-disable-next-line
+  }, [region])
 
-  render() {
-    const { country, region } = this.state
-    return (
-      <>
-        <Grid container spacing={1} ml={-1} mt={-3}>
-          <Grid xs={12} item>
-            <CountryDropdown
-              // p={5}
-              style={{ width: '100%', paddingTop: '24' }}
-              value={country}
-              fullWidth
-              onChange={(val) => this.selectCountry(val)}
-            />
-          </Grid>
-          <Grid xs={12} item>
-            <RegionDropdown
-              style={{ width: '100%' }}
-              country={country}
-              value={region}
-              fullWidth
-              variant="outlined"
-              onChange={(val) => this.selectRegion(val)}
-            />
-          </Grid>
+  return (
+    <>
+      <Grid container spacing={3}>
+        <Grid xs={12} sm={6} item>
+          <Select
+            value={country}
+            fullWidth
+            onChange={(selectedCountry, i) => {
+              setCountry(selectedCountry.target.value)
+              regionInput(selectedCountry.target.value)
+            }}
+          >
+            {countries.map((country) => (
+              <MenuItem value={country}>{country}</MenuItem>
+            ))}
+          </Select>
         </Grid>
-      </>
-    )
-  }
+        <Grid xs={12} sm={6} item>
+          <Select
+            value={region}
+            fullWidth
+            onChange={(selectedRegion) => {
+              setRegion(selectedRegion.target.value)
+            }}
+          >
+            {CountryRegionData[regionIndex][2].split('|').map((region) => (
+              <MenuItem value={region.split('~')[0]}>
+                {region.split('~')[0]}
+              </MenuItem>
+            ))}
+          </Select>
+        </Grid>
+      </Grid>
+    </>
+  )
 }
 export default RegionCountry

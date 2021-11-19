@@ -3,6 +3,7 @@ const Store = {
     colors: {
       primary: {
         main: '#6dc7b8',
+        dark: '#40a796',
       },
     },
     fonts: {
