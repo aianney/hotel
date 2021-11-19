@@ -149,19 +149,32 @@ function GuestDetailsForm(props) {
 
   return (
     <div className="guest-details">
-      <Typography p={1} variant="pageTitle">
-        Guest Details
-      </Typography>
-      <Typography
-        p={1}
-        variant="pageSubtitle"
-        color="textSecondary"
-        component="p"
-        gutterBottom
-      >
-        Fill in the following details to proceed to payment
-      </Typography>
-
+      <Box px={4}>
+        <Grid container>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              display: 'block',
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <Typography variant="pageTitle">Guest Details</Typography>
+            </Box>
+            <Box mb={3}>
+              <Typography variant="pageSubtitle">
+                Fill in the following details to proceed to payment
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+      </Box>
       <Box ml={1}>
         <Card
           style={{
