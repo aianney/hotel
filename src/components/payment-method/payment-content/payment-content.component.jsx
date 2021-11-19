@@ -21,83 +21,88 @@ const Payment = (props) => {
 
   return (
     <div className="booking-details">
-      <Box mb={1}>
-        <Grid item xs={12} sx={{ display: 'flex' }}>
-          <Typography variant="pageTitle" sx={{ display: 'flex' }}>
-            Booking Details
-          </Typography>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={6} sx={{ display: 'flex' }}>
-            <Typography
-              variant="priceBreakdownTitle"
-              sx={{ fontWeight: Theme.typography.bold }}
-            >
-              Name :{' '}
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={6}
-            sx={{ display: 'flex', justifyContent: 'flex-end' }}
-          >
-            <Typography variant="priceBreakdownTitlePrice">
-              {`${info.guestDetails.firstName} ${info.guestDetails.lastName}`}
-            </Typography>
-          </Grid>
-
-          <Grid item xs={6} sx={{ display: 'flex' }}>
-            <Typography
-              variant="priceBreakdownTitle"
-              sx={{ fontWeight: Theme.typography.bold }}
-            >
-              Email :
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={6}
-            sx={{ display: 'flex', justifyContent: 'flex-end' }}
-          >
-            <Typography variant="priceBreakdownTitlePrice">
-              {info.guestDetails.email}
-            </Typography>
-          </Grid>
-          <Grid item xs={6} sx={{ display: 'flex' }}>
-            <Typography
-              variant="priceBreakdownTitle"
-              sx={{ fontWeight: Theme.typography.bold }}
-            >
-              Contact :
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={6}
-            sx={{ display: 'flex', justifyContent: 'flex-end' }}
-          >
-            <Typography variant="priceBreakdownTitlePrice">
-              {info.guestDetails.number}
-            </Typography>
-          </Grid>
-          <Divider />
-          <Grid item xs={6} sx={{ display: 'flex' }}>
-            <Typography
-              variant="priceBreakdownTitle"
-              sx={{ fontWeight: Theme.typography.bold }}
-            >
-              Stay Period :
-            </Typography>
-          </Grid>
+      {/* <Box mb={1}> */}
+      <Box px={4}>
+        <Grid container>
           <Grid
             item
             xs={12}
-            sx={{ display: 'flex', justifyContent: 'flex-end' }}
+            sx={{
+              display: 'block',
+            }}
           >
-            <Typography variant="priceBreakdownTitlePrice">{`${info.filters.reservationDates.start} ${info.filters.reservationDates.end}`}</Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <Typography variant="pageTitle">Booking Details</Typography>
+            </Box>
+            {/* <Box mb={3}>
+              <Typography variant="pageSubtitle">
+                Fill in the following details to proceed to payment
+              </Typography>
+            </Box> */}
           </Grid>
         </Grid>
       </Box>
+      <Grid container spacing={1}>
+        <Grid item xs={6} sx={{ display: 'flex' }}>
+          <Typography
+            variant="priceBreakdownTitle"
+            sx={{ fontWeight: Theme.typography.bold }}
+          >
+            Name :{' '}
+          </Typography>
+        </Grid>
+        <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Typography variant="priceBreakdownTitlePrice">
+            {`${info.guestDetails.firstName} ${info.guestDetails.lastName}`}
+          </Typography>
+        </Grid>
+
+        <Grid item xs={6} sx={{ display: 'flex' }}>
+          <Typography
+            variant="priceBreakdownTitle"
+            sx={{ fontWeight: Theme.typography.bold }}
+          >
+            Email :
+          </Typography>
+        </Grid>
+        <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Typography variant="priceBreakdownTitlePrice">
+            {info.guestDetails.email}
+          </Typography>
+        </Grid>
+        <Grid item xs={6} sx={{ display: 'flex' }}>
+          <Typography
+            variant="priceBreakdownTitle"
+            sx={{ fontWeight: Theme.typography.bold }}
+          >
+            Contact :
+          </Typography>
+        </Grid>
+        <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Typography variant="priceBreakdownTitlePrice">
+            {info.guestDetails.number}
+          </Typography>
+        </Grid>
+        <Divider />
+        <Grid item xs={6} sx={{ display: 'flex' }}>
+          <Typography
+            variant="priceBreakdownTitle"
+            sx={{ fontWeight: Theme.typography.bold }}
+          >
+            Stay Period :
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Typography variant="priceBreakdownTitlePrice">{`${info.filters.reservationDates.start} ${info.filters.reservationDates.end}`}</Typography>
+        </Grid>
+      </Grid>
+      {/* </Box> */}
     </div>
   )
 }
