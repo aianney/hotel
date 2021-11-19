@@ -22,63 +22,63 @@ export default function SwitchListSecondary() {
   const [dense3, setDense3] = React.useState(false)
 
   return (
-    <>
-      <Box p={0} sx={{ width: '100%' }} ml={-1} mb={5}>
+    <div>
+      <Typography
+        variant="priceBreakdownTitle"
+        sx={{ fontWeight: Theme.typography.bold }}
+      >
+        Choose payment Options
+      </Typography>
+      <Box sx={{ width: '100%' }} ml={-1} mb={10}>
         <Grid item xs={12} sx={{ display: 'flex' }}>
-          <Typography
-            variant="priceBreakdownTitle"
-            sx={{ fontWeight: Theme.typography.bold }}
-          >
-            Choose payment Options
-          </Typography>
-        </Grid>
-        <List sx={{ width: '100%' }}>
-          <ListItem>
-            <ListItemIcon>
-              <BiCreditCard size={30} color="#71c7b8" />
-            </ListItemIcon>
-            <ListItemText id="switch-list-label-wifi" primary="Credit Card" />
+          <List sx={{ width: '100%' }}>
+            <ListItem>
+              <ListItemIcon>
+                <BiCreditCard size={30} color="#71c7b8" />
+              </ListItemIcon>
+              <ListItemText id="switch-list-label-wifi" primary="Credit Card" />
 
-            <Checkbox
-              checked={dense}
-              onChange={(event) => setDense(event.target.checked)}
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemIcon>
-              <BsPaypal size={30} color="#71c7b8" />
-            </ListItemIcon>
-            <ListItemText id="switch-list-label-bluetooth" primary="Paypal" />
-            <Checkbox
-              checked={dense1}
-              onChange={(event) => setDense1(event.target.checked)}
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemIcon>
-              <FaMoneyBill size={30} color="#71c7b8" />
-            </ListItemIcon>
-            <ListItemText
-              id="switch-list-label-bluetooth"
-              primary="Over The Counter"
-            />
-            <Checkbox
-              checked={dense3}
-              onChange={(event) => setDense3(event.target.checked)}
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              id="switch-list-label-bluetooth"
-              primary={<TermsAndCondition />}
-            />
-            <Checkbox
-              checked={dense2}
-              onChange={(event) => setDense2(event.target.checked)}
-            />
-          </ListItem>
-        </List>
+              <Checkbox
+                checked={dense}
+                onChange={(event) => setDense(event.target.checked)}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <BsPaypal size={30} color="#71c7b8" />
+              </ListItemIcon>
+              <ListItemText id="switch-list-label-bluetooth" primary="Paypal" />
+              <Checkbox
+                checked={dense1}
+                onChange={(event) => setDense1(event.target.checked)}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <FaMoneyBill size={30} color="#71c7b8" />
+              </ListItemIcon>
+              <ListItemText
+                id="switch-list-label-bluetooth"
+                primary="Over The Counter"
+              />
+              <Checkbox
+                checked={dense3}
+                onChange={(event) => setDense3(event.target.checked)}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                id="switch-list-label-bluetooth"
+                primary={<TermsAndCondition />}
+              />
+              <Checkbox
+                checked={dense2}
+                onChange={(event) => setDense2(event.target.checked)}
+              />
+            </ListItem>
+          </List>
+        </Grid>
       </Box>
-    </>
+    </div>
   )
 }

@@ -327,7 +327,7 @@ const PriceBreakDownContent = (props) => {
             borderRadius: Theme.shape.borderRadius,
           }}
         >
-          <Box px={4} py={2}>
+          <Box px={2} py={2}>
             <Box
               my={1}
               sx={{ ...alignCenter, justifyContent: 'space-between' }}
@@ -420,9 +420,9 @@ const PriceBreakDownContent = (props) => {
                   : 0}
               </Typography>
             </Box>
-            <PaymentOptions />
           </Box>
         </Card>
+        <PaymentOptions />
         <PaymentButton />
       </Grid>
     </>

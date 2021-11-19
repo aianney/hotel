@@ -39,14 +39,6 @@ const PaymentPage = ({ handlePressGuestDetails, ...rest }) => {
         <PaymentContent />
       </Grid>
       <PaymentPrice />
-      {/* <Grid container spacing={2}>
-        <Grid item xs={6} md={8}>
-          <PaymentPrice />
-        </Grid>
-        <Grid item xs={6} md={4}>
-          <PaymentOption />
-        </Grid>
-      </Grid> */}
     </Box>
   )
 }
