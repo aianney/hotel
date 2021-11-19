@@ -170,7 +170,11 @@ function GuestDetailsForm(props) {
           </Grid>
         </Grid>
       </Box>
-      <Box p={-1} sx={{ mx: { xs: 0, sm: 3 }, mb: { xs: 10, sm: 16 } }}>
+      <Box
+        mt={-10}
+        p={-1}
+        sx={{ mx: { xs: 0, sm: 3 }, mb: { xs: 10, sm: 16 } }}
+      >
         <Card
           sx={{
             backgroundColor: Theme.palette.light,
