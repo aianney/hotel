@@ -93,7 +93,7 @@ const Payment = (props) => {
             sx={{ display: 'flex', justifyContent: 'flex-end' }}
           >
             <Typography variant="priceBreakdownTitlePrice">
-              {info.guestDetails.number}
+              {info.guestDetails.phoneNumber}
             </Typography>
           </Grid>
           <Divider />

@@ -16,11 +16,11 @@ const Store = {
         black: 900,
       },
       size: {
-        xs: ".6rem",
-        sm: ".8rem",
-        md: "1rem",
-        lg: "1.5rem",
-        xl: "2rem",
+        xs: '.6rem',
+        sm: '.8rem',
+        md: '1rem',
+        lg: '1.5rem',
+        xl: '2rem',
       },
       style: {
         sansSerif: `"DM Sans", "Heebo", "Montserrat"`,

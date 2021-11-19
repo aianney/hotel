@@ -11,7 +11,7 @@ import { useHistory } from 'react-router'
 import BirthdatePicker from '../birthdate/birthdate.component'
 import Theme from '../../theme/theme.component'
 import { AppContext, CustomButton, Nationality, RegionCountry } from '../..'
-// import axios from "axios"
+//import axios from 'axios'
 
 const GuestDetailsForm = () => {
   const [errorFirstName, setErrorFirstName] = useState(''),
@@ -23,10 +23,12 @@ const GuestDetailsForm = () => {
     history = useHistory(),
     regexName = new RegExp(/^[-a-zA-Z0-9-()]+(\s+[-a-zA-Z0-9-()]+)*$/),
     regexNumber = new RegExp(
-      /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im,
+      // eslint-disable-next-line
+      /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im,
     ),
     regexEmail = new RegExp(
-      /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i,
+      // eslint-disable-next-line
+      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
     ),
     // First Name Handler
     handlefirstNameInputChange = (e) => {
@@ -301,14 +303,12 @@ const GuestDetailsForm = () => {
             <CustomButton
               disabled={
                 errorFirstName ||
-                !info.guestDetails.firstName ||
                 errorLastName ||
-                !info.guestDetails.lastName ||
                 errorPhoneNumber ||
-                !info.guestDetails.phoneNumber ||
                 errorEmail ||
-                !info.guestDetails.email ||
-                !info.guestDetails.region
+                errorBirthday ||
+                !info.guestDetails.region ||
+                !info.guestDetails.birthdate
               }
               onClick={() => history.push('/payments')}
             >

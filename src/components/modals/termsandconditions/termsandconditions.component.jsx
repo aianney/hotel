@@ -87,18 +87,44 @@ export default function TermsAndCondition() {
                     arrival. However, room rate difference may apply and is
                     subject to availability.
                   </li>
-                  <li>Only children </li>
-                  <li></li>
-                  <li></li>
-                  <li></li>
-                  <li></li>
+                  <li>
+                    Only children 6 years old and under are allowed to share a
+                    bed in their parents' room with free breakfast.
+                  </li>
+                  <li>
+                    Only children from 7-12 years old are allowed to share a bed
+                    in their parents' room for free, and with a 50% discount on
+                    breakfast.
+                  </li>
+                  <li>
+                    An incidental deposit of PHP 2,000/night will be required
+                    upon check-in. This inspection of the accomodation.
+                  </li>
+                  <li>
+                    A valid identification card must be presented upon check-in
+                  </li>
+                  <li>
+                    Reservations made under the promo rate are non refundable
+                  </li>
                 </ul>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                   House Rules
                 </Typography>
                 <Grid item xs={12}>
                   <ul>
-                    <li></li>
+                    <li>
+                      Lorem Ipsum is simply dummy text of the printing and
+                      typesetting industry. Lorem Ipsum has been the industry's
+                      standard dummy text ever since the 1500s, when an unknown
+                      printer took a galley of type and scrambled it to make a
+                      type specimen book. It has survived not only five
+                      centuries, but also the leap into electronic typesetting,
+                      remaining essentially unchanged. It was popularised in the
+                      1960s with the release of Letraset sheets containing Lorem
+                      Ipsum passages, and more recently with desktop publishing
+                      software like Aldus PageMaker including versions of Lorem
+                      Ipsum.
+                    </li>
                   </ul>
                 </Grid>
               </Typography>

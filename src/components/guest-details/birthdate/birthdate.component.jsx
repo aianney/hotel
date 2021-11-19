@@ -9,20 +9,23 @@ import './birthdate.styles.css'
 const Birthdate = (props) => {
   const isInitialMount = useRef(true),
     { info, setInfo } = useContext(AppContext),
-    [birthdate, setBirthdate] = useState(new Date()),
+    [birthdate, setBirthdate] = useState(''),
     [birthdateOpen, setBirthdateOpen] = useState(false),
     updateBirthday = () => {
-      moment().diff(moment(birthdate).format('YYYY-MM-DD'), 'year') < 18
-        ? props.setErrorBirthday(
-            'You must be 18 years old or above to book rooms',
-          )
-        : setInfo({
-            ...info,
-            guestDetails: {
-              ...info.guestDetails,
-              birthdate,
-            },
-          })
+      if (moment().diff(moment(birthdate).format('YYYY-MM-DD'), 'year') < 18) {
+        props.setErrorBirthday(
+          'You must be 18 years old or above to book rooms',
+        )
+      } else {
+        setInfo({
+          ...info,
+          guestDetails: {
+            ...info.guestDetails,
+            birthdate,
+          },
+        })
+        props.setErrorBirthday('')
+      }
     }
 
   useEffect(() => {
@@ -72,7 +75,7 @@ const Birthdate = (props) => {
               readOnly
               ref={ref}
               onChange={onChange}
-              value={moment(birthdate).format('MMMM DD, YYYY')}
+              value={birthdate ? moment(birthdate).format('MMMM DD, YYYY') : ''}
               onClick={() => setBirthdateOpen(true)}
               sx={{
                 borderRadius: '4px',
