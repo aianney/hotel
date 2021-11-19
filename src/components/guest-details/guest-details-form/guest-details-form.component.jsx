@@ -11,7 +11,7 @@ import { useHistory } from 'react-router'
 import BirthdatePicker from '../birthdate/birthdate.component'
 import Theme from '../../theme/theme.component'
 import { AppContext, CustomButton, Nationality, RegionCountry } from '../..'
-//import axios from 'axios'
+//import axios from "axios"
 
 const GuestDetailsForm = () => {
   const [errorFirstName, setErrorFirstName] = useState(''),
@@ -22,10 +22,12 @@ const GuestDetailsForm = () => {
     { info, setInfo } = useContext(AppContext),
     history = useHistory(),
     regexName = new RegExp(/^[-a-zA-Z0-9-()]+(\s+[-a-zA-Z0-9-()]+)*$/),
+    // eslint-disable-next-line
     regexNumber = new RegExp(
       // eslint-disable-next-line
       /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im,
     ),
+    // eslint-disable-next-line
     regexEmail = new RegExp(
       // eslint-disable-next-line
       /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
@@ -179,7 +181,7 @@ const GuestDetailsForm = () => {
           </Grid>
         </Grid>
       </Box>
-      <Box mt={-5} sx={{ mx: { xs: 0, sm: 3 }, mb: { xs: 10, sm: 16 } }}>
+      <Box sx={{ mx: { xs: 0, sm: 3 }, mb: { xs: 10, sm: 16 } }}>
         <Card
           sx={{
             backgroundColor: Theme.palette.light,
@@ -187,7 +189,9 @@ const GuestDetailsForm = () => {
             padding: 2,
           }}
         >
-          {/* {JSON.stringify(info.guestDetails)} */}
+          {/* {
+            JSON.stringify(info.guestDetails)
+          } */}
           <CardContent>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={4}>

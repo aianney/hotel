@@ -49,7 +49,7 @@ const PriceBreakDownContent = () => {
                             <Grid item xs={12} sx={{ ...alignCenter, justifyContent: "space-between" }}>
                                 <Typography
                                     variant="priceBreakdownTitle"
-                                    sx={{ fontWeight: Theme.typography.bold }}
+                                    sx={{ fontWeight: Theme.typography.bold, fontSize: Theme.typography.fontSizeLg }}
                                 >
                                     {room.roomAttributes.roomName}
                                 </Typography>
@@ -74,6 +74,7 @@ const PriceBreakDownContent = () => {
                                                     <Box>
                                                         <Typography
                                                             variant="priceBreakdownTitle"
+                                                            sx={{ fontSize: Theme.typography.fontSize }}
                                                         >
                                                             {`${room.roomAttributes.roomName} ${i + 1}`}
                                                         </Typography>

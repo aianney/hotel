@@ -106,7 +106,7 @@ const Room = (props) => {
               width: '100%',
             }}
           >
-            <Box mb={1} mx={3}>
+            <Box mb={.5} mx={3}>
               <Typography
                 variant="filterLabel"
                 sx={{ textAlign: 'end', width: '100%' }}

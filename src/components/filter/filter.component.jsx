@@ -331,26 +331,6 @@ const Filter = (props) => {
           >
             <Box p={2}>
               <Grid container spacing={3}>
-                <Grid item xs={12} sx={errorStyle(noRoom)}>
-                  <Collapse in={noRoom} timeout={{ enter: 500, exit: 500 }}>
-                    <Box>
-                      <Alert severity="error">
-                        There are no rooms available on the dates you've chosen
-                        — let's go check another date!
-                      </Alert>
-                    </Box>
-                  </Collapse>
-                </Grid>
-                <Grid item xs={12} sx={errorStyle(bookingError)}>
-                  <Collapse
-                    in={bookingError}
-                    timeout={{ enter: 500, exit: 500 }}
-                  >
-                    <Box>
-                      <Alert severity="error">{bookingError}</Alert>
-                    </Box>
-                  </Collapse>
-                </Grid>
                 {/* Reservation Dates START */}
                 <Grid item xs={12} md={4}>
                   <Card
@@ -683,6 +663,27 @@ const Filter = (props) => {
                       </Grid>
                     </Grid>
                   </Card>
+                </Grid>
+
+                <Grid item xs={12} sx={errorStyle(bookingError)}>
+                  <Collapse
+                    in={bookingError}
+                    timeout={{ enter: 500, exit: 500 }}
+                  >
+                    <Box>
+                      <Alert severity="error">{bookingError}</Alert>
+                    </Box>
+                  </Collapse>
+                </Grid>
+                <Grid item xs={12} sx={errorStyle(noRoom)}>
+                  <Collapse in={noRoom} timeout={{ enter: 500, exit: 500 }}>
+                    <Box>
+                      <Alert severity="error">
+                        There are no rooms available on the dates you've chosen
+                        — let's go check another date!
+                      </Alert>
+                    </Box>
+                  </Collapse>
                 </Grid>
               </Grid>
             </Box>

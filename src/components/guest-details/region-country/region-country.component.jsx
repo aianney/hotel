@@ -73,10 +73,10 @@ const RegionCountry = () => {
         </Grid>
         <Grid xs={12} sm={6} item>
           <FormControl fullWidth>
-            <InputLabel id="region">Region</InputLabel>
+            <InputLabel id="region">Region*</InputLabel>
             <Select
               labelId="region"
-              label="Region"
+              label="Region*"
               value={region}
               fullWidth
               onChange={(selectedRegion) => {

@@ -25,7 +25,17 @@ const PriceBreakdown = (props) => {
           moment(info.filters.reservationDates.start),
         ),
       )
-      .asDays()
+      .asDays(),
+    totalPrice = info.filters.currency && info.filters.currencyRate
+      ? `${info.filters.currency} ${(
+        info.roomSelection.totalPayment *
+        info.filters.currencyRate *
+        dateDifference
+      ).toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}`
+      : 0
 
   useEffect(() => {
     if (info.roomSelection.rooms && !info.roomSelection.rooms.length) {
@@ -154,7 +164,7 @@ const PriceBreakdown = (props) => {
                           variant="priceBreakdownTitle"
                           sx={{
                             fontWeight: Theme.typography.fontWeightBlack,
-                            fontSize: Theme.typography.fontSize,
+                            fontSize: Theme.typography.fontSizeXs,
                             textTransform: 'uppercase',
                           }}
                         >
@@ -162,7 +172,7 @@ const PriceBreakdown = (props) => {
                         </Typography>
                         <Typography
                           variant="priceBreakdownTitle"
-                          sx={{ fontSize: Theme.typography.fontSize }}
+                          sx={{ fontSize: Theme.typography.fontSizeXs }}
                         >
                           {info.filters.currency && info.filters.currencyRate
                             ? `${info.filters.currency} ${(
@@ -188,7 +198,7 @@ const PriceBreakdown = (props) => {
                           variant="priceBreakdownTitle"
                           sx={{
                             fontWeight: Theme.typography.fontWeightBlack,
-                            fontSize: Theme.typography.fontSize,
+                            fontSize: Theme.typography.fontSizeXs,
                             textTransform: 'uppercase',
                           }}
                         >
@@ -196,7 +206,7 @@ const PriceBreakdown = (props) => {
                         </Typography>
                         <Typography
                           variant="priceBreakdownTitle"
-                          sx={{ fontSize: Theme.typography.fontSize }}
+                          sx={{ fontSize: Theme.typography.fontSizeXs }}
                         >
                           {info.filters.currency && info.filters.currencyRate
                             ? `${info.filters.currency} ${(
@@ -230,7 +240,7 @@ const PriceBreakdown = (props) => {
                           variant="priceBreakdownTitle"
                           sx={{
                             fontWeight: Theme.typography.fontWeightBlack,
-                            fontSize: Theme.typography.fontSize,
+                            fontSize: Theme.typography.fontSizeXs,
                             textTransform: 'uppercase',
                           }}
                         >
@@ -238,18 +248,9 @@ const PriceBreakdown = (props) => {
                         </Typography>
                         <Typography
                           variant="priceBreakdownTotal"
-                          sx={{ fontSize: Theme.typography.fontSizeXl }}
+                          sx={{ fontSize: totalPrice.length > 14 ? Theme.typography.fontSize : Theme.typography.fontSizeLg }}
                         >
-                          {info.filters.currency && info.filters.currencyRate
-                            ? `${info.filters.currency} ${(
-                              info.roomSelection.totalPayment *
-                              info.filters.currencyRate *
-                              dateDifference
-                            ).toLocaleString(undefined, {
-                              minimumFractionDigits: 2,
-                              maximumFractionDigits: 2,
-                            })}`
-                            : 0}
+                          {totalPrice}
                         </Typography>
                       </Box>
                     </Box>

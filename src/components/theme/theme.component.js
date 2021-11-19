@@ -170,7 +170,7 @@ let Theme = createTheme({
         },
         priceBreakdownTitle: {
             fontFamily: Store.env.fonts.style.sansSerif,
-            fontSize: Store.env.fonts.size.md,
+            fontSize: Store.env.fonts.size.xs,
             fontWeight: Store.env.fonts.weight.bold,
         },
         priceBreakdownTotal: {

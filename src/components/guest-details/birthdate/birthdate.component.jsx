@@ -11,21 +11,15 @@ const Birthdate = (props) => {
     { info, setInfo } = useContext(AppContext),
     [birthdate, setBirthdate] = useState(''),
     [birthdateOpen, setBirthdateOpen] = useState(false),
+    date = new Date(),
     updateBirthday = () => {
-      if (moment().diff(moment(birthdate).format('YYYY-MM-DD'), 'year') < 18) {
-        props.setErrorBirthday(
-          'You must be 18 years old or above to book rooms',
-        )
-      } else {
-        setInfo({
-          ...info,
-          guestDetails: {
-            ...info.guestDetails,
-            birthdate,
-          },
-        })
-        props.setErrorBirthday('')
-      }
+      setInfo({
+        ...info,
+        guestDetails: {
+          ...info.guestDetails,
+          birthdate,
+        },
+      })
     }
 
   useEffect(() => {
@@ -51,7 +45,7 @@ const Birthdate = (props) => {
         }}
         onClose={() => setBirthdateOpen(false)}
         open={birthdateOpen}
-        maxDate={new Date()}
+        maxDate={date.setFullYear(date.getFullYear() - 18)}
         openTo="year"
         views={['year', 'month', 'day']}
         // eslint-disable-next-line
@@ -71,7 +65,7 @@ const Birthdate = (props) => {
               helperText={props.errorBirthday}
               error={props.errorBirthday}
               variant="outlined"
-              label="Birthday"
+              label="Birthday*"
               readOnly
               ref={ref}
               onChange={onChange}
