@@ -108,15 +108,13 @@ const Payment = (props) => {
               <ListItemButton>
                 <ListItemText>
                   <Typography variant="priceBreakdownTitlePrice">
-                    Stay Period:
-                  </Typography>
-                </ListItemText>
-                <ListItemText>
-                  <Typography variant="priceBreakdownTitlePrice">
-                    {moment(info.filters.reservationDates.start).format(
-                      'MMMM DD, YYYY',
-                    )}{' '}
-                    {''}
+                    Stay Period: {'  '}
+                    <Typography variant="priceBreakdownTitlePrice">
+                      {moment(info.filters.reservationDates.start).format(
+                        'MMMM DD, YYYY',
+                      )}{' '}
+                      {''}
+                    </Typography>
                     <Typography variant="priceBreakdownTitlePrice">
                       To{' '}
                       {moment(info.filters.reservationDates.end).format(
