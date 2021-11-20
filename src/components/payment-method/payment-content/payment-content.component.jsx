@@ -52,44 +52,50 @@ const Payment = (props) => {
           </Grid>
         </Grid>
         <Box ml={-3}>
-          <List sx={{ width: '100%', maxWidth: 360 }}>
+          <List sx={{ width: '100%' }}>
             <ListItemButton>
-              <ListItemText>Name:</ListItemText>
-              <Box mr={10}>
+              <ListItemText>
+                Name: {info.guestDetails.firstName}
+                {'   '}
+                {info.guestDetails.lastName}
+              </ListItemText>
+              {/* <Box mr={10}>
                 <ListItemText>
                   {info.guestDetails.firstName}
                   {'   '}
                   {info.guestDetails.lastName}
                 </ListItemText>
-              </Box>
+              </Box> */}
             </ListItemButton>
           </List>
           <Box mt={-4}>
-            <List sx={{ width: '100%', maxWidth: 360 }}>
+            <List sx={{ width: '100%' }}>
               <ListItemButton>
-                <ListItemText>Email:</ListItemText>
-                <Box mr={6}>
+                <ListItemText>Email: {info.guestDetails.email}</ListItemText>
+                {/* <Box mr={6}>
                   <ListItemText>{info.guestDetails.email}</ListItemText>
-                </Box>
+                </Box> */}
               </ListItemButton>
             </List>
           </Box>
           <Box mt={-4}>
-            <List sx={{ width: '100%', maxWidth: 360 }}>
+            <List sx={{ width: '100%' }}>
               <ListItemButton>
-                <ListItemText>Contact:</ListItemText>
-                <Box mr={16}>
+                <ListItemText>
+                  Contact: {info.guestDetails.phoneNumber}
+                </ListItemText>
+                {/* <Box mr={14}>
                   <ListItemText>
                     <Typography variant="priceBreakdownTitlePrice">
                       {info.guestDetails.phoneNumber}
                     </Typography>
                   </ListItemText>
-                </Box>
+                </Box> */}
               </ListItemButton>
             </List>
           </Box>
           <Box mt={-4}>
-            <List sx={{ width: '100%', maxWidth: 360 }}>
+            <List sx={{ width: '100%' }}>
               <ListItemButton>
                 <ListItemText>Stay Period:</ListItemText>
                 <ListItemText>
