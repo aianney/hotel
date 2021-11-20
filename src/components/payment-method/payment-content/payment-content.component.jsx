@@ -1,6 +1,13 @@
 import React, { useContext } from 'react'
-import { Box, Grid, Typography } from '@material-ui/core'
-import Theme from '../../theme/theme.component'
+import {
+  Box,
+  Grid,
+  Typography,
+  List,
+  ListItemButton,
+  ListItemText,
+} from '@material-ui/core'
+//import Theme from '../../theme/theme.component'
 import AppContext from '../../app-context/app-context.component'
 import moment from 'moment'
 import './payment-content.styles.css'
@@ -44,7 +51,67 @@ const Payment = (props) => {
             </Box>
           </Grid>
         </Grid>
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Box ml={-3}>
+          <List sx={{ width: '100%', maxWidth: 360 }}>
+            <ListItemButton>
+              <ListItemText>Name:</ListItemText>
+              <Box mr={17}>
+                <ListItemText>
+                  {info.guestDetails.firstName}
+                  {'   '}
+                  {info.guestDetails.lastName}
+                </ListItemText>
+              </Box>
+            </ListItemButton>
+          </List>
+          <Box mt={-4}>
+            <List sx={{ width: '100%', maxWidth: 360 }}>
+              <ListItemButton>
+                <ListItemText>Email:</ListItemText>
+                <Box mr={6}>
+                  <ListItemText>{info.guestDetails.email}</ListItemText>
+                </Box>
+              </ListItemButton>
+            </List>
+          </Box>
+          <Box mt={-4}>
+            <List sx={{ width: '100%', maxWidth: 360 }}>
+              <ListItemButton>
+                <ListItemText>Contact:</ListItemText>
+                <Box mr={16}>
+                  <ListItemText>
+                    <Typography variant="priceBreakdownTitlePrice">
+                      {info.guestDetails.phoneNumber}
+                    </Typography>
+                  </ListItemText>
+                </Box>
+              </ListItemButton>
+            </List>
+          </Box>
+          <Box mt={-4}>
+            <List sx={{ width: '100%', maxWidth: 360 }}>
+              <ListItemButton>
+                <ListItemText>Stay Period:</ListItemText>
+                <ListItemText>
+                  <Typography variant="priceBreakdownTitlePrice">
+                    {moment(info.filters.reservationDates.start).format(
+                      'MMMM DD, YYYY',
+                    )}{' '}
+                    {''}
+                    <Typography variant="priceBreakdownTitlePrice">
+                      To{' '}
+                      {moment(info.filters.reservationDates.end).format(
+                        'MMMM DD, YYYY',
+                      )}
+                    </Typography>
+                  </Typography>
+                </ListItemText>
+              </ListItemButton>
+            </List>
+          </Box>
+        </Box>
+
+        {/* <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={6}>
             <Typography
               variant="priceBreakdownTitle"
@@ -112,24 +179,23 @@ const Payment = (props) => {
                 width: '100%',
               }}
             > */}
-            <Typography variant="priceBreakdownTitlePrice">
+        {/* <Typography variant="priceBreakdownTitlePrice">
               {moment(info.filters.reservationDates.start).format(
                 'MMMM DD, YYYY',
               )}{' '}
               {''}
             </Typography>
             {/* </Box> */}
-            <Typography variant="priceBreakdownTitlePrice">
+        {/* <Typography variant="priceBreakdownTitlePrice">
               To{' '}
               {moment(info.filters.reservationDates.end).format(
                 'MMMM DD, YYYY',
               )}
             </Typography>
           </Grid>
-        </Grid>
+        </Grid>   */}
 
-        <Grid container spacing={1}>
-          {/* <Grid item xs={6} sx={{ display: 'flex' }}>
+        {/* <Grid item xs={6} sx={{ display: 'flex' }}>
             <Typography
               variant="priceBreakdownTitle"
               sx={{ fontWeight: Theme.typography.bold }}
@@ -147,7 +213,7 @@ const Payment = (props) => {
             </Typography>
           </Grid> */}
 
-          {/* <Grid
+        {/* <Grid
             item
             xs={6}
             sx={{ display: 'flex', justifyContent: 'flex-start' }}
@@ -168,7 +234,7 @@ const Payment = (props) => {
               {info.guestDetails.email}
             </Typography>
           </Grid> */}
-          {/* <Grid item xs={6} sx={{ display: 'flex' }}>
+        {/* <Grid item xs={6} sx={{ display: 'flex' }}>
             <Typography
               variant="priceBreakdownTitle"
               sx={{ fontWeight: Theme.typography.bold }}
@@ -185,7 +251,7 @@ const Payment = (props) => {
               {info.guestDetails.number}
             </Typography>
           </Grid> */}
-          {/* <Divider />
+        {/* <Divider />
           <Grid item xs={6} sx={{ display: 'flex' }}>
             <Typography
               variant="priceBreakdownTitle"
@@ -201,7 +267,6 @@ const Payment = (props) => {
           >
             <Typography variant="priceBreakdownTitlePrice">{`${info.filters.reservationDates.start} ${info.filters.reservationDates.end}`}</Typography>
           </Grid> */}
-        </Grid>
       </Box>
     </div>
   )
