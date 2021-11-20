@@ -55,7 +55,7 @@ const Payment = (props) => {
           <List sx={{ width: '100%', maxWidth: 360 }}>
             <ListItemButton>
               <ListItemText>Name:</ListItemText>
-              <Box mr={17}>
+              <Box mr={10}>
                 <ListItemText>
                   {info.guestDetails.firstName}
                   {'   '}
@@ -78,7 +78,7 @@ const Payment = (props) => {
             <List sx={{ width: '100%', maxWidth: 360 }}>
               <ListItemButton>
                 <ListItemText>Contact:</ListItemText>
-                <Box mr={16}>
+                <Box mr={14}>
                   <ListItemText>
                     <Typography variant="priceBreakdownTitlePrice">
                       {info.guestDetails.phoneNumber}
