@@ -55,9 +55,11 @@ const Payment = (props) => {
           <List sx={{ width: '100%' }}>
             <ListItemButton>
               <ListItemText>
-                Name: {info.guestDetails.firstName}
-                {'   '}
-                {info.guestDetails.lastName}
+                <Typography variant="priceBreakdownTitlePrice">
+                  Name: {info.guestDetails.firstName}
+                  {'   '}
+                  {info.guestDetails.lastName}
+                </Typography>
               </ListItemText>
               {/* <Box mr={10}>
                 <ListItemText>
@@ -71,7 +73,12 @@ const Payment = (props) => {
           <Box mt={-4}>
             <List sx={{ width: '100%' }}>
               <ListItemButton>
-                <ListItemText>Email: {info.guestDetails.email}</ListItemText>
+                <ListItemText>
+                  <Typography variant="priceBreakdownTitlePrice">
+                    Email:{' '}
+                  </Typography>
+                  {info.guestDetails.email}
+                </ListItemText>
                 {/* <Box mr={6}>
                   <ListItemText>{info.guestDetails.email}</ListItemText>
                 </Box> */}
@@ -82,7 +89,9 @@ const Payment = (props) => {
             <List sx={{ width: '100%' }}>
               <ListItemButton>
                 <ListItemText>
-                  Contact: {info.guestDetails.phoneNumber}
+                  <Typography variant="priceBreakdownTitlePrice">
+                    Contact: {info.guestDetails.phoneNumber}
+                  </Typography>
                 </ListItemText>
                 {/* <Box mr={14}>
                   <ListItemText>
@@ -97,7 +106,11 @@ const Payment = (props) => {
           <Box mt={-4}>
             <List sx={{ width: '100%' }}>
               <ListItemButton>
-                <ListItemText>Stay Period:</ListItemText>
+                <ListItemText>
+                  <Typography variant="priceBreakdownTitlePrice">
+                    Stay Period:
+                  </Typography>
+                </ListItemText>
                 <ListItemText>
                   <Typography variant="priceBreakdownTitlePrice">
                     {moment(info.filters.reservationDates.start).format(
