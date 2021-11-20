@@ -309,10 +309,10 @@ const GuestDetailsForm = () => {
                 errorFirstName ||
                 errorLastName ||
                 errorPhoneNumber ||
-                errorEmail
-                // errorBirthday ||
-                // !info.guestDetails.region ||
-                // !info.guestDetails.birthdate
+                errorEmail ||
+                errorBirthday ||
+                !info.guestDetails.region ||
+                !info.guestDetails.birthdate
               }
               onClick={() => history.push('/payments')}
             >
