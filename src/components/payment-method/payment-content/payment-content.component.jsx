@@ -51,12 +51,42 @@ const Payment = (props) => {
             </Box>
           </Grid>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-            Name:{' '}
-            {`${info.guestDetails.firstName}
-               ${info.guestDetails.lastName}`}
-          </Typography>
+        <Grid item xs={12}>
+          <Box
+            // pl={3}
+            pr={2}
+            sx={{
+              // ...alignCenter,
+              justifyContent: 'space-between',
+            }}
+          >
+            {/* <Box>
+              <Typography
+                variant="priceBreakdownTitle"
+                sx={{
+                  fontStyle: 'italic',
+                  fontSize: 16,
+                  fontWeight: 500,
+                }}
+              >
+                Name:
+              </Typography>
+            </Box> */}
+            <Box>
+              <Typography
+                variant="priceBreakdownTitle"
+                sx={{
+                  fontStyle: 'italic',
+                  fontSize: 16,
+                  fontWeight: 500,
+                }}
+              >
+                Name:
+                {info.guestDetails.firstName}
+                {info.guestDetails.lastName}
+              </Typography>
+            </Box>
+          </Box>
         </Grid>
         <Box ml={-3}>
           <List sx={{ width: { md: '100%', xs: '100%' } }}>
