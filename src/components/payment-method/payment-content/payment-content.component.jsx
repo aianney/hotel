@@ -51,10 +51,9 @@ const Payment = (props) => {
             </Box>
           </Grid>
         </Grid>
-        <Grid xs={12} sm={6}>
+        <Grid xs={12} sm={12}>
           <Typography>
-            Name:{' '}
-            {`${info.guestDetails.firstName} ${info.guestDetails.lastName}`}
+            Name: {info.guestDetails.firstName} {info.guestDetails.lastName}
           </Typography>
         </Grid>
         <Box ml={-3}>
