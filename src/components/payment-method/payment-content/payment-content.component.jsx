@@ -51,42 +51,11 @@ const Payment = (props) => {
             </Box>
           </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <Box
-            // pl={3}
-            pr={2}
-            sx={{
-              // ...alignCenter,
-              justifyContent: 'space-between',
-            }}
-          >
-            {/* <Box>
-              <Typography
-                variant="priceBreakdownTitle"
-                sx={{
-                  fontStyle: 'italic',
-                  fontSize: 16,
-                  fontWeight: 500,
-                }}
-              >
-                Name:
-              </Typography>
-            </Box> */}
-            <Box>
-              <Typography
-                variant="priceBreakdownTitle"
-                sx={{
-                  fontStyle: 'italic',
-                  fontSize: 16,
-                  fontWeight: 500,
-                }}
-              >
-                Name:
-                {info.guestDetails.firstName}
-                {info.guestDetails.lastName}
-              </Typography>
-            </Box>
-          </Box>
+        <Grid xs={12} sm={6}>
+          <Typography>
+            Name:{' '}
+            {`${info.guestDetails.firstName} ${info.guestDetails.lastName}`}
+          </Typography>
         </Grid>
         <Box ml={-3}>
           <List sx={{ width: { md: '100%', xs: '100%' } }}>

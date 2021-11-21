@@ -36,7 +36,7 @@ export default function SwitchListSecondary() {
               <ListItemIcon>
                 <BiCreditCard size={30} color="#71c7b8" />
               </ListItemIcon>
-              <ListItemText id="switch-list-label-wifi" primary="Credit Card" />
+              <ListItemText primary="Credit Card" />
 
               <Checkbox
                 checked={dense}
@@ -47,7 +47,7 @@ export default function SwitchListSecondary() {
               <ListItemIcon>
                 <BsPaypal size={30} color="#71c7b8" />
               </ListItemIcon>
-              <ListItemText id="switch-list-label-bluetooth" primary="Paypal" />
+              <ListItemText primary="Paypal" />
               <Checkbox
                 checked={dense1}
                 onChange={(event) => setDense1(event.target.checked)}
@@ -57,10 +57,7 @@ export default function SwitchListSecondary() {
               <ListItemIcon>
                 <FaMoneyBill size={30} color="#71c7b8" />
               </ListItemIcon>
-              <ListItemText
-                id="switch-list-label-bluetooth"
-                primary="Over The Counter"
-              />
+              <ListItemText primary="Over The Counter" />
               <Checkbox
                 checked={dense3}
                 onChange={(event) => setDense3(event.target.checked)}
