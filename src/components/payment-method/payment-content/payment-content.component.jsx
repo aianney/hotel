@@ -7,7 +7,6 @@ import {
   ListItemButton,
   ListItemText,
 } from '@material-ui/core'
-//import Theme from '../../theme/theme.component'
 import AppContext from '../../app-context/app-context.component'
 import moment from 'moment'
 import './payment-content.styles.css'
@@ -15,7 +14,6 @@ import './payment-content.styles.css'
 const Payment = (props) => {
   const { info, setInfo } = useContext(AppContext)
   console.log(info)
-  // const start = moment(startDate).format('YYYY-MM-DD')
 
   React.useEffect(() => {
     setInfo({
@@ -29,7 +27,7 @@ const Payment = (props) => {
   }, [info.filters.reservationDates.start, info.filters.reservationDates.end])
 
   return (
-    <div className="booking-details">
+    <>
       {/* <Box mb={1}> */}
       <Box px={4}>
         <Grid container>
@@ -53,87 +51,73 @@ const Payment = (props) => {
         </Grid>
 
         <Box ml={-3}>
-          <Grid item xs={12}>
-            <List sx={{ width: { md: '100%', xs: '100%' } }}>
+          <List sx={{ width: { md: '100%', xs: '100%' } }}>
+            <ListItemButton>
+              <ListItemText>
+                <Typography variant="priceBreakdownTitlePrice">
+                  Name:{' '}
+                  {`${info.guestDetails.firstName}
+               ${info.guestDetails.lastName}`}
+                </Typography>
+              </ListItemText>
+            </ListItemButton>
+          </List>
+          <Box mt={-4}>
+            <List sx={{ width: '100%' }}>
               <ListItemButton>
                 <ListItemText>
                   <Typography variant="priceBreakdownTitlePrice">
-                    Name:{' '}
-                    {`${info.guestDetails.firstName}
-               ${info.guestDetails.lastName}`}
+                    Email:{' '}
                   </Typography>
+                  {info.guestDetails.email}
                 </ListItemText>
-                {/* <List sx={{ width: '100%' }}>
-                <ListItemText>
-                  {info.guestDetails.firstName}
-                  {info.guestDetails.lastName}
-                </ListItemText>
-              </List> */}
-              </ListItemButton>
-            </List>
-          </Grid>
-          <Grid item xs={12}>
-            <Box mt={-4}>
-              <List sx={{ width: '100%' }}>
-                <ListItemButton>
-                  <ListItemText>
-                    <Typography variant="priceBreakdownTitlePrice">
-                      Email:{' '}
-                    </Typography>
-                    {info.guestDetails.email}
-                  </ListItemText>
-                  {/* <Box mr={6}>
+                {/* <Box mr={6}>
                   <ListItemText>{info.guestDetails.email}</ListItemText>
                 </Box> */}
-                </ListItemButton>
-              </List>
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Box mt={-4}>
-              <List sx={{ width: '100%' }}>
-                <ListItemButton>
-                  <ListItemText>
-                    <Typography variant="priceBreakdownTitlePrice">
-                      Contact: {info.guestDetails.phoneNumber}
-                    </Typography>
-                  </ListItemText>
-                  {/* <Box mr={14}>
+              </ListItemButton>
+            </List>
+          </Box>
+          <Box mt={-4}>
+            <List sx={{ width: '100%' }}>
+              <ListItemButton>
+                <ListItemText>
+                  <Typography variant="priceBreakdownTitlePrice">
+                    Contact: {info.guestDetails.phoneNumber}
+                  </Typography>
+                </ListItemText>
+                {/* <Box mr={14}>
                   <ListItemText>
                     <Typography variant="priceBreakdownTitlePrice">
                       {info.guestDetails.phoneNumber}
                     </Typography>
                   </ListItemText>
                 </Box> */}
-                </ListItemButton>
-              </List>
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Box mt={-4}>
-              <List sx={{ width: '100%' }}>
-                <ListItemButton>
-                  <ListItemText>
+              </ListItemButton>
+            </List>
+          </Box>
+          <Box mt={-4}>
+            <List sx={{ width: '100%' }}>
+              <ListItemButton>
+                <ListItemText>
+                  <Typography variant="priceBreakdownTitlePrice">
+                    Stay Period: {'  '}
                     <Typography variant="priceBreakdownTitlePrice">
-                      Stay Period: {'  '}
-                      <Typography variant="priceBreakdownTitlePrice">
-                        {moment(info.filters.reservationDates.start).format(
-                          'MMMM DD, YYYY',
-                        )}{' '}
-                        {''}
-                      </Typography>
-                      <Typography variant="priceBreakdownTitlePrice">
-                        To{' '}
-                        {moment(info.filters.reservationDates.end).format(
-                          'MMMM DD, YYYY',
-                        )}
-                      </Typography>
+                      {moment(info.filters.reservationDates.start).format(
+                        'MMMM DD, YYYY',
+                      )}{' '}
+                      {''}
                     </Typography>
-                  </ListItemText>
-                </ListItemButton>
-              </List>
-            </Box>
-          </Grid>
+                    <Typography variant="priceBreakdownTitlePrice">
+                      To{' '}
+                      {moment(info.filters.reservationDates.end).format(
+                        'MMMM DD, YYYY',
+                      )}
+                    </Typography>
+                  </Typography>
+                </ListItemText>
+              </ListItemButton>
+            </List>
+          </Box>
         </Box>
 
         {/* <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -293,7 +277,7 @@ const Payment = (props) => {
             <Typography variant="priceBreakdownTitlePrice">{`${info.filters.reservationDates.start} ${info.filters.reservationDates.end}`}</Typography>
           </Grid> */}
       </Box>
-    </div>
+    </>
   )
 }
 

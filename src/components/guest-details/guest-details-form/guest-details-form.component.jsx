@@ -154,7 +154,7 @@ const GuestDetailsForm = () => {
   // }
 
   return (
-    <div className="guest-details">
+    <>
       <Box px={4}>
         <Grid container>
           <Grid
@@ -331,7 +331,7 @@ const GuestDetailsForm = () => {
           </CardContent>
         </Card>
       </Box>
-    </div>
+    </>
   )
 }
 
