@@ -6,7 +6,6 @@ import {
   List,
   ListItemButton,
   ListItemText,
-  ListItem,
 } from '@material-ui/core'
 //import Theme from '../../theme/theme.component'
 import AppContext from '../../app-context/app-context.component'
@@ -54,36 +53,22 @@ const Payment = (props) => {
         </Grid>
         <Box
           sx={{
-            position: { xs: 'fixed' },
-            width: '100%',
-            maxWidth: 360,
-            bgcolor: 'background.paper',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
-          <List>
-            <ListItem
-              sx={{
-                position: { xs: 'fixed' },
-              }}
-            >
-              <ListItemButton>
-                <ListItemText
-                  primary={`Name: ${info.guestDetails.firstName}
+          <Typography variant="priceBreakdownTitlePrice">
+            {` Name:${info.guestDetails.firstName}
                ${info.guestDetails.lastName}`}
-                />
-              </ListItemButton>
-            </ListItem>
-          </List>
+          </Typography>
         </Box>
         <Box ml={-3}>
           <List sx={{ width: { md: '100%', xs: '100%' } }}>
             <ListItemButton>
               <ListItemText>
                 <Typography variant="priceBreakdownTitlePrice">
-                  Name: {'          '}
-                  {/* {info.guestDetails.firstName}
-                  {'   '}
-                  {info.guestDetails.lastName} */}
+                  Name:
                 </Typography>
               </ListItemText>
               <List sx={{ width: '100%' }}>
