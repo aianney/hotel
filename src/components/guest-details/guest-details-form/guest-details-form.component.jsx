@@ -206,8 +206,8 @@ const GuestDetailsForm = () => {
                   placeholder="Enter first name"
                   label="First Name"
                   variant="outlined"
-                  inputProps={{ maxLength: 120 }}
-                  autoComplete="off"
+                  inputProps={{ maxLength: 120, autoComplete: 'off' }}
+                  // autoComplete="off"
                   autoFocus={true}
                   fullWidth
                   required
@@ -226,7 +226,7 @@ const GuestDetailsForm = () => {
                   label="Last Name*"
                   variant="outlined"
                   autoComplete="off"
-                  inputProps={{ maxLength: 120 }}
+                  inputProps={{ maxLength: 120, autoComplete: 'off' }}
                   // autoFocus={true}
                   fullWidth
                   // required
@@ -247,8 +247,8 @@ const GuestDetailsForm = () => {
                   placeholder="Enter mobile phone number"
                   label="Mobile Phone Number*"
                   variant="outlined"
-                  autoComplete="off"
-                  inputProps={{ maxLength: 15 }}
+                  // autoComplete="off"
+                  inputProps={{ maxLength: 15, autoComplete: 'off' }}
                   // autoFocus={true}
                   fullWidth
                   // required
@@ -265,7 +265,8 @@ const GuestDetailsForm = () => {
                   onChange={handleEmailInputChange}
                   placeholder="Enter your Email Address"
                   label="Email*"
-                  autoComplete="off"
+                  inputProps={{ autoComplete: 'off' }}
+                  // autoComplete="off"
                   variant="outlined"
                   // autoFocus={true}
                   fullWidth
@@ -287,7 +288,8 @@ const GuestDetailsForm = () => {
                   placeholder="House No"
                   label="House No/Street/Subd."
                   variant="outlined"
-                  autoComplete="off"
+                  inputProps={{ autoComplete: 'off' }}
+                  // autoComplete="off"
                   // autoFocus={true}
                   fullWidth
                   //required
@@ -309,7 +311,7 @@ const GuestDetailsForm = () => {
                   rows={4}
                   placeholder="Type your message here"
                   variant="outlined"
-                  autoComplete="off"
+                  inputProps={{ autoComplete: 'off' }}
                   // autoFocus={true}
                   fullWidth
                   //required
