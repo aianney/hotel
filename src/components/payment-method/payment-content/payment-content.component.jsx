@@ -10,6 +10,7 @@ import {
 //import Theme from '../../theme/theme.component'
 import AppContext from '../../app-context/app-context.component'
 import moment from 'moment'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import './payment-content.styles.css'
 
 const Payment = (props) => {
@@ -27,6 +28,28 @@ const Payment = (props) => {
     })
     // eslint-disable-next-line
   }, [info.filters.reservationDates.start, info.filters.reservationDates.end])
+
+  const breakpoints = {
+    values: {
+      xs: 0,
+      sm: 0, // Phone
+      md: 768, // Tablet/Laptop
+      lg: 1500, // Desktop
+      xl: 2000,
+    },
+  }
+
+  const theme = createMuiTheme({
+    breakpoints,
+    typography: {
+      h5: {
+        fontSize: '1.5625rem',
+        [`@media screen and (max-width: ${breakpoints.values.lg}px)`]: {
+          fontSize: '0.6785rem',
+        },
+      },
+    },
+  })
 
   return (
     <div className="booking-details">
@@ -51,6 +74,12 @@ const Payment = (props) => {
             </Box>
           </Grid>
         </Grid>
+
+        <ThemeProvider theme={theme}>
+          <Typography variant="h5">
+            Hello World! Hello World! Hello World! Hello World! Hello World!
+          </Typography>
+        </ThemeProvider>
         <Box
           sx={{
             display: 'flex',
