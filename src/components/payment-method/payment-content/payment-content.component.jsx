@@ -51,8 +51,15 @@ const Payment = (props) => {
             </Box>
           </Grid>
         </Grid>
+        <Grid item xs={12} md={6}>
+          <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
+            Name:{' '}
+            {`${info.guestDetails.firstName}
+               ${info.guestDetails.lastName}`}
+          </Typography>
+        </Grid>
         <Box ml={-3}>
-          <List sx={{ width: '100%' }}>
+          <List sx={{ width: { md: '100%', xs: '100%' } }}>
             <ListItemButton>
               <ListItemText>
                 <Typography variant="priceBreakdownTitlePrice">
