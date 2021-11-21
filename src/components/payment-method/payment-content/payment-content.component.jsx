@@ -6,6 +6,7 @@ import {
   List,
   ListItemButton,
   ListItemText,
+  ListItem,
 } from '@material-ui/core'
 //import Theme from '../../theme/theme.component'
 import AppContext from '../../app-context/app-context.component'
@@ -51,11 +52,18 @@ const Payment = (props) => {
             </Box>
           </Grid>
         </Grid>
-        <Grid xs={12} sm={12}>
-          <Typography>
-            Name: {info.guestDetails.firstName} {info.guestDetails.lastName}
-          </Typography>
-        </Grid>
+        <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+          <List>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemText
+                  primary={`Name: ${info.guestDetails.firstName}
+               ${info.guestDetails.lastName}`}
+                />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </Box>
         <Box ml={-3}>
           <List sx={{ width: { md: '100%', xs: '100%' } }}>
             <ListItemButton>
