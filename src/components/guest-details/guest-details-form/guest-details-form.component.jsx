@@ -320,11 +320,13 @@ const GuestDetailsForm = () => {
             </Grid>
             <CustomButton
               disabled={
-                errorFirstName || errorLastName || errorPhoneNumber
-                // errorEmail ||
-                // errorBirthday ||
-                // !info.guestDetails.region ||
-                // !info.guestDetails.birthdate
+                errorFirstName ||
+                errorLastName ||
+                errorPhoneNumber ||
+                errorEmail ||
+                errorBirthday ||
+                !info.guestDetails.region ||
+                !info.guestDetails.birthdate
               }
               onClick={() => history.push('/payments')}
             >
