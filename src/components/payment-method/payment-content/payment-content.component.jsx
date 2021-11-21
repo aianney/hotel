@@ -51,42 +51,24 @@ const Payment = (props) => {
             </Box>
           </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <Box px={3}>
-            <Typography variant="introSubtitle">
-              {` Name:${info.guestDetails.firstName}
-               ${info.guestDetails.lastName}`}
-            </Typography>
-          </Box>
-        </Grid>
-        {/* <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Typography variant="priceBreakdownTitlePrice">
-            {` Name:${info.guestDetails.firstName}
-               ${info.guestDetails.lastName}`}
-          </Typography>
-        </Box> */}
         <Box ml={-3}>
-          {/* <List sx={{ width: { md: '100%', xs: '100%' } }}>
+          <List sx={{ width: { md: '100%', xs: '100%' } }}>
             <ListItemButton>
               <ListItemText>
                 <Typography variant="priceBreakdownTitlePrice">
-                  Name:
+                  Name:{' '}
+                  {`${info.guestDetails.firstName}
+               ${info.guestDetails.lastName}`}
                 </Typography>
               </ListItemText>
-              <List sx={{ width: '100%' }}>
+              {/* <List sx={{ width: '100%' }}>
                 <ListItemText>
                   {info.guestDetails.firstName}
                   {info.guestDetails.lastName}
                 </ListItemText>
-              </List>
+              </List> */}
             </ListItemButton>
-          </List> */}
+          </List>
           <Box mt={-4}>
             <List sx={{ width: '100%' }}>
               <ListItemButton>
