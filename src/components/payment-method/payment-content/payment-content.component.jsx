@@ -52,9 +52,20 @@ const Payment = (props) => {
             </Box>
           </Grid>
         </Grid>
-        <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+        <Box
+          sx={{
+            position: { xs: 'fixed' },
+            width: '100%',
+            maxWidth: 360,
+            bgcolor: 'background.paper',
+          }}
+        >
           <List>
-            <ListItem disablePadding>
+            <ListItem
+              sx={{
+                position: { xs: 'fixed' },
+              }}
+            >
               <ListItemButton>
                 <ListItemText
                   primary={`Name: ${info.guestDetails.firstName}
