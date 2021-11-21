@@ -208,6 +208,7 @@ const GuestDetailsForm = () => {
                   variant="outlined"
                   inputProps={{ maxLength: 120 }}
                   autoComplete="off"
+                  autoFocus={true}
                   fullWidth
                   required
                 />
@@ -226,6 +227,7 @@ const GuestDetailsForm = () => {
                   variant="outlined"
                   autoComplete="off"
                   inputProps={{ maxLength: 120 }}
+                  autoFocus={true}
                   fullWidth
                   // required
                 />
@@ -247,6 +249,7 @@ const GuestDetailsForm = () => {
                   variant="outlined"
                   autoComplete="off"
                   inputProps={{ maxLength: 15 }}
+                  autoFocus={true}
                   fullWidth
                   // required
                 />
@@ -264,6 +267,7 @@ const GuestDetailsForm = () => {
                   label="Email*"
                   autoComplete="off"
                   variant="outlined"
+                  autoFocus={true}
                   fullWidth
                   // required
                 />
@@ -284,6 +288,7 @@ const GuestDetailsForm = () => {
                   label="House No/Street/Subd."
                   variant="outlined"
                   autoComplete="off"
+                  autoFocus={true}
                   fullWidth
                   //required
                 />
@@ -305,6 +310,7 @@ const GuestDetailsForm = () => {
                   placeholder="Type your message here"
                   variant="outlined"
                   autoComplete="off"
+                  autoFocus={true}
                   fullWidth
                   //required
                 />

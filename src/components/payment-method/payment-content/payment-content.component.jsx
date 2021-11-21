@@ -56,18 +56,18 @@ const Payment = (props) => {
             <ListItemButton>
               <ListItemText>
                 <Typography variant="priceBreakdownTitlePrice">
-                  Name: {info.guestDetails.firstName}
+                  Name: {'          '}
+                  {/* {info.guestDetails.firstName}
                   {'   '}
-                  {info.guestDetails.lastName}
+                  {info.guestDetails.lastName} */}
                 </Typography>
               </ListItemText>
-              {/* <Box mr={10}>
+              <List sx={{ width: '100%' }}>
                 <ListItemText>
                   {info.guestDetails.firstName}
-                  {'   '}
                   {info.guestDetails.lastName}
                 </ListItemText>
-              </Box> */}
+              </List>
             </ListItemButton>
           </List>
           <Box mt={-4}>
