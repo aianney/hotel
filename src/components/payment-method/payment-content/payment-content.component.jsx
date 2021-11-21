@@ -10,7 +10,6 @@ import {
 //import Theme from '../../theme/theme.component'
 import AppContext from '../../app-context/app-context.component'
 import moment from 'moment'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import './payment-content.styles.css'
 
 const Payment = (props) => {
@@ -28,28 +27,6 @@ const Payment = (props) => {
     })
     // eslint-disable-next-line
   }, [info.filters.reservationDates.start, info.filters.reservationDates.end])
-
-  const breakpoints = {
-    values: {
-      xs: 0,
-      sm: 0, // Phone
-      md: 768, // Tablet/Laptop
-      lg: 1500, // Desktop
-      xl: 2000,
-    },
-  }
-
-  const theme = createMuiTheme({
-    breakpoints,
-    typography: {
-      h5: {
-        fontSize: '1.5625rem',
-        [`@media screen and (max-width: ${breakpoints.values.lg}px)`]: {
-          fontSize: '0.6785rem',
-        },
-      },
-    },
-  })
 
   return (
     <div className="booking-details">
@@ -74,13 +51,15 @@ const Payment = (props) => {
             </Box>
           </Grid>
         </Grid>
-
-        <ThemeProvider theme={theme}>
-          <Typography variant="h5">
-            Hello World! Hello World! Hello World! Hello World! Hello World!
-          </Typography>
-        </ThemeProvider>
-        <Box
+        <Grid item xs={12}>
+          <Box px={3}>
+            <Typography variant="introSubtitle">
+              {` Name:${info.guestDetails.firstName}
+               ${info.guestDetails.lastName}`}
+            </Typography>
+          </Box>
+        </Grid>
+        {/* <Box
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -91,9 +70,9 @@ const Payment = (props) => {
             {` Name:${info.guestDetails.firstName}
                ${info.guestDetails.lastName}`}
           </Typography>
-        </Box>
+        </Box> */}
         <Box ml={-3}>
-          <List sx={{ width: { md: '100%', xs: '100%' } }}>
+          {/* <List sx={{ width: { md: '100%', xs: '100%' } }}>
             <ListItemButton>
               <ListItemText>
                 <Typography variant="priceBreakdownTitlePrice">
@@ -107,7 +86,7 @@ const Payment = (props) => {
                 </ListItemText>
               </List>
             </ListItemButton>
-          </List>
+          </List> */}
           <Box mt={-4}>
             <List sx={{ width: '100%' }}>
               <ListItemButton>
