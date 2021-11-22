@@ -1,5 +1,13 @@
 import React from 'react'
-import { Grid, Modal, Typography, Box } from '@material-ui/core'
+import {
+  Grid,
+  Modal,
+  Typography,
+  Box,
+  Button,
+  IconButton,
+} from '@material-ui/core'
+import CancelIcon from '@mui/icons-material/Cancel'
 import Theme from '../../theme/theme.component'
 //import './termsandconditions.styles.css'
 
@@ -46,9 +54,9 @@ export default function TermsAndCondition() {
               xs={12}
               sx={{ display: 'flex', justifyContent: 'flex-end' }}
             >
-              <button onClick={handleClose} className="button-agreed">
-                X
-              </button>
+              <IconButton color="error" sx={{ width: 'auto' }}>
+                <CancelIcon style={{ fontSize: 30 }} onClick={handleClose} />
+              </IconButton>
             </Grid>
             <Typography id="modal-modal-title" variant="h6" component="h2">
               TERMS AND CONDITIONS
@@ -131,11 +139,19 @@ export default function TermsAndCondition() {
               <Grid
                 item
                 xs={12}
+                mb={-5}
                 sx={{ display: 'flex', justifyContent: 'flex-end' }}
               >
-                <button onClick={handleClose} className="button-agreed">
+                <Button
+                  variant="navigationButton"
+                  sx={{
+                    borderRadius: Theme.shape.borderRadius,
+                  }}
+                  onClick={handleClose}
+                  // className="button-agreed"
+                >
                   Agreed
-                </button>
+                </Button>
               </Grid>
               <Grid
                 item
@@ -143,9 +159,16 @@ export default function TermsAndCondition() {
                 mt={-3}
                 sx={{ display: 'flex', justifyContent: 'flex-start' }}
               >
-                <button onClick={handleClose} className="button-cancel">
+                <Button
+                  variant="navigationButton"
+                  sx={{
+                    borderRadius: Theme.shape.borderRadius,
+                  }}
+                  onClick={handleClose}
+                  // className="button-cancel"
+                >
                   Cancel
-                </button>
+                </Button>
               </Grid>
             </Grid>
           </Box>
