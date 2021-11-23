@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Box, Grid } from '@material-ui/core'
+import { Box } from '@material-ui/core'
 import PageStepper from '../../components/page-stepper/page-stepper.component'
 import { AppContext } from '../../components'
 import './payment.styles.css'
@@ -36,11 +36,8 @@ const PaymentPage = ({ handlePressGuestDetails, ...rest }) => {
       <Box my={4}>
         <PageStepper activeStep={2} onClick={handlePressGuestDetails} />
       </Box>
-      <Grid item xs={6}>
-        <PaymentContent />
-      </Grid>
+      <PaymentContent />
       <PaymentPrice />
-      {/* </Box> */}
     </>
   )
 }

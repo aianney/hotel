@@ -11,8 +11,8 @@ import {
   ListItemText,
   Checkbox,
   Grid,
+  FormControlLabel,
 } from '@material-ui/core'
-// import Theme from '../../theme/theme.component'
 import { TermsAndCondition } from '../..'
 
 export default function SwitchListSecondary() {
@@ -63,16 +63,22 @@ export default function SwitchListSecondary() {
                 onChange={(event) => setDense3(event.target.checked)}
               />
             </ListItem>
-            <ListItem>
-              <ListItemText
-                id="switch-list-label-bluetooth"
-                primary={<TermsAndCondition />}
-              />
-              <Checkbox
-                checked={dense2}
-                onChange={(event) => setDense2(event.target.checked)}
-              />
-            </ListItem>
+            <Grid item xs={12}>
+              <ListItem>
+                {/* <ListItemText primary={<TermsAndCondition />} /> */}
+                <Box sx={{ flexGrow: 1, maxWidth: 1800 }}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={dense2}
+                        onChange={(event) => setDense2(event.target.checked)}
+                      />
+                    }
+                    label={<TermsAndCondition />}
+                  />
+                </Box>
+              </ListItem>
+            </Grid>
           </List>
         </Grid>
       </Box>

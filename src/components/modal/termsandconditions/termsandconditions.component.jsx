@@ -1,14 +1,6 @@
 import React from 'react'
-import {
-  Grid,
-  Modal,
-  Typography,
-  Box,
-  Button,
-  IconButton,
-} from '@material-ui/core'
+import { Grid, Modal, Typography, Box, IconButton } from '@material-ui/core'
 import CancelIcon from '@mui/icons-material/Cancel'
-import Theme from '../../theme/theme.component'
 
 export default function TermsAndCondition() {
   const [open, setOpen] = React.useState(false)
@@ -17,12 +9,12 @@ export default function TermsAndCondition() {
 
   return (
     <>
-      <Grid xs={12} sm={6}>
+      <Grid xs={12}>
         <Typography
           style={{ color: '#71c7b8', cursor: 'pointer' }}
           onClick={handleOpen}
           variant="priceBreakdownTitle"
-          sx={{ fontSize: 16 }}
+          sx={{ fontSize: { md: 20, xs: 16 } }}
         >
           I agree to the Terms and Conditions
         </Typography>
@@ -57,7 +49,12 @@ export default function TermsAndCondition() {
                 <CancelIcon style={{ fontSize: 30 }} onClick={handleClose} />
               </IconButton>
             </Grid>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
+            <Typography
+              mt={-3}
+              id="modal-modal-title"
+              variant="h6"
+              component="h2"
+            >
               TERMS AND CONDITIONS
             </Typography>
             <Grid item xs={12}>
@@ -206,7 +203,7 @@ export default function TermsAndCondition() {
                   </ul>
                 </Grid>
               </Typography>
-              <Box mb={1} mt={5}>
+              {/* <Box mb={1} mt={5}>
                 <Grid
                   item
                   xs={12}
@@ -223,8 +220,8 @@ export default function TermsAndCondition() {
                   >
                     Agreed
                   </Button>
-                </Grid>
-                <Grid
+                </Grid> */}
+              {/* <Grid
                   item
                   xs={12}
                   mt={-3}
@@ -241,8 +238,8 @@ export default function TermsAndCondition() {
                   >
                     Cancel
                   </Button>
-                </Grid>
-              </Box>
+                </Grid> */}
+              {/* </Box> */}
             </Grid>
           </Box>
         </Modal>

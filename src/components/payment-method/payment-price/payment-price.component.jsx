@@ -152,7 +152,13 @@ const PaymentPrice = () => {
                               <Box>
                                 <Typography
                                   variant="priceBreakdownTitle"
-                                  sx={{ fontStyle: 'italic', fontWeight: 500 }}
+                                  sx={{
+                                    fontStyle: {
+                                      md: 'italic',
+                                    },
+                                    fontWeight: { md: 500 },
+                                    fontSize: { md: 20, xs: 16 },
+                                  }}
                                 >
                                   {x.rate}
                                 </Typography>
@@ -160,7 +166,13 @@ const PaymentPrice = () => {
                               <Box>
                                 <Typography
                                   variant="priceBreakdownTitle"
-                                  sx={{ fontStyle: 'italic', fontWeight: 500 }}
+                                  sx={{
+                                    fontStyle: {
+                                      md: 'italic',
+                                    },
+                                    fontWeight: { md: 500 },
+                                    fontSize: { md: 20, xs: 16 },
+                                  }}
                                 >
                                   {`${info.filters.currency}
                                                             ${(
@@ -202,7 +214,7 @@ const PaymentPrice = () => {
                                     onClick={handleClick}
                                     style={{ cursor: 'pointer' }}
                                   >
-                                    Add Ons
+                                    Add Ons:
                                   </Button>
                                 </Typography>
                               </Box>
@@ -237,9 +249,12 @@ const PaymentPrice = () => {
                                           <Typography
                                             variant="priceBreakdownTitle"
                                             sx={{
-                                              fontStyle: 'italic',
-                                              fontWeight: 500,
                                               wordWrap: 'break-word',
+                                              fontStyle: {
+                                                md: 'italic',
+                                              },
+                                              fontWeight: { md: 500 },
+                                              fontSize: { md: 20, xs: 14 },
                                             }}
                                           >
                                             {`${
@@ -253,8 +268,11 @@ const PaymentPrice = () => {
                                           <Typography
                                             variant="priceBreakdownTitle"
                                             sx={{
-                                              fontStyle: 'italic',
-                                              fontWeight: 500,
+                                              fontStyle: {
+                                                md: 'italic',
+                                              },
+                                              fontWeight: { md: 500 },
+                                              fontSize: { md: 20, xs: 16 },
                                             }}
                                           >
                                             {`${info.filters.currency} 
@@ -312,7 +330,14 @@ const PaymentPrice = () => {
                             <Box>
                               <Typography
                                 variant="priceBreakdownTitle"
-                                sx={{ wordWrap: 'break-word' }}
+                                sx={{
+                                  wordWrap: 'break-word',
+                                  fontStyle: {
+                                    md: 'italic',
+                                  },
+                                  fontWeight: { md: 500 },
+                                  fontSize: { md: 20, xs: 16 },
+                                }}
                               >
                                 {`Subtotal for 
                                                         Room
@@ -353,7 +378,14 @@ const PaymentPrice = () => {
                     <Box sx={{ ...alignCenter, justifyContent: 'flex-end' }}>
                       <Typography
                         variant="priceBreakdownTitle"
-                        sx={{ textAlign: 'center' }}
+                        sx={{
+                          textAlign: 'center',
+                          fontStyle: {
+                            md: 'italic',
+                          },
+                          fontWeight: { md: 500 },
+                          fontSize: { md: 20, xs: 16 },
+                        }}
                       >
                         {`Subtotal for ${room.roomAttributes.roomName}: `}
                       </Typography>
@@ -418,13 +450,16 @@ const PaymentPrice = () => {
                   variant="priceBreakdownTitle"
                   sx={{
                     fontWeight: Theme.typography.fontWeightBlack,
-                    fontSize: 16,
+                    fontSize: { md: 20, xs: 16 },
                     textTransform: 'uppercase',
                   }}
                 >
                   {`Rooms: `}
                 </Typography>
-                <Typography variant="priceBreakdownTitle" sx={{ fontSize: 16 }}>
+                <Typography
+                  variant="priceBreakdownTitle"
+                  sx={{ fontSize: { md: 20, xs: 16 } }}
+                >
                   {info.filters.currency && info.filters.currencyRate
                     ? `${info.filters.currency} ${(
                         (info.roomSelection.rooms.length
@@ -447,13 +482,16 @@ const PaymentPrice = () => {
                   variant="priceBreakdownTitle"
                   sx={{
                     fontWeight: Theme.typography.fontWeightBlack,
-                    fontSize: 16,
+                    fontSize: { md: 20, xs: 16 },
                     textTransform: 'uppercase',
                   }}
                 >
                   {`Add Ons: `}
                 </Typography>
-                <Typography variant="priceBreakdownTitle" sx={{ fontSize: 16 }}>
+                <Typography
+                  variant="priceBreakdownTitle"
+                  sx={{ fontSize: { md: 20, xs: 16 } }}
+                >
                   {info.filters.currency && info.filters.currencyRate
                     ? `${info.filters.currency} ${(
                         (info.roomSelection.rooms.length
@@ -479,7 +517,7 @@ const PaymentPrice = () => {
                   variant="priceBreakdownTitle"
                   sx={{
                     fontWeight: Theme.typography.fontWeightBlack,
-                    fontSize: 16,
+                    fontSize: { md: 20, xs: 16 },
                     textTransform: 'uppercase',
                   }}
                 >
