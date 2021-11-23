@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useHistory } from 'react-router-dom'
 import { Box, Button, Grid, IconButton, Typography } from '@material-ui/core'
 import {
   AppContext,
@@ -12,51 +11,39 @@ import {
 import { BsSliders } from 'react-icons/bs'
 
 const RoomSelection = () => {
-  const { info, setInfo } = useContext(AppContext),
+  const { info, info: { filters, reservationInformation, roomSelection }, setInfo } = useContext(AppContext),
     iconSize = 22,
-    history = useHistory(),
-    [filterOpen, setFilterOpen] = useState(false),
+    [filterOpen, setFilterOpen] = useState(!filters.reservationDates.start && !filters.reservationDates.end),
     [priceBreakdownOpen, setPriceBreakdownOpen] = useState(false),
     [dateChange, setDateChange] = useState(false),
     [proceed, setProceed] = useState(false),
-    // Function to go back to Intro Page if no data has been set START
-    backToIntro = () => {
-      if (
-        !info.filters.reservationDates.start ||
-        !info.filters.reservationDates.end ||
-        !info.reservationInformation
-      ) {
-        history.push('/')
-      }
-    },
-    // Function to go back to Intro Page if no data has been set END
 
     updateTotalPayment = () => {
       setInfo({
         ...info,
         roomSelection: {
-          ...info.roomSelection,
-          rooms: info.roomSelection.rooms,
+          ...roomSelection,
+          rooms: roomSelection.rooms,
           totalPayment:
-            info.roomSelection.rooms && info.roomSelection.rooms.length
-              ? info.roomSelection.rooms
-                  .map(
-                    (room) =>
-                      room.price +
-                      (room.addOns.length
-                        ? room.addOns
-                            .map((addOn) => addOn.count * addOn.price)
-                            .reduce((a, b) => a + b)
-                        : 0),
-                  )
-                  .reduce((a, b) => a + b)
+            roomSelection.rooms && roomSelection.rooms.length
+              ? roomSelection.rooms
+                .map(
+                  (room) =>
+                    room.price +
+                    (room.addOns.length
+                      ? room.addOns
+                        .map((addOn) => addOn.count * addOn.price)
+                        .reduce((a, b) => a + b)
+                      : 0),
+                )
+                .reduce((a, b) => a + b)
               : 0,
         },
       })
     }
 
   useEffect(() => {
-    backToIntro()
+    // backToIntro()
     document.title =
       'Acea Beach Resort - Select the rooms that you want to book'
     document.body.scrollTop = document.documentElement.scrollTop = 0
@@ -111,8 +98,8 @@ const RoomSelection = () => {
         </Grid>
       </Box>
 
-      {info.reservationInformation ? (
-        info.reservationInformation.room.map((roomInformation, index) => (
+      {reservationInformation ? (
+        reservationInformation.room.map((roomInformation, index) => (
           <>
             <Room
               information={roomInformation}
@@ -130,7 +117,7 @@ const RoomSelection = () => {
         filterOpen={filterOpen}
         setFilterOpen={setFilterOpen}
         setDateChange={setDateChange}
-        text="Apply Now"
+        text="Apply Filter"
       />
       {/* Filter END */}
 
@@ -149,7 +136,7 @@ const RoomSelection = () => {
           setProceed(true)
           setPriceBreakdownOpen(true)
         }}
-        disabled={info.roomSelection.rooms && !info.roomSelection.rooms.length}
+        disabled={roomSelection.rooms && !roomSelection.rooms.length}
       >
         Proceed
       </CustomButton>
@@ -161,7 +148,7 @@ const RoomSelection = () => {
             setPriceBreakdownOpen((priceBreakdownOpen) => !priceBreakdownOpen)
           }}
           disabled={
-            info.roomSelection.rooms && !info.roomSelection.rooms.length
+            roomSelection.rooms && !roomSelection.rooms.length
           }
         >
           <Box
@@ -172,7 +159,7 @@ const RoomSelection = () => {
               color: 'unset',
             }}
           >
-            Price Breakdown
+            Cost Summary
           </Box>
         </Button>
       </Box>

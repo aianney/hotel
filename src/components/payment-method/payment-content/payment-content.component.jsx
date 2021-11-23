@@ -8,6 +8,7 @@ import {
   ListItemText,
 } from '@material-ui/core'
 import AppContext from '../../app-context/app-context.component'
+import Theme from '../../theme/theme.component'
 import moment from 'moment'
 import './payment-content.styles.css'
 
@@ -54,10 +55,20 @@ const Payment = (props) => {
           <List sx={{ width: { md: '100%', xs: '100%' } }}>
             <ListItemButton>
               <ListItemText>
-                <Typography variant="priceBreakdownTitlePrice">
+                <Typography
+                  variant="pageTitle"
+                  sx={{
+                    fontWeight: Theme.typography.fontWeightBlack,
+                    fontSize: Theme.typography.fontSize,
+                    // textTransform: 'uppercase',
+                  }}
+                >
                   Name:{' '}
-                  {`${info.guestDetails.firstName}
+                  <Typography variant="priceBreakdownTitlePrice">
+                    {' '}
+                    {`${info.guestDetails.firstName}
                ${info.guestDetails.lastName}`}
+                  </Typography>
                 </Typography>
               </ListItemText>
             </ListItemButton>
@@ -66,14 +77,21 @@ const Payment = (props) => {
             <List sx={{ width: '100%' }}>
               <ListItemButton>
                 <ListItemText>
-                  <Typography variant="priceBreakdownTitlePrice">
-                    Email:{' '}
+                  <Typography
+                    variant="pageTitle"
+                    sx={{
+                      fontWeight: Theme.typography.fontWeightBlack,
+                      fontSize: Theme.typography.fontSize,
+                      // textTransform: 'uppercase',
+                    }}
+                  >
+                    Email:
                   </Typography>
-                  {info.guestDetails.email}
+                  <Typography variant="priceBreakdownTitlePrice">
+                    {' '}
+                    {info.guestDetails.email}
+                  </Typography>
                 </ListItemText>
-                {/* <Box mr={6}>
-                  <ListItemText>{info.guestDetails.email}</ListItemText>
-                </Box> */}
               </ListItemButton>
             </List>
           </Box>
@@ -81,8 +99,18 @@ const Payment = (props) => {
             <List sx={{ width: '100%' }}>
               <ListItemButton>
                 <ListItemText>
-                  <Typography variant="priceBreakdownTitlePrice">
-                    Contact: {info.guestDetails.phoneNumber}
+                  <Typography
+                    variant="pageTitle"
+                    sx={{
+                      fontWeight: Theme.typography.fontWeightBlack,
+                      fontSize: Theme.typography.fontSize,
+                      // textTransform: 'uppercase',
+                    }}
+                  >
+                    Contact:
+                    <Typography variant="priceBreakdownTitlePrice">
+                      {info.guestDetails.phoneNumber}
+                    </Typography>
                   </Typography>
                 </ListItemText>
                 {/* <Box mr={14}>
@@ -99,19 +127,22 @@ const Payment = (props) => {
             <List sx={{ width: '100%' }}>
               <ListItemButton>
                 <ListItemText>
-                  <Typography variant="priceBreakdownTitlePrice">
+                  <Typography
+                    variant="pageTitle"
+                    sx={{
+                      fontWeight: Theme.typography.fontWeightBlack,
+                      fontSize: Theme.typography.fontSize,
+                      // textTransform: 'uppercase',
+                    }}
+                  >
                     Stay Period: {'  '}
                     <Typography variant="priceBreakdownTitlePrice">
-                      {moment(info.filters.reservationDates.start).format(
-                        'MMMM DD, YYYY',
-                      )}{' '}
+                      {moment(info.filters.reservationDates.start).format('ll')}{' '}
                       {''}
                     </Typography>
                     <Typography variant="priceBreakdownTitlePrice">
                       To{' '}
-                      {moment(info.filters.reservationDates.end).format(
-                        'MMMM DD, YYYY',
-                      )}
+                      {moment(info.filters.reservationDates.end).format('ll')}
                     </Typography>
                   </Typography>
                 </ListItemText>

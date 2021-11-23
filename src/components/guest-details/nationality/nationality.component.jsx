@@ -1,27 +1,40 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import dataCountries from './data-countries.component'
 import { AppContext } from '../..'
 
 const Nationality = () => {
   const { info, setInfo } = useContext(AppContext),
-    setNationality = (nationality) =>
-      setInfo({
-        ...info,
-        guestDetails: {
-          ...info.guestDetails,
-          nationality,
-        },
-      })
+    // [country, setCountry] = useState('Philippines'),
+    [nationality, setNationality] = useState('Philippines')
+
+  // const handleNationality = (nationality) => {
+  //   setNationality(nationality.target.value)
+  // }
+
+  useEffect(() => {
+    setInfo({
+      ...info,
+      guestDetails: {
+        ...info.guestDetails,
+        nationality,
+      },
+    })
+    // eslint-disable-next-line
+  }, [nationality])
 
   return (
     <FormControl fullWidth>
-      <InputLabel id="nationality">Nationality</InputLabel>
+      <InputLabel id="philippines">Nationality</InputLabel>
       <Select
         fullWidth
-        labelId="nationality"
+        labelId="philippines"
         label="Nationality"
-        onChange={(e) => setNationality(e.target.value)}
+        value={nationality}
+        onChange={(selectedCountry, i) => {
+          setNationality(selectedCountry.target.value)
+        }}
+        // onChange={(e) => setNationality(e.target.value)}
       >
         {dataCountries.map((nationality) => (
           <MenuItem value={nationality.label}>

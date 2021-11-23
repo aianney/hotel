@@ -15,22 +15,21 @@ import moment from 'moment'
 import PriceBreakDownContent from '../price-breakdown-content/price-breakdown-content.component'
 
 const PriceBreakdown = (props) => {
-  const { info } = useContext(AppContext),
+  const { info, info: { filters, roomSelection } } = useContext(AppContext),
     [showDetails, setShowDetails] = useState(false),
     history = useHistory(),
     alignCenter = { display: 'flex', alignItems: 'center' },
     dateDifference = moment
       .duration(
-        moment(info.filters.reservationDates.end).diff(
-          moment(info.filters.reservationDates.start),
+        moment(filters.reservationDates.end).diff(
+          moment(filters.reservationDates.start),
         ),
       )
       .asDays(),
-    totalPrice = info.filters.currency && info.filters.currencyRate
-      ? `${info.filters.currency} ${(
-        info.roomSelection.totalPayment *
-        info.filters.currencyRate *
-        dateDifference
+    totalPrice = filters.currency && filters.currencyRate
+      ? `${filters.currency} ${(
+        roomSelection.totalPayment *
+        filters.currencyRate
       ).toLocaleString(undefined, {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
@@ -38,7 +37,7 @@ const PriceBreakdown = (props) => {
       : 0
 
   useEffect(() => {
-    if (info.roomSelection.rooms && !info.roomSelection.rooms.length) {
+    if (roomSelection.rooms && !roomSelection.rooms.length) {
       props.setPriceBreakdownOpen(false)
     }
     // eslint-disable-next-line
@@ -109,7 +108,7 @@ const PriceBreakdown = (props) => {
               <Grid container spacing={3}>
                 <Grid item xs={12}>
                   <Typography variant="filterLabel">
-                    Price Breakdown (Staying for {dateDifference} day
+                    Cost Summary ({roomSelection.rooms.length} room{roomSelection.rooms.length === 1 ? "" : "s"} for {dateDifference} night
                     {dateDifference !== 1 ? 's' : ''})
                   </Typography>
                 </Grid>
@@ -143,7 +142,7 @@ const PriceBreakdown = (props) => {
                         color: 'unset',
                       }}
                     >
-                      {showDetails ? 'hide' : 'show'} Detailed Breakdown
+                      {showDetails ? 'hide' : 'show'} Detailed Summary
                     </Box>
                   </Button>
                 </Grid>
@@ -174,15 +173,14 @@ const PriceBreakdown = (props) => {
                           variant="priceBreakdownTitle"
                           sx={{ fontSize: Theme.typography.fontSizeXs }}
                         >
-                          {info.filters.currency && info.filters.currencyRate
-                            ? `${info.filters.currency} ${(
-                              (info.roomSelection.rooms.length
-                                ? info.roomSelection.rooms
+                          {filters.currency && filters.currencyRate
+                            ? `${filters.currency} ${(
+                              (roomSelection.rooms.length
+                                ? roomSelection.rooms
                                   .map((room) => room.price)
                                   .reduce((a, b) => a + b)
                                 : 0) *
-                              info.filters.currencyRate *
-                              dateDifference
+                              filters.currencyRate
                             ).toLocaleString(undefined, {
                               minimumFractionDigits: 2,
                               maximumFractionDigits: 2,
@@ -208,24 +206,23 @@ const PriceBreakdown = (props) => {
                           variant="priceBreakdownTitle"
                           sx={{ fontSize: Theme.typography.fontSizeXs }}
                         >
-                          {info.filters.currency && info.filters.currencyRate
-                            ? `${info.filters.currency} ${(
-                              (info.roomSelection.rooms.length
-                                ? info.roomSelection.rooms
+                          {filters.currency && filters.currencyRate
+                            ? `${filters.currency} ${(
+                              (roomSelection.rooms.length
+                                ? roomSelection.rooms
                                   .map((room) =>
                                     room.addOns.length
                                       ? room.addOns
                                         .map(
                                           (addOn) =>
-                                            addOn.count * addOn.price,
+                                            addOn.count * addOn.price * dateDifference,
                                         )
                                         .reduce((a, b) => a + b)
                                       : 0,
                                   )
                                   .reduce((a, b) => a + b)
                                 : 0) *
-                              info.filters.currencyRate *
-                              dateDifference
+                              filters.currencyRate
                             ).toLocaleString(undefined, {
                               minimumFractionDigits: 2,
                               maximumFractionDigits: 2,
@@ -292,7 +289,7 @@ const PriceBreakdown = (props) => {
                   history.push('/guest-details')
                 }}
                 disabled={
-                  info.roomSelection.rooms && info.roomSelection.rooms.length
+                  roomSelection.rooms && roomSelection.rooms.length
                     ? false
                     : true
                 }

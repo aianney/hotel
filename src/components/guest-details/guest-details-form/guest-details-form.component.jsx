@@ -21,7 +21,7 @@ const GuestDetailsForm = () => {
     [errorBirthday, setErrorBirthday] = useState(''),
     { info, setInfo } = useContext(AppContext),
     history = useHistory(),
-    regexName = new RegExp(/^[-a-zA-Z()]+(\s+[-a-zA-Z()]+)*$/),
+    regexName = new RegExp(/^[a-zA-Z ]*$/),
     // eslint-disable-next-line
     regexNumber = new RegExp(
       // eslint-disable-next-line
@@ -208,7 +208,7 @@ const GuestDetailsForm = () => {
                   variant="outlined"
                   inputProps={{ maxLength: 120, autoComplete: 'off' }}
                   // autoComplete="off"
-                  autoFocus={true}
+                  // autoFocus={true}
                   fullWidth
                   required
                 />
@@ -320,13 +320,12 @@ const GuestDetailsForm = () => {
             </Grid>
             <CustomButton
               disabled={
-                errorFirstName ||
-                errorLastName ||
-                errorPhoneNumber ||
-                errorEmail ||
-                errorBirthday ||
-                !info.guestDetails.region ||
-                !info.guestDetails.birthdate
+                errorFirstName || errorLastName
+                // errorPhoneNumber ||
+                // errorEmail ||
+                // errorBirthday ||
+                // !info.guestDetails.region ||
+                // !info.guestDetails.birthdate
               }
               onClick={() => history.push('/payments')}
             >

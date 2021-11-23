@@ -1,5 +1,14 @@
 import React, { useContext } from 'react'
-import { Box, Divider, Grid, IconButton, Typography, Card } from '@mui/material'
+import {
+  Box,
+  Divider,
+  Grid,
+  IconButton,
+  Typography,
+  Card,
+  Popover,
+  Button,
+} from '@mui/material'
 import AppContext from '../../app-context/app-context.component'
 import Theme from '../../theme/theme.component'
 import { BsDashCircleFill } from 'react-icons/bs'
@@ -7,7 +16,7 @@ import moment from 'moment'
 import PaymentButton from '../../payment-method/payment-button/payment-button.component'
 import PaymentOptions from '../../payment-method/payment-options/payment-options.component'
 
-const PriceBreakDownContent = (props) => {
+const PaymentPrice = () => {
   const { info, setInfo } = useContext(AppContext),
     alignCenter = { display: 'flex', alignItems: 'center' },
     dateDifference = moment
@@ -18,20 +27,49 @@ const PriceBreakDownContent = (props) => {
       )
       .asDays(),
     removeRoomType = (roomType) => {
-      let updates = info.roomSelection.rooms.length
-        ? info.roomSelection.rooms
-            .map((room) => (!room.id.includes(roomType) ? room : null))
-            .filter((room) => room)
-        : []
+      const roomRemoved = info.roomSelection.rooms.length
+          ? info.roomSelection.rooms
+              .map((room) => (!room.id.includes(roomType) ? room : null))
+              .filter((room) => room)
+          : [],
+        updates = {
+          ...info,
+          roomSelection: {
+            ...info.roomSelection,
+            rooms: roomRemoved,
+            totalPayment: roomRemoved.length
+              ? roomRemoved
+                  .map((room) =>
+                    !room.id.includes(roomType)
+                      ? room.price +
+                        (room.addOns.length
+                          ? room.addOns
+                              .map((addOn) => addOn.price * addOn.count)
+                              .reduce((a, b) => a + b)
+                          : 0)
+                      : 0,
+                  )
+                  .reduce((a, b) => a + b)
+              : 0,
+          },
+        }
 
-      setInfo({
-        ...info,
-        roomSelection: {
-          ...info.roomSelection,
-          rooms: updates,
-        },
-      })
+      setInfo(updates)
+      console.log(roomRemoved)
     }
+
+  const [anchorEl, setAnchorEl] = React.useState(null)
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const open = Boolean(anchorEl)
+  const id = open ? 'simple-popover' : undefined
 
   return (
     <>
@@ -48,13 +86,19 @@ const PriceBreakDownContent = (props) => {
                 >
                   <Typography
                     variant="priceBreakdownTitle"
-                    sx={{ fontWeight: Theme.typography.bold }}
+                    sx={{
+                      fontWeight: Theme.typography.bold,
+                      fontSize: Theme.typography.fontSizeLg,
+                    }}
                   >
                     {room.roomAttributes.roomName}
                   </Typography>
                   <IconButton
                     color="error"
-                    sx={{ width: 'auto' }}
+                    sx={{
+                      width: 'auto',
+                      fontSize: Theme.typography.fontSizeLg,
+                    }}
                     onClick={() => removeRoomType(room.roomType)}
                   >
                     <BsDashCircleFill />
@@ -66,9 +110,20 @@ const PriceBreakDownContent = (props) => {
                       .filter((x) => x.id.includes(room.roomType))
                       .map((x, i) => (
                         <>
-                          <Grid item xs={12}>
+                          <Grid
+                            item
+                            xs={12}
+                            sx={{
+                              display:
+                                info.roomSelection.rooms.filter((x) =>
+                                  x.id.includes(room.roomType),
+                                ).length === 1
+                                  ? 'none'
+                                  : '',
+                            }}
+                          >
                             <Box
-                              px={2}
+                              px={1}
                               sx={{
                                 ...alignCenter,
                                 justifyContent: 'space-between',
@@ -77,9 +132,9 @@ const PriceBreakDownContent = (props) => {
                               <Box>
                                 <Typography
                                   variant="priceBreakdownTitle"
-                                  sx={{ fontSize: 16 }}
+                                  sx={{ fontSize: Theme.typography.fontSize }}
                                 >
-                                  {`${room.roomType} ${i + 1}`}
+                                  {`Room ${i + 1}`}
                                 </Typography>
                               </Box>
                             </Box>
@@ -88,8 +143,7 @@ const PriceBreakDownContent = (props) => {
                           {/*Room Rate START */}
                           <Grid item xs={12}>
                             <Box
-                              pl={3}
-                              pr={2}
+                              pl={1}
                               sx={{
                                 ...alignCenter,
                                 justifyContent: 'space-between',
@@ -98,11 +152,7 @@ const PriceBreakDownContent = (props) => {
                               <Box>
                                 <Typography
                                   variant="priceBreakdownTitle"
-                                  sx={{
-                                    fontStyle: 'italic',
-                                    fontSize: 16,
-                                    fontWeight: 500,
-                                  }}
+                                  sx={{ fontStyle: 'italic', fontWeight: 500 }}
                                 >
                                   {x.rate}
                                 </Typography>
@@ -110,18 +160,13 @@ const PriceBreakDownContent = (props) => {
                               <Box>
                                 <Typography
                                   variant="priceBreakdownTitle"
-                                  sx={{
-                                    fontStyle: 'italic',
-                                    fontSize: 16,
-                                    fontWeight: 500,
-                                  }}
+                                  sx={{ fontStyle: 'italic', fontWeight: 500 }}
                                 >
                                   {`${info.filters.currency}
                                                             ${(
                                                               x.price *
                                                               info.filters
-                                                                .currencyRate *
-                                                              dateDifference
+                                                                .currencyRate
                                                             ).toLocaleString(
                                                               undefined,
                                                               {
@@ -136,22 +181,29 @@ const PriceBreakDownContent = (props) => {
                           {/*Room Rate END */}
 
                           {/* Show AddOns Label START */}
+
                           {x.addOns.length &&
                           x.addOns
                             .map((addOn) => addOn.count)
                             .reduce((a, b) => a + b) ? (
                             <Grid item xs={12} sx={{ ...alignCenter }}>
-                              <Box pl={3} pr={2} sx={{ width: '50%' }}>
+                              <Box pl={1} sx={{ width: '50%' }}>
                                 <Typography
                                   variant="priceBreakdownTitle"
                                   sx={{
                                     fontStyle: 'italic',
-                                    fontSize: 14,
                                     fontWeight: 500,
                                     wordWrap: 'break-word',
                                   }}
                                 >
-                                  AddOns:
+                                  <Button
+                                    aria-describedby={id}
+                                    variant="contained"
+                                    onClick={handleClick}
+                                    style={{ cursor: 'pointer' }}
+                                  >
+                                    Add Ons
+                                  </Button>
                                 </Typography>
                               </Box>
                             </Grid>
@@ -159,45 +211,53 @@ const PriceBreakDownContent = (props) => {
                             <></>
                           )}
                           {/* Show AddOns Label END */}
-
-                          {/* AddOns START */}
-                          {x.addOns.length ? (
-                            x.addOns.map((addOn, index) =>
-                              addOn.count ? (
-                                <Grid item xs={12}>
-                                  <Box
-                                    pl={4}
-                                    pr={2}
-                                    sx={{
-                                      ...alignCenter,
-                                      justifyContent: 'space-between',
-                                    }}
-                                  >
-                                    <Box sx={{ width: '50%' }}>
-                                      <Typography
-                                        variant="priceBreakdownTitle"
+                          <Popover
+                            id={id}
+                            open={open}
+                            anchorEl={anchorEl}
+                            onClose={handleClose}
+                            anchorOrigin={{
+                              vertical: 'bottom',
+                              horizontal: 'left',
+                            }}
+                          >
+                            <Typography sx={{ p: 2 }}>
+                              {x.addOns.length ? (
+                                x.addOns.map((addOn, index) =>
+                                  addOn.count ? (
+                                    <Grid item xs={12}>
+                                      <Box
+                                        pl={1}
                                         sx={{
-                                          fontStyle: 'italic',
-                                          fontSize: 14,
-                                          fontWeight: 500,
-                                          wordWrap: 'break-word',
+                                          ...alignCenter,
+                                          justifyContent: 'space-between',
                                         }}
                                       >
-                                        {`${
-                                          addOn.count ? `(${addOn.count})` : ''
-                                        } ${addOn.description}`}
-                                      </Typography>
-                                    </Box>
-                                    <Box>
-                                      <Typography
-                                        variant="priceBreakdownTitle"
-                                        sx={{
-                                          fontStyle: 'italic',
-                                          fontSize: 14,
-                                          fontWeight: 500,
-                                        }}
-                                      >
-                                        {`${info.filters.currency} 
+                                        <Box>
+                                          <Typography
+                                            variant="priceBreakdownTitle"
+                                            sx={{
+                                              fontStyle: 'italic',
+                                              fontWeight: 500,
+                                              wordWrap: 'break-word',
+                                            }}
+                                          >
+                                            {`${
+                                              addOn.count
+                                                ? `(${addOn.count})`
+                                                : ''
+                                            } ${addOn.description}`}
+                                          </Typography>
+                                        </Box>
+                                        <Box>
+                                          <Typography
+                                            variant="priceBreakdownTitle"
+                                            sx={{
+                                              fontStyle: 'italic',
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            {`${info.filters.currency} 
                                                                             ${(
                                                                               addOn.price *
                                                                               addOn.count *
@@ -212,17 +272,21 @@ const PriceBreakDownContent = (props) => {
                                                                                 maximumFractionDigits: 2,
                                                                               },
                                                                             )}`}
-                                      </Typography>
-                                    </Box>
-                                  </Box>
-                                </Grid>
+                                          </Typography>
+                                        </Box>
+                                      </Box>
+                                    </Grid>
+                                  ) : (
+                                    <></>
+                                  ),
+                                )
                               ) : (
-                                <></>
-                              ),
-                            )
-                          ) : (
-                            <> </>
-                          )}
+                                <> </>
+                              )}
+                            </Typography>
+                          </Popover>
+                          {/* AddOns START */}
+
                           {/* AddOns END */}
 
                           {/* Subtotal per Room START */}
@@ -230,15 +294,28 @@ const PriceBreakDownContent = (props) => {
                             item
                             xs={12}
                             mt={1}
-                            sx={{ ...alignCenter, justifyContent: 'flex-end' }}
+                            mb={2}
+                            sx={{
+                              ...alignCenter,
+                              justifyContent: 'flex-end',
+                              display:
+                                info.roomSelection.rooms.filter((x) =>
+                                  x.id.includes(room.roomType),
+                                ).length > 1 &&
+                                x.addOns
+                                  .map((addOn) => addOn.count)
+                                  .reduce((a, b) => a + b) > 0
+                                  ? 'flex'
+                                  : 'none',
+                            }}
                           >
-                            <Box pr={2}>
+                            <Box>
                               <Typography
                                 variant="priceBreakdownTitle"
-                                sx={{ fontSize: 16, wordWrap: 'break-word' }}
+                                sx={{ wordWrap: 'break-word' }}
                               >
                                 {`Subtotal for 
-                                                        ${room.roomType} 
+                                                        Room
                                                         ${i + 1}: 
                                                         ${
                                                           info.filters.currency
@@ -249,14 +326,14 @@ const PriceBreakDownContent = (props) => {
                                                               .map(
                                                                 (addOn) =>
                                                                   addOn.count *
-                                                                  addOn.price,
+                                                                  addOn.price *
+                                                                  dateDifference,
                                                               )
                                                               .reduce(
                                                                 (a, b) => a + b,
                                                               )) *
                                                           info.filters
-                                                            .currencyRate *
-                                                          dateDifference
+                                                            .currencyRate
                                                         ).toLocaleString(
                                                           undefined,
                                                           {
@@ -272,19 +349,19 @@ const PriceBreakDownContent = (props) => {
                       ))}
                   </Grid>
                   {/* Subtotal per Room START */}
-                  <Grid item xs={12} mt={2} pr={2} pb={2}>
+                  <Grid item xs={12} my={2}>
                     <Box sx={{ ...alignCenter, justifyContent: 'flex-end' }}>
                       <Typography
                         variant="priceBreakdownTitle"
-                        sx={{ fontSize: 16, textAlign: 'center' }}
+                        sx={{ textAlign: 'center' }}
                       >
                         {`Subtotal for ${room.roomAttributes.roomName}: `}
                       </Typography>
                     </Box>
                     <Box sx={{ ...alignCenter, justifyContent: 'flex-end' }}>
                       <Typography
-                        variant="priceBreakdownTitle"
-                        sx={{ fontSize: 20, textAlign: 'center' }}
+                        variant="priceBreakdownTotal"
+                        sx={{ fontSize: '1.5rem', textAlign: 'center' }}
                       >
                         {`
                                         
@@ -296,13 +373,17 @@ const PriceBreakDownContent = (props) => {
                                 e.price +
                                 (e.addOns
                                   ? e.addOns
-                                      .map((addOn) => addOn.count * addOn.price)
+                                      .map(
+                                        (addOn) =>
+                                          addOn.count *
+                                          addOn.price *
+                                          dateDifference,
+                                      )
                                       .reduce((a, b) => a + b)
                                   : 0),
                             )
                             .reduce((a, b) => a + b, 0) *
-                          info.filters.currencyRate *
-                          dateDifference
+                          info.filters.currencyRate
                         ).toLocaleString(undefined, {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,
@@ -328,7 +409,7 @@ const PriceBreakDownContent = (props) => {
               borderRadius: Theme.shape.borderRadius,
             }}
           >
-            <Box px={2} py={2}>
+            <Box px={1} py={2}>
               <Box
                 my={1}
                 sx={{ ...alignCenter, justifyContent: 'space-between' }}
@@ -350,9 +431,7 @@ const PriceBreakDownContent = (props) => {
                           ? info.roomSelection.rooms
                               .map((room) => room.price)
                               .reduce((a, b) => a + b)
-                          : 0) *
-                        info.filters.currencyRate *
-                        dateDifference
+                          : 0) * info.filters.currencyRate
                       ).toLocaleString(undefined, {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
@@ -387,9 +466,7 @@ const PriceBreakDownContent = (props) => {
                                   : 0,
                               )
                               .reduce((a, b) => a + b)
-                          : 0) *
-                        info.filters.currencyRate *
-                        dateDifference
+                          : 0) * info.filters.currencyRate
                       ).toLocaleString(undefined, {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
@@ -412,8 +489,7 @@ const PriceBreakDownContent = (props) => {
                   {info.filters.currency && info.filters.currencyRate
                     ? `${info.filters.currency} ${(
                         info.roomSelection.totalPayment *
-                        info.filters.currencyRate *
-                        dateDifference
+                        info.filters.currencyRate
                       ).toLocaleString(undefined, {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
@@ -433,4 +509,4 @@ const PriceBreakDownContent = (props) => {
   )
 }
 
-export default PriceBreakDownContent
+export default PaymentPrice

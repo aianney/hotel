@@ -4,15 +4,20 @@ import { AppContext, RoomCard, Theme } from '..'
 import { Box, Button, ButtonGroup, Grid, Typography } from '@material-ui/core'
 import { BsInfoCircle, BsDash, BsPlus } from 'react-icons/bs'
 import DeluxeSeaViewImage from '../../assets/media/images/deluxe-sea-view.png'
+import moment from "moment"
 
 const Room = (props) => {
-  const { info, setInfo } = useContext(AppContext),
+  const { info, info: { filters, reservationInformation, roomSelection }, setInfo } = useContext(AppContext),
     defaults = {
       room: {
-        adults: info.filters.guests.adults,
-        children: info.filters.guests.children,
-        addOns: info.reservationInformation
-          ? info.reservationInformation.addOnList
+        adults: filters.guests.adults > reservationInformation.room[props.index].roomAttributes.maxPax ?
+          reservationInformation.room[props.index].roomAttributes.maxPax :
+          filters.guests.adults,
+        children: filters.guests.children > reservationInformation.room[props.index].roomAttributes.maxChild ?
+        reservationInformation.room[props.index].roomAttributes.maxChild :
+        filters.guests.children,
+        addOns: reservationInformation
+          ? reservationInformation.addOnList
             .map((addOn) => {
               const addOnTemplate = {
                 id: addOn.id,
@@ -26,53 +31,62 @@ const Room = (props) => {
           : null,
       },
     },
+    dateDifference = moment
+      .duration(
+        moment(filters.reservationDates.end).diff(
+          moment(filters.reservationDates.start),
+        ),
+      )
+      .asDays(),
+
+
     addRoom = (index) => {
       const newRoom = {
         ...defaults.room,
-        id: info.reservationInformation
-          ? `${info.roomSelection.rooms.length}-${info.reservationInformation.room[index].roomType}`
+        id: reservationInformation
+          ? `${roomSelection.rooms.length}-${reservationInformation.room[index].roomType}`
           : null,
-        price: info.reservationInformation
-          ? info.reservationInformation.room[index].roomRates
+        price: reservationInformation
+          ? reservationInformation.room[index].roomRates
             .filter((e) => e[3])
             .map((e) => parseFloat(e[4]))
             .reduce((a, b) => a + b)
           : 0,
-        rate: info.reservationInformation
-          ? info.reservationInformation.room[index].roomRates[0][3]
+        rate: reservationInformation
+          ? reservationInformation.room[index].roomRates[0][3]
           : 0,
       },
         updates = {
           ...info,
           roomSelection: {
-            ...info.roomSelection,
-            rooms: [...info.roomSelection.rooms, newRoom],
-            totalPayment: info.roomSelection.totalPayment + newRoom.price,
+            ...roomSelection,
+            rooms: [...roomSelection.rooms, newRoom],
+            totalPayment: roomSelection.totalPayment + newRoom.price,
           },
         }
       setInfo(updates)
     },
     removeRoom = (index) => {
-      const roomRemoved = info.roomSelection.rooms.length
-        ? info.roomSelection.rooms
+      const roomRemoved = roomSelection.rooms.length
+        ? roomSelection.rooms
           .map((room, i) => (i === index ? null : room))
           .filter((e) => e)
         : [],
         updates = {
           ...info,
           roomSelection: {
-            ...info.roomSelection,
+            ...roomSelection,
             rooms: roomRemoved,
             totalPayment:
-              info.roomSelection.totalPayment -
-              (info.roomSelection.rooms.length
-                ? info.roomSelection.rooms
+              roomSelection.totalPayment -
+              (roomSelection.rooms.length
+                ? roomSelection.rooms
                   .map((room, i) =>
                     i === index
                       ? room.price +
                       (room.addOns.length
                         ? room.addOns
-                          .map((addOn) => addOn.count * addOn.price)
+                          .map((addOn) => addOn.count * addOn.price * dateDifference)
                           .reduce((a, b) => a + b)
                         : 0)
                       : 0,
@@ -89,8 +103,8 @@ const Room = (props) => {
   return (
     <>
       <Box
-        mb={info.reservationInformation &&
-          info.reservationInformation.room.length === props.index + 1 ?
+        mb={reservationInformation &&
+          reservationInformation.room.length === props.index + 1 ?
           16 :
           4}
       >
@@ -106,7 +120,7 @@ const Room = (props) => {
               width: '100%',
             }}
           >
-            <Box mb={.5} mx={3}>
+            <Box mx={3}>
               <Typography
                 variant="filterLabel"
                 sx={{ textAlign: 'end', width: '100%' }}
@@ -152,8 +166,8 @@ const Room = (props) => {
                   }}
                   onClick={() =>
                     removeRoom(
-                      info.roomSelection.rooms.length
-                        ? info.roomSelection.rooms
+                      roomSelection.rooms.length
+                        ? roomSelection.rooms
                           .map((room, index) =>
                             room.id.includes(
                               props.information
@@ -169,8 +183,8 @@ const Room = (props) => {
                     )
                   }
                   disabled={
-                    info.roomSelection.rooms.length &&
-                    !info.roomSelection.rooms.filter((room) =>
+                    roomSelection.rooms.length &&
+                    !roomSelection.rooms.filter((room) =>
                       room.id.includes(props.information.roomType),
                     ).length
                   }
@@ -182,8 +196,8 @@ const Room = (props) => {
                     backgroundColor: Theme.palette.light.main,
                   }}
                 >
-                  {info.roomSelection.rooms && info.roomSelection.rooms.length
-                    ? info.roomSelection.rooms.filter((room) =>
+                  {roomSelection.rooms && roomSelection.rooms.length
+                    ? roomSelection.rooms.filter((room) =>
                       room.id.includes(props.information.roomType),
                     ).length
                     : 0}
@@ -195,11 +209,11 @@ const Room = (props) => {
                   onClick={() => addRoom(props.index)}
                   disabled={
                     props.information &&
-                      info.roomSelection.rooms.length &&
-                      info.roomSelection.rooms.filter((room) =>
+                      roomSelection.rooms.length &&
+                      roomSelection.rooms.filter((room) =>
                         room.id.includes('DSV'),
                       ).length >=
-                      info.reservationInformation.room[props.index].available
+                      reservationInformation.room[props.index].available
                       ? true
                       : false
                   }
@@ -229,7 +243,7 @@ const Room = (props) => {
                 },
               }}
             >
-              {!info.roomSelection.rooms.filter((room) =>
+              {!roomSelection.rooms.filter((room) =>
                 room.id.includes(props.information.roomType),
               ).length ? (
                 <RoomCard
@@ -239,7 +253,7 @@ const Room = (props) => {
                   id={props.index}
                 />
               ) : (
-                info.roomSelection.rooms
+                roomSelection.rooms
                   .filter((room) =>
                     room.id.includes(props.information.roomType),
                   )
@@ -253,7 +267,7 @@ const Room = (props) => {
                       roomId={data.id}
                       data={data}
                       count={
-                        info.roomSelection.rooms.filter((e) =>
+                        roomSelection.rooms.filter((e) =>
                           e.id.includes(props.information.roomType),
                         ).length
                       }

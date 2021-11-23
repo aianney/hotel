@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
-import { useHistory } from 'react-router-dom'
 import {
   Alert,
   Box,
@@ -33,8 +32,8 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider'
 
 const Filter = (props) => {
   const isInitialMount = useRef(true),
-    { info, setInfo } = useContext(AppContext),
-    history = useHistory(),
+    { info, info: { filters }, setInfo } = useContext(AppContext),
+    [filterClosable, setFilterClosable] = useState(filters.reservationDates.start && filters.reservationDates.end),
     errorStyle = (activator) => {
       return {
         height: activator ? '' : '0px',
@@ -44,7 +43,7 @@ const Filter = (props) => {
         transition: 'all .5s ease',
       }
     },
-    iconSize = 22,
+    iconSize = "1rem",
     defaults = {
       children: {
         max: 10,
@@ -65,20 +64,20 @@ const Filter = (props) => {
       },
     },
     [adults, setAdults] = useState(
-      info.filters.guests.adults ? info.filters.guests.adults : 1,
+      filters.guests.adults ? filters.guests.adults : 1,
     ),
     [children, setChildren] = useState(
-      info.filters.guests.children ? info.filters.guests.children : 0,
+      filters.guests.children ? filters.guests.children : 0,
     ),
     [startDate, setStartDate] = useState(
-      info.filters.reservationDates.start
-        ? info.filters.reservationDates.start
+      filters.reservationDates.start
+        ? filters.reservationDates.start
         : new Date(),
     ),
     [startDatePickerOpen, setStartDatePickerOpen] = useState(false),
     [endDate, setEndDate] = useState(
-      info.filters.reservationDates.end
-        ? info.filters.reservationDates.end
+      filters.reservationDates.end
+        ? filters.reservationDates.end
         : new Date(startDate.getTime() + 24 * 60 * 60 * 1000),
     ),
     [endDatePickerOpen, setEndDatePickerOpen] = useState(false),
@@ -103,8 +102,8 @@ const Filter = (props) => {
           r.data.state === 'Error'
             ? errorDate(r.data.remarks)
             : r.data.data[0].room.length === 0
-            ? noRoomAvailable()
-            : // console.log(r.data.data[0]);
+              ? noRoomAvailable()
+              : // console.log(r.data.data[0]);
               reserveDate(r.data.data[0])
         })
         .catch((e) => console.log(e))
@@ -150,13 +149,13 @@ const Filter = (props) => {
     },
     cancelPanel = () => {
       props.setFilterOpen(false)
-      setCurrency(info.filters.currency)
+      setCurrency(filters.currency)
     },
     applyFilter = (data) => {
       let updates = {
         ...info,
         filters: {
-          ...info.filters,
+          ...filters,
           currency: currency,
           currencyRate: currencyRate,
           guests: {
@@ -170,13 +169,13 @@ const Filter = (props) => {
       setInfo(updates)
 
       if (
-        info.filters.reservationDates.start !== startDate ||
-        info.filters.reservationDates.end !== endDate
+        filters.reservationDates.start !== startDate ||
+        filters.reservationDates.end !== endDate
       ) {
         updates = {
           ...info,
           filters: {
-            ...info.filters,
+            ...filters,
             currency: currency,
             currencyRate: currencyRate,
             reservationDates: {
@@ -192,20 +191,14 @@ const Filter = (props) => {
         }
         setInfo(updates)
       }
-
-      console.log(info)
+      setFilterClosable(true);
 
       setNoRoom(false)
       setBookingError('')
 
       props.setFilterOpen(false)
     },
-    continueReservation = (data) => {
-      applyFilter(data)
-      history.push({ pathname: '/room-selection' })
-    },
-    reserveDate = (data) =>
-      props.page === 'intro' ? continueReservation(data) : applyFilter(data),
+    reserveDate = (data) => applyFilter(data),
     noRoomAvailable = () => {
       setNoRoom(true)
       setBookingError('')
@@ -242,7 +235,7 @@ const Filter = (props) => {
     setInfo({
       ...info,
       filters: {
-        ...info.filters,
+        ...filters,
         guests: {
           adults: adults,
           children: children,
@@ -265,7 +258,7 @@ const Filter = (props) => {
         {/* Backdrop START */}
         <Fade in={props.filterOpen}>
           <Box
-            onClick={() => props.setFilterOpen(false)}
+            onClick={() => filterClosable ? props.setFilterOpen(false) : console.log("initial Mount")}
             sx={{
               backdropFilter: 'blur(4px)',
               backgroundColor: 'rgba(0,0,0,.75)',
@@ -339,12 +332,12 @@ const Filter = (props) => {
                       width: '100%',
                     }}
                   >
-                    <Box ml={3} mt={3}>
+                    <Box mt={2} ml={2}>
                       <Typography variant="filterLabel">
                         Reservation Dates
                       </Typography>
                     </Box>
-                    <Box px={3}>
+                    <Box px={2}>
                       <LocalizationProvider dateAdapter={DateFnsUtils}>
                         <MobileDatePicker
                           showToolbar={false}
@@ -352,7 +345,7 @@ const Filter = (props) => {
                             fontFamily: Theme.typography.fontFamily.sansSerif,
                           }}
                           minDate={new Date()}
-                          onChange={() => {}}
+                          onChange={() => { }}
                           onAccept={setStartDate}
                           onClose={() => setStartDatePickerOpen(false)}
                           open={startDatePickerOpen}
@@ -383,7 +376,7 @@ const Filter = (props) => {
                                 sx={Theme.typography.filterText}
                               >
                                 <Box
-                                  py={3}
+                                  py={2}
                                   sx={{
                                     display: 'flex',
                                     justifyContent: 'space-between',
@@ -412,7 +405,7 @@ const Filter = (props) => {
                           minDate={
                             new Date(startDate.getTime() + 24 * 60 * 60 * 1000)
                           }
-                          onChange={() => {}}
+                          onChange={() => { }}
                           onAccept={setEndDate}
                           onClose={() => {
                             if (startDate > endDate) {
@@ -451,7 +444,7 @@ const Filter = (props) => {
                                 }
                               >
                                 <Box
-                                  py={3}
+                                  py={2}
                                   sx={{
                                     display: 'flex',
                                     justifyContent: 'space-between',
@@ -483,15 +476,15 @@ const Filter = (props) => {
                       width: '100%',
                     }}
                   >
-                    <Box mt={3} ml={3}>
+                    <Box mt={2} ml={2}>
                       <Typography variant="filterLabel">
                         Guests per Room
                       </Typography>
                     </Box>
-                    <Box px={3}>
+                    <Box px={2}>
                       {/* Adults Tab START */}
                       <Box
-                        py={2.5}
+                        py={2}
                         sx={{
                           alignItems: 'center',
                           display: 'flex',
@@ -503,12 +496,12 @@ const Filter = (props) => {
                             alignItems: 'center',
                             display: 'flex',
                           }}
+                          ml={1}
                         >
-                          <BsPeople size={iconSize * 2} />
+                          <BsPeople size={33} />
                           <Typography
                             variant="filterText"
                             ml={3}
-                            sx={{ fontSize: Theme.typography.fontSize }}
                           >
                             {adults} Adult{adults === 1 ? '' : 's'}
                           </Typography>
@@ -552,7 +545,7 @@ const Filter = (props) => {
 
                       {/* Children Tab START */}
                       <Box
-                        py={2.5}
+                        py={2}
                         sx={{
                           alignItems: 'center',
                           display: 'flex',
@@ -564,12 +557,12 @@ const Filter = (props) => {
                             alignItems: 'center',
                             display: 'flex',
                           }}
+                          ml={1}
                         >
-                          <BsPerson size={iconSize * 2} />
+                          <BsPerson size={33} />
                           <Typography
                             variant="filterText"
                             ml={3}
-                            sx={{ fontSize: Theme.typography.fontSize }}
                           >
                             {children} Child{children === 1 ? '' : 'ren'}
                           </Typography>
@@ -625,7 +618,7 @@ const Filter = (props) => {
                                                 </Box>
                                             </Grid> */}
                       <Grid item xs={12}>
-                        <Box mt={3} mr={3}>
+                        <Box my={2} mx={2}>
                           <Typography variant="filterLabel">
                             Currency
                           </Typography>
@@ -633,11 +626,11 @@ const Filter = (props) => {
                             sx={{ mt: -3, minWidth: 120, width: '100%' }}
                           >
                             <Select
-                              defaultValue={info.filters.currency}
+                              defaultValue={filters.currency}
                               value={
-                                info.filters.currency &&
-                                info.filters.currency === currency
-                                  ? info.filters.currency
+                                filters.currency &&
+                                  filters.currency === currency
+                                  ? filters.currency
                                   : currency
                               }
                               onChange={(e) => setCurrency(e.target.value)}
@@ -647,9 +640,9 @@ const Filter = (props) => {
                               sx={{
                                 ...Theme.cardSelect,
                                 backgroundColor: 'rgba(0,0,0,0)',
-                                '&focus': {
+                                "&focus": {
                                   backgroundColor: 'rgba(0,0,0,0)',
-                                },
+                                }
                               }}
                             >
                               {currencies
@@ -692,7 +685,6 @@ const Filter = (props) => {
             <Box
               mb={2}
               mx={2}
-              mt={4}
               sx={{
                 display: 'flex',
                 justifyContent: 'flex-end',
@@ -707,6 +699,7 @@ const Filter = (props) => {
                       xs: Theme.shape.borderRadius,
                       sm: Theme.shape.borderRadius,
                     },
+                    display: filterClosable ? "" : "none"
                   }}
                 >
                   <Box
@@ -729,7 +722,7 @@ const Filter = (props) => {
                   onClick={checkDate}
                 >
                   <Box px={2} py={1}>
-                    {props.text}
+                    {filterClosable ? props.text : "Reserve Date"}
                   </Box>
                 </Button>
                 {/* Action Buttons END */}

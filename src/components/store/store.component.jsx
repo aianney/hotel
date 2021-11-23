@@ -16,8 +16,8 @@ const Store = {
         black: 900,
       },
       size: {
-        xs: ".8rem",
-        sm: ".9rem",
+        xs: ".7rem",
+        sm: "1rem",
         md: "1rem",
         lg: "1.5rem",
         xl: "2rem",
