@@ -9,9 +9,9 @@ import './birthdate.styles.css'
 const Birthdate = (props) => {
   const isInitialMount = useRef(true),
     { info, setInfo } = useContext(AppContext),
-    [birthdate, setBirthdate] = useState(''),
-    [birthdateOpen, setBirthdateOpen] = useState(false),
     date = new Date(),
+    [birthdate, setBirthdate] = useState(date.setFullYear(date.getFullYear() - 18)),
+    [birthdateOpen, setBirthdateOpen] = useState(false),
     updateBirthday = () => {
       setInfo({
         ...info,
@@ -34,18 +34,18 @@ const Birthdate = (props) => {
   return (
     <LocalizationProvider
       dateAdapter={DateFnsUtils}
-      // style={{ width: '100%' }}
+    // style={{ width: '100%' }}
     >
       <MobileDatePicker
         // style={{ width: '100%', borderRadius: '20' }}
         showToolbar={false}
-        onChange={() => {}}
+        onChange={() => { }}
         onAccept={(newValue) => {
           setBirthdate(newValue)
         }}
         onClose={() => setBirthdateOpen(false)}
         open={birthdateOpen}
-        maxDate={date.setFullYear(date.getFullYear() - 18)}
+        maxDate={birthdate}
         openTo="year"
         views={['year', 'month', 'day']}
         // eslint-disable-next-line
@@ -60,7 +60,6 @@ const Birthdate = (props) => {
         }) => (
           <Grid ref={ref} {...other} item>
             <TextField
-              style={{ width: '100%' }}
               fullWidth
               helperText={props.errorBirthday}
               error={props.errorBirthday}

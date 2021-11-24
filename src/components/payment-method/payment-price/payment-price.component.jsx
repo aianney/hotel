@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 import AppContext from '../../app-context/app-context.component'
 import Theme from '../../theme/theme.component'
-import { BsDashCircleFill } from 'react-icons/bs'
+//import { BsDashCircleFill } from 'react-icons/bs'
 import moment from 'moment'
 import PaymentButton from '../../payment-method/payment-button/payment-button.component'
 import PaymentOptions from '../../payment-method/payment-options/payment-options.component'
@@ -101,7 +101,7 @@ const PaymentPrice = () => {
                     }}
                     onClick={() => removeRoomType(room.roomType)}
                   >
-                    <BsDashCircleFill />
+                    {/* <BsDashCircleFill /> */}
                   </IconButton>
                 </Grid>
                 <Grid item xs={12} mb={1}>
