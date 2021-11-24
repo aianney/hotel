@@ -17,7 +17,7 @@ const Store = {
       },
       size: {
         xs: ".7rem",
-        sm: "1rem",
+        sm: ".8rem",
         md: "1rem",
         lg: "1.5rem",
         xl: "2rem",

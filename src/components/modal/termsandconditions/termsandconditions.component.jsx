@@ -14,7 +14,7 @@ export default function TermsAndCondition() {
           style={{ color: '#71c7b8', cursor: 'pointer' }}
           onClick={handleOpen}
           variant="priceBreakdownTitle"
-          sx={{ fontSize: { md: 20, xs: 15 } }}
+          sx={{ fontSize: { md: 18, xs: 13 } }}
         >
           I agree to the Terms and Conditions
         </Typography>
@@ -54,9 +54,9 @@ export default function TermsAndCondition() {
                   <CancelIcon
                     style={{ fontSize: 30 }}
                     onClick={handleClose}
-                    sx={{
-                      borderBottom: '1px solid black',
-                    }}
+                    // sx={{
+                    //   borderBottom: '1px solid black',
+                    // }}
                   />
                 </IconButton>
               </Grid>
