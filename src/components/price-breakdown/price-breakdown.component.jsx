@@ -60,6 +60,7 @@ const PriceBreakdown = (props) => {
               props.setPriceBreakdownOpen(false);
               props.setProceed(false);
               setShowDetails(false);
+              document.body.style.overflowY = "scroll"
             }}
             sx={{
               backdropFilter: 'blur(4px)',

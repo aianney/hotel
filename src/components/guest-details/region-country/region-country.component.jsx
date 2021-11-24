@@ -8,8 +8,9 @@ import {
   MenuItem,
   Select,
 } from '@material-ui/core'
+// import axios from 'axios'
 
-const RegionCountry = () => {
+const RegionCountry = (props) => {
   const { info, setInfo } = useContext(AppContext),
     countries = CountryRegionData.map((country) => country[0]),
     [country, setCountry] = useState('Philippines'),

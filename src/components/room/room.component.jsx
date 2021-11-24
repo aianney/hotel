@@ -14,8 +14,8 @@ const Room = (props) => {
           reservationInformation.room[props.index].roomAttributes.maxPax :
           filters.guests.adults,
         children: filters.guests.children > reservationInformation.room[props.index].roomAttributes.maxChild ?
-        reservationInformation.room[props.index].roomAttributes.maxChild :
-        filters.guests.children,
+          reservationInformation.room[props.index].roomAttributes.maxChild :
+          filters.guests.children,
         addOns: reservationInformation
           ? reservationInformation.addOnList
             .map((addOn) => {
@@ -47,10 +47,7 @@ const Room = (props) => {
           ? `${roomSelection.rooms.length}-${reservationInformation.room[index].roomType}`
           : null,
         price: reservationInformation
-          ? reservationInformation.room[index].roomRates
-            .filter((e) => e[3])
-            .map((e) => parseFloat(e[4]))
-            .reduce((a, b) => a + b)
+          ? parseInt(reservationInformation.room[index].roomRates[0][4])
           : 0,
         rate: reservationInformation
           ? reservationInformation.room[index].roomRates[0][3]
@@ -64,6 +61,7 @@ const Room = (props) => {
             totalPayment: roomSelection.totalPayment + newRoom.price,
           },
         }
+      console.log(newRoom.price)
       setInfo(updates)
     },
     removeRoom = (index) => {
@@ -150,7 +148,7 @@ const Room = (props) => {
                 to={`/room-selection/${props.information.roomRates.length ? props.information.roomRates[0][6] : 0}`}
               >
                 <Typography variant="roomTypeTitle" mr={2}>
-                  {props.information.roomAttributes.roomName}
+                  {props.information.roomName}
                 </Typography>
                 <BsInfoCircle
                   size={iconSize}
@@ -183,7 +181,7 @@ const Room = (props) => {
                     )
                   }
                   disabled={
-                    roomSelection.rooms.length &&
+                    !roomSelection.rooms.length ||
                     !roomSelection.rooms.filter((room) =>
                       room.id.includes(props.information.roomType),
                     ).length
@@ -208,14 +206,11 @@ const Room = (props) => {
                   }}
                   onClick={() => addRoom(props.index)}
                   disabled={
-                    props.information &&
-                      roomSelection.rooms.length &&
+                    roomSelection.rooms.length &&
                       roomSelection.rooms.filter((room) =>
-                        room.id.includes('DSV'),
+                        room.id.includes(props.information.roomType),
                       ).length >=
                       reservationInformation.room[props.index].available
-                      ? true
-                      : false
                   }
                 >
                   <BsPlus />
@@ -243,38 +238,39 @@ const Room = (props) => {
                 },
               }}
             >
-              {!roomSelection.rooms.filter((room) =>
-                room.id.includes(props.information.roomType),
-              ).length ? (
-                <RoomCard
-                  disabled={true}
-                  img={DeluxeSeaViewImage}
-                  information={props.information}
-                  id={props.index}
-                />
-              ) : (
-                roomSelection.rooms
-                  .filter((room) =>
-                    room.id.includes(props.information.roomType),
-                  )
-                  .map((data, index) => (
-                    <RoomCard
-                      key={data.id}
-                      img={DeluxeSeaViewImage}
-                      roomType={props.information.roomType}
-                      information={props.information}
-                      index={index}
-                      roomId={data.id}
-                      data={data}
-                      count={
-                        roomSelection.rooms.filter((e) =>
-                          e.id.includes(props.information.roomType),
-                        ).length
-                      }
-                      id={props.index}
-                    />
-                  ))
-              )}
+              {
+                !roomSelection.rooms.filter((room) =>
+                  room.id.includes(props.information.roomType),
+                ).length ? (
+                  <RoomCard
+                    disabled={true}
+                    img={DeluxeSeaViewImage}
+                    information={props.information}
+                    id={props.index}
+                  />
+                ) : (
+                  roomSelection.rooms
+                    .filter((room) =>
+                      room.id.includes(props.information.roomType),
+                    )
+                    .map((data, index) => (
+                      <RoomCard
+                        key={data.id}
+                        img={DeluxeSeaViewImage}
+                        roomType={props.information.roomType}
+                        information={props.information}
+                        index={index}
+                        roomId={data.id}
+                        data={data}
+                        count={
+                          roomSelection.rooms.filter((e) =>
+                            e.id.includes(props.information.roomType),
+                          ).length
+                        }
+                        id={props.index}
+                      />
+                    ))
+                )}
             </Grid>
           </Grid>
         </Grid>

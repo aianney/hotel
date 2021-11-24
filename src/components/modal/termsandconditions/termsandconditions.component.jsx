@@ -30,8 +30,8 @@ export default function TermsAndCondition() {
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              width: { md: 550, xs: 350 },
-              height: { md: 550, xs: 650 },
+              width: { md: 550, xs: 250 },
+              height: { md: 550, xs: 250 },
               lineHeight: { sx: 1.9 },
               bgcolor: 'background.paper',
               boxShadow: 24,
@@ -198,7 +198,7 @@ export default function TermsAndCondition() {
                     </li>
                     <li>
                       A valid identification card must be presented upon
-                      checin-in
+                      checkin-in
                     </li>
                   </ul>
                 </Grid>

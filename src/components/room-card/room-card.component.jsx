@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import {
   Box,
   Button,
@@ -12,32 +12,39 @@ import {
   Zoom,
 } from '@material-ui/core'
 import { IoBedOutline } from 'react-icons/io5'
-import { BsPeople, BsDash, BsPlus, BsTextareaResize } from 'react-icons/bs'
+import {
+  BsChevronDown,
+  BsPeople,
+  BsDash,
+  BsPlus,
+  BsTextareaResize,
+} from 'react-icons/bs'
 import { AppContext, Theme } from '..'
 import moment from 'moment'
 
-const RoomCard = props => {
-  const
-    { info, info: { filters, reservationInformation, roomSelection }, setInfo } = useContext(AppContext),
-
+const RoomCard = (props) => {
+  const {
+      info,
+      info: { filters, reservationInformation, roomSelection },
+      setInfo,
+    } = useContext(AppContext),
     history = useHistory(),
-
     roomIndex = roomSelection.rooms.length
       ? roomSelection.rooms
-        .map((room, index) => (room.id.match(props.roomId) ? index : null))
-        .filter((room) => room != null)[0]
+          .map((room, index) => (room.id.match(props.roomId) ? index : null))
+          .filter((room) => room != null)[0]
       : 0,
-
     [showAddOns, setShowAddOns] = useState(false),
-    [rate, setRate] = useState(''),
     [showOtherRates, setShowOtherRates] = useState(false),
     [rates] = useState(
       props.information
-        ? props.information.roomRates
-          .filter((value, index, self) => self.indexOf(value) === index)
+        ? props.information.roomRates.filter(function (rate) {
+            return this[rate[3]]
+              ? !Object.assign(this[rate[3]], rate)
+              : (this[rate[3]] = rate)
+          }, {})
         : [],
     ),
-
     iconSize = 12,
     dateDifference = moment
       .duration(
@@ -46,14 +53,13 @@ const RoomCard = props => {
         ),
       )
       .asDays(),
-
     cardInfo = [
       {
         icon: <BsPeople />,
         label: props.information
           ? props.information.roomAttributes.maxPax +
-          props.information.roomAttributes.maxPax +
-          ' people'
+            props.information.roomAttributes.maxPax +
+            ' people'
           : null,
       },
       {
@@ -69,17 +75,56 @@ const RoomCard = props => {
           : null,
       },
     ],
-
-    addAdult = () => {
-      const
-        addedAdult = roomSelection &&
+    updateRate = (rateName, rateValue) => {
+      const updatedRate =
+          roomSelection &&
           roomSelection.rooms &&
           roomSelection.rooms.map((room, i) =>
             room.id.match(props.roomId)
               ? {
-                ...room,
-                adults: room.adults + 1,
-              }
+                  ...room,
+                  rate: rateName,
+                  price: rateValue,
+                }
+              : room,
+          ),
+        updates = {
+          ...info,
+          roomSelection: {
+            ...roomSelection,
+            rooms: updatedRate,
+            totalPayment: updatedRate.length
+              ? updatedRate
+                  .map(
+                    (room, i) =>
+                      room.price +
+                      (room.addOns.length
+                        ? room.addOns
+                            .map(
+                              (addOn) =>
+                                addOn.price * addOn.count * dateDifference,
+                            )
+                            .reduce((a, b) => a + b)
+                        : 0),
+                  )
+                  .reduce((a, b) => a + b)
+              : 0,
+          },
+        }
+
+      console.log(updates.roomSelection.rooms)
+      setInfo(updates)
+    },
+    addAdult = () => {
+      const addedAdult =
+          roomSelection &&
+          roomSelection.rooms &&
+          roomSelection.rooms.map((room, i) =>
+            room.id.match(props.roomId)
+              ? {
+                  ...room,
+                  adults: room.adults + 1,
+                }
               : room,
           ),
         updates = {
@@ -87,22 +132,21 @@ const RoomCard = props => {
           roomSelection: {
             ...roomSelection,
             rooms: addedAdult,
-          }
+          },
         }
 
-      setInfo(updates);
+      setInfo(updates)
     },
-
     removeAdult = () => {
-      const
-        removedAdult = roomSelection &&
+      const removedAdult =
+          roomSelection &&
           roomSelection.rooms &&
           roomSelection.rooms.map((room, i) =>
             room.id.match(props.roomId)
               ? {
-                ...room,
-                adults: room.adults - 1,
-              }
+                  ...room,
+                  adults: room.adults - 1,
+                }
               : room,
           ),
         updates = {
@@ -110,22 +154,21 @@ const RoomCard = props => {
           roomSelection: {
             ...roomSelection,
             rooms: removedAdult,
-          }
+          },
         }
 
-      setInfo(updates);
+      setInfo(updates)
     },
-
     addChild = () => {
-      const
-        addedChild = roomSelection &&
+      const addedChild =
+          roomSelection &&
           roomSelection.rooms &&
           roomSelection.rooms.map((room, i) =>
             room.id.match(props.roomId)
               ? {
-                ...room,
-                children: room.children + 1,
-              }
+                  ...room,
+                  children: room.children + 1,
+                }
               : room,
           ),
         updates = {
@@ -133,22 +176,21 @@ const RoomCard = props => {
           roomSelection: {
             ...roomSelection,
             rooms: addedChild,
-          }
+          },
         }
 
-      setInfo(updates);
+      setInfo(updates)
     },
-
     removeChild = () => {
-      const
-        removedChild = roomSelection &&
+      const removedChild =
+          roomSelection &&
           roomSelection.rooms &&
           roomSelection.rooms.map((room, i) =>
             room.id.match(props.roomId)
               ? {
-                ...room,
-                children: room.children - 1,
-              }
+                  ...room,
+                  children: room.children - 1,
+                }
               : room,
           ),
         updates = {
@@ -156,31 +198,30 @@ const RoomCard = props => {
           roomSelection: {
             ...roomSelection,
             rooms: removedChild,
-          }
+          },
         }
 
-      setInfo(updates);
+      setInfo(updates)
     },
-
     addtoAddOn = (addOnId) => {
       const addedAddOn =
-        roomSelection &&
-        roomSelection.rooms &&
-        roomSelection.rooms.map((room, i) =>
-          room.id.match(props.roomId) && room.addOns.length
-            ? {
-              ...room,
-              addOns: room.addOns.map((addOn) =>
-                addOn.id === addOnId
-                  ? {
-                    ...addOn,
-                    count: addOn.count + 1,
-                  }
-                  : addOn,
-              ),
-            }
-            : room,
-        ),
+          roomSelection &&
+          roomSelection.rooms &&
+          roomSelection.rooms.map((room, i) =>
+            room.id.match(props.roomId) && room.addOns.length
+              ? {
+                  ...room,
+                  addOns: room.addOns.map((addOn) =>
+                    addOn.id === addOnId
+                      ? {
+                          ...addOn,
+                          count: addOn.count + 1,
+                        }
+                      : addOn,
+                  ),
+                }
+              : room,
+          ),
         updates = {
           ...info,
           roomSelection: {
@@ -188,41 +229,43 @@ const RoomCard = props => {
             rooms: addedAddOn,
             totalPayment: addedAddOn.length
               ? addedAddOn
-                .map(
-                  (room) =>
-                    room.price +
-                    (room.addOns.length
-                      ? room.addOns
-                        .map((addOn) => addOn.price * addOn.count * dateDifference)
-                        .reduce((a, b) => a + b)
-                      : 0),
-                )
-                .reduce((a, b) => a + b)
+                  .map(
+                    (room) =>
+                      room.price +
+                      (room.addOns.length
+                        ? room.addOns
+                            .map(
+                              (addOn) =>
+                                addOn.price * addOn.count * dateDifference,
+                            )
+                            .reduce((a, b) => a + b)
+                        : 0),
+                  )
+                  .reduce((a, b) => a + b)
               : 0,
           },
         }
       setInfo(updates)
     },
-
     removefromAddOn = (addOnId) => {
       const removedAddOn =
-        roomSelection &&
-        roomSelection.rooms &&
-        roomSelection.rooms.map((room, i) =>
-          i === roomIndex && room.addOns.length
-            ? {
-              ...room,
-              addOns: room.addOns.map((addOn) =>
-                addOn.id === addOnId
-                  ? {
-                    ...addOn,
-                    count: addOn.count - 1,
-                  }
-                  : addOn,
-              ),
-            }
-            : room,
-        ),
+          roomSelection &&
+          roomSelection.rooms &&
+          roomSelection.rooms.map((room, i) =>
+            i === roomIndex && room.addOns.length
+              ? {
+                  ...room,
+                  addOns: room.addOns.map((addOn) =>
+                    addOn.id === addOnId
+                      ? {
+                          ...addOn,
+                          count: addOn.count - 1,
+                        }
+                      : addOn,
+                  ),
+                }
+              : room,
+          ),
         updates = {
           ...info,
           roomSelection: {
@@ -230,16 +273,19 @@ const RoomCard = props => {
             rooms: removedAddOn,
             totalPayment: removedAddOn.length
               ? removedAddOn
-                .map(
-                  (room, i) =>
-                    room.price +
-                    (room.addOns.length
-                      ? room.addOns
-                        .map((addOn) => addOn.price * addOn.count * dateDifference)
-                        .reduce((a, b) => a + b)
-                      : 0),
-                )
-                .reduce((a, b) => a + b)
+                  .map(
+                    (room, i) =>
+                      room.price +
+                      (room.addOns.length
+                        ? room.addOns
+                            .map(
+                              (addOn) =>
+                                addOn.price * addOn.count * dateDifference,
+                            )
+                            .reduce((a, b) => a + b)
+                        : 0),
+                  )
+                  .reduce((a, b) => a + b)
               : 0,
           },
         }
@@ -250,9 +296,13 @@ const RoomCard = props => {
   return (
     <Grid item xs={props.count > 1 ? 11 : 12} md={6}>
       <Zoom in={true}>
-        <Card
-        >
-          <Grid container>
+        <Card>
+          <Grid
+            container
+            sx={{
+              position: 'relative',
+            }}
+          >
             <Grid
               item
               xs={12}
@@ -269,31 +319,35 @@ const RoomCard = props => {
                   height: {
                     xs: '200px',
                     sm: '100%',
-                    transform: `scale(${showAddOns ? 1.25 : 1}) translateY(${showAddOns ? `-10%` : `0%`
-                      }) translateX(${showAddOns ? `-10%` : `0%`})`,
+                    transform: `scale(${showAddOns ? 1.25 : 1}) translateY(${
+                      showAddOns ? `-10%` : `0%`
+                    }) translateX(${showAddOns ? `-10%` : `0%`})`,
                     transition: 'all ease-out .5s',
                     backgroundImage: `url("${props.img}")`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                   },
                 }}
-                onClick={() => history.push(`/room-selection/
-                ${props.information &&
-                    props.information.roomRates.length ?
-                    props.information.roomRates.map(roomRate =>
-                      roomRate[3].match(rate) ?
-                        roomRate[6] :
-                        null
-                    ).filter(roomRate =>
-                      roomRate !=
-                      null)[0] :
-                    0}
-                `)}
+                onClick={() =>
+                  history.push(`/room-selection/
+                ${
+                  roomSelection.rooms.length &&
+                  props.information &&
+                  props.information.roomRates.length
+                    ? props.information.roomRates
+                        .map((roomRate) =>
+                          roomRate[3].match(roomSelection.rooms[roomIndex].rate)
+                            ? roomRate[6]
+                            : null,
+                        )
+                        .filter((roomRate) => roomRate != null)[0]
+                    : 0
+                }
+                `)
+                }
               />
             </Grid>
-            <Grid item xs={12} sm={8} sx={{
-              position: 'relative',
-            }}>
+            <Grid item xs={12} sm={8}>
               <Box p={3}>
                 <Grid container spacing={3}>
                   <Grid
@@ -305,57 +359,118 @@ const RoomCard = props => {
                       justifyContent: 'flex-end',
                     }}
                   >
-                    <Typography variant="pageTitle" ml={1} sx={{ fontSize: Theme.typography.fontSizeLg }}>
+                    <Typography
+                      variant="pageTitle"
+                      ml={1}
+                      sx={{ fontSize: Theme.typography.fontSizeLg }}
+                    >
                       {`${filters.currency} ` +
                         (props.information
-                          ? (
-                            (parseInt(
-                              props.information ?
-                                props.information
-                                  .roomRates[0][4] : 0
-                            ) +
-                              (roomSelection.rooms.length &&
-                                roomSelection.rooms[roomIndex].addOns
-                                  .length
-                                ? roomSelection.rooms[roomIndex].addOns
-                                  .map((addOn) => addOn.count * addOn.price)
-                                  .reduce((a, b) => a + b)
-                                : 0)) *
-                            filters.currencyRate
-                          ).toLocaleString(undefined, {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                          })
-                          : 1000)}
+                          ? (roomSelection.rooms.length
+                              ? roomSelection.rooms[roomIndex].price +
+                                (roomSelection.rooms[roomIndex].addOns.length
+                                  ? roomSelection.rooms[roomIndex].addOns
+                                      .map((addOn) => addOn.count * addOn.price)
+                                      .reduce((a, b) => a + b)
+                                  : 0)
+                              : parseInt(
+                                  reservationInformation.room[props.id]
+                                    .roomRates[0][4],
+                                )) * filters.currencyRate
+                          : 1000
+                        ).toLocaleString(undefined, {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
                       {dateDifference > 1 ? `/day` : ``}
                     </Typography>
                   </Grid>
 
                   <Grid item xs={12} mt={-2}>
-                    <Typography variant="pageTitle">
-                      {rate ? rate : rates[0][3]}
-                    </Typography>
-                  </Grid>
-
-                  <Grid item xs={12} sx={{ mt: -2, display: rates.length === 1 ? "none" : "" }}>
-                    <Card sx={{ backgroundColor: Theme.palette.background.default, px: 2, display: showOtherRates ? "" : "none" }}>
-                      {rates.map((rates, index) => (
-                        <MenuItem value={rate} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", py: 2 }} onClick={() => setRate(rate[3])}>
-                          <Typography>
-                            {rates[3]}
-                          </Typography>
-                          <Typography>
-                            {parseInt(rates[4]).toLocaleString(undefined, {
-                              minimumFractionDigits: 2,
-                              maximumFractionDigits: 2,
-                            })}
-                          </Typography>
-                        </MenuItem>
-                      ))}
-                    </Card>
-                    <Button fullWidth variant="text" onClick={() => setShowOtherRates(state => !state)}>
-                      View Other Deals
-                    </Button>
+                    {props.disabled || rates.length === 1 ? (
+                      <Typography
+                        variant="pageTitle"
+                        sx={{
+                          fontSize: `calc(${Theme.typography.fontSize} + 4px)`,
+                        }}
+                      >
+                        {!props.disabled &&
+                        roomSelection.rooms.length &&
+                        roomSelection.rooms[roomIndex].rate
+                          ? roomSelection.rooms[roomIndex].rate
+                          : reservationInformation.room[props.id]
+                              .roomRates[0][3]}
+                      </Typography>
+                    ) : (
+                      <Button
+                        fullWidth
+                        variant="text"
+                        sx={{
+                          justifyContent: 'space-between',
+                          color: 'black',
+                          pr: 2,
+                          textTransform: 'none',
+                        }}
+                        endIcon={
+                          <BsChevronDown size={Theme.typography.fontSize} />
+                        }
+                        onClick={() => setShowOtherRates((state) => !state)}
+                      >
+                        <Typography
+                          variant="pageTitle"
+                          sx={{
+                            fontSize: `calc(${Theme.typography.fontSize} + 4px)`,
+                          }}
+                        >
+                          {!props.disabled &&
+                          roomSelection.rooms.length &&
+                          roomSelection.rooms[roomIndex].rate
+                            ? roomSelection.rooms[roomIndex].rate
+                            : reservationInformation.room[props.id]
+                                .roomRates[0][3]}
+                        </Typography>
+                      </Button>
+                    )}
+                    <Collapse
+                      in={showOtherRates}
+                      timeout={{ enter: 500, exit: 500 }}
+                    >
+                      <Card
+                        sx={{
+                          backgroundColor: Theme.palette.background.default,
+                          mt: 2,
+                        }}
+                      >
+                        {rates.map((rate, index) => (
+                          <MenuItem
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              py: 2,
+                            }}
+                            onClick={() =>
+                              updateRate(
+                                rate[3],
+                                parseInt(rate[4]),
+                                setShowOtherRates((state) => !state),
+                              )
+                            }
+                          >
+                            <Typography>{rate[3]}</Typography>
+                            <Typography>
+                              {`${filters.currency} ` +
+                                (
+                                  parseInt(rate[4]) * filters.currencyRate
+                                ).toLocaleString(undefined, {
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                                })}
+                            </Typography>
+                          </MenuItem>
+                        ))}
+                      </Card>
+                    </Collapse>
                   </Grid>
 
                   {cardInfo.map((i) => (
@@ -398,16 +513,15 @@ const RoomCard = props => {
                           <Box pb={2}>
                             <Typography variant="filterText">
                               {roomSelection.rooms &&
-                                roomSelection.rooms.length &&
-                                roomSelection.rooms[roomIndex]
+                              roomSelection.rooms.length &&
+                              roomSelection.rooms[roomIndex]
                                 ? roomSelection.rooms[roomIndex].adults
                                 : 0}{' '}
                               Adult
                               {roomSelection.rooms &&
-                                roomSelection.rooms.length &&
-                                roomSelection.rooms[roomIndex]
-                                ? roomSelection.rooms[roomIndex].adults ===
-                                  1
+                              roomSelection.rooms.length &&
+                              roomSelection.rooms[roomIndex]
+                                ? roomSelection.rooms[roomIndex].adults === 1
                                   ? ''
                                   : 's'
                                 : ''}
@@ -419,14 +533,17 @@ const RoomCard = props => {
                                 backgroundColor: Theme.palette.background.light,
                               }}
                               disabled={
-                                roomSelection.rooms &&
-                                roomSelection.rooms.length &&
-                                roomSelection.rooms[roomIndex] &&
-                                roomSelection.rooms[roomIndex].adults <= 1
+                                // eslint-disable-next-line
+                                props.disabled ||
+                                (roomSelection.rooms &&
+                                  roomSelection.rooms.length &&
+                                  // eslint-disable-next-line
+                                  roomSelection.rooms[roomIndex] &&
+                                  roomSelection.rooms[roomIndex].adults <= 1)
                               }
                               onClick={() =>
                                 reservationInformation.room.length &&
-                                  roomSelection.rooms[roomIndex].adults === 1
+                                roomSelection.rooms[roomIndex].adults === 1
                                   ? ''
                                   : removeAdult()
                               }
@@ -438,18 +555,15 @@ const RoomCard = props => {
                                 backgroundColor: Theme.palette.background.light,
                               }}
                               disabled={
-                                props.information &&
-                                roomSelection.rooms.length &&
-                                roomSelection.rooms[roomIndex].adults >=
-                                props.information
-                                  .roomAttributes.maxPax
+                                props.disabled ||
+                                (roomSelection.rooms.length &&
+                                  roomSelection.rooms[roomIndex].adults >=
+                                    props.information.roomAttributes.maxPax)
                               }
                               onClick={() =>
-                                props.information &&
-                                  roomSelection.rooms.length &&
-                                  roomSelection.rooms[roomIndex].adults >=
-                                  props.information
-                                    .roomAttributes.maxPax
+                                roomSelection.rooms.length &&
+                                roomSelection.rooms[roomIndex].adults >=
+                                  props.information.roomAttributes.maxPax
                                   ? ''
                                   : addAdult()
                               }
@@ -471,9 +585,14 @@ const RoomCard = props => {
                         >
                           <Box pb={2}>
                             <Typography variant="filterText">
-                              {roomSelection.rooms.length ?
-                                roomSelection.rooms[roomIndex].children : 0} Child{roomSelection.rooms.length &&
-                                  roomSelection.rooms[roomIndex].children === 1 ? '' : 'ren'}
+                              {roomSelection.rooms.length
+                                ? roomSelection.rooms[roomIndex].children
+                                : 0}{' '}
+                              Child
+                              {roomSelection.rooms.length &&
+                              roomSelection.rooms[roomIndex].children === 1
+                                ? ''
+                                : 'ren'}
                             </Typography>
                           </Box>
                           <ButtonGroup variant="contained">
@@ -482,12 +601,15 @@ const RoomCard = props => {
                                 backgroundColor: Theme.palette.background.light,
                               }}
                               disabled={
-                                roomSelection.rooms.length &&
-                                roomSelection.rooms[roomIndex].children === 0
+                                props.disabled ||
+                                (roomSelection.rooms.length &&
+                                  roomSelection.rooms[roomIndex].children === 0)
                               }
                               onClick={() =>
                                 roomSelection.rooms.length &&
-                                  roomSelection.rooms[roomIndex].children === 0 ? '' : removeChild()
+                                roomSelection.rooms[roomIndex].children === 0
+                                  ? ''
+                                  : removeChild()
                               }
                             >
                               <BsDash size={iconSize} />
@@ -497,18 +619,16 @@ const RoomCard = props => {
                                 backgroundColor: Theme.palette.background.light,
                               }}
                               disabled={
-                                props.information &&
-                                roomSelection.rooms.length &&
-                                roomSelection.rooms[roomIndex].children >=
-                                props.information
-                                  .roomAttributes.maxChild
+                                props.disabled ||
+                                (roomSelection.rooms.length &&
+                                  roomSelection.rooms[roomIndex].children >=
+                                    props.information.roomAttributes.maxChild)
                               }
                               onClick={() =>
                                 props.information &&
-                                  roomSelection.rooms.length &&
-                                  roomSelection.rooms[roomIndex].children >=
-                                  props.information
-                                    .roomAttributes.maxChild
+                                roomSelection.rooms.length &&
+                                roomSelection.rooms[roomIndex].children >=
+                                  props.information.roomAttributes.maxChild
                                   ? ''
                                   : addChild()
                               }
@@ -525,11 +645,11 @@ const RoomCard = props => {
                   <Collapse
                     in={showAddOns}
                     timeout={{ enter: 500, exit: 500 }}
-                    sx={{ width: '110%' }}
+                    sx={{ width: '100%' }}
                   >
                     {roomSelection.rooms.length &&
-                      roomSelection.rooms[roomIndex] &&
-                      roomSelection.rooms[roomIndex].addOns ? (
+                    roomSelection.rooms[roomIndex] &&
+                    roomSelection.rooms[roomIndex].addOns ? (
                       roomSelection.rooms[roomIndex].addOns.map(
                         (addOn, index) => (
                           <Box pl={3} pt={3}>
@@ -546,12 +666,13 @@ const RoomCard = props => {
                                     item
                                     py={2}
                                     xs={12}
-                                    sx={{ textAlign: "center" }}
+                                    sx={{ textAlign: 'center' }}
                                   >
                                     <Box mb={2}>
                                       <Typography variant="filterText">
-                                        {`${addOn.count ? `(${addOn.count})` : ''
-                                          }`}{' '}
+                                        {`${
+                                          addOn.count ? `(${addOn.count})` : ''
+                                        }`}{' '}
                                         {addOn.description}
                                       </Typography>
                                       <Box>
@@ -560,13 +681,13 @@ const RoomCard = props => {
                                           sx={{
                                             fontWeight: 400,
                                             fontStyle: 'italic',
-                                            fontSize: Theme.typography.fontSizeSm,
+                                            fontSize:
+                                              Theme.typography.fontSizeSm,
                                           }}
                                         >
                                           {`${filters.currency} ` +
                                             (
-                                              addOn.price *
-                                              filters.currencyRate
+                                              addOn.price * filters.currencyRate
                                             ).toLocaleString(undefined, {
                                               minimumFractionDigits: 2,
                                               maximumFractionDigits: 2,
@@ -587,11 +708,9 @@ const RoomCard = props => {
                                           addOn.count === 0 ? true : false
                                         }
                                         onClick={() =>
-                                          reservationInformation.room
-                                            .length &&
-                                            reservationInformation.room
-                                              .length &&
-                                            addOn.count === 0
+                                          reservationInformation.room.length &&
+                                          reservationInformation.room.length &&
+                                          addOn.count === 0
                                             ? ''
                                             : removefromAddOn(addOn.id)
                                         }
@@ -604,10 +723,8 @@ const RoomCard = props => {
                                             Theme.palette.background.light,
                                         }}
                                         onClick={() =>
-                                          reservationInformation.room
-                                            .length &&
-                                            reservationInformation.room
-                                              .length
+                                          reservationInformation.room.length &&
+                                          reservationInformation.room.length
                                             ? addtoAddOn(addOn.id)
                                             : ''
                                         }
@@ -628,7 +745,13 @@ const RoomCard = props => {
                     )}
                   </Collapse>
 
-                  <Grid item xs={12}>
+                  <Grid
+                    item
+                    xs={12}
+                    sx={{
+                      display: props.disabled ? 'none' : 'block',
+                    }}
+                  >
                     <Button
                       sx={{
                         width: '100%',
@@ -645,23 +768,23 @@ const RoomCard = props => {
                   </Grid>
                 </Grid>
               </Box>
-
-              {props.disabled ? (
-                <Box
-                  sx={{
-                    position: 'absolute',
-                    left: 0,
-                    top: 0,
-                    height: '100%',
-                    width: '100%',
-                    backgroundColor: 'rgba(255,255,255,.25)',
-                    backdropFilter: 'blur(2px)',
-                  }}
-                ></Box>
-              ) : (
-                <></>
-              )}
             </Grid>
+            {/* {props.disabled ? (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                  height: '100%',
+                  width: '100%',
+                  backgroundImage: `url("${props.img}")`,
+                  backgroundSize: "cover",
+                  backdropFilter: 'blur(2px)',
+                }}
+              ></Box>
+            ) : (
+              <></>
+            )} */}
           </Grid>
         </Card>
       </Zoom>

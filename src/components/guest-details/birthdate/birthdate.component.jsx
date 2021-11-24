@@ -68,7 +68,7 @@ const Birthdate = (props) => {
               readOnly
               ref={ref}
               onChange={onChange}
-              value={birthdate ? moment(birthdate).format('MMMM DD, YYYY') : ''}
+              value={isInitialMount.current ? "" : moment(birthdate).format('MMMM DD, YYYY')}
               onClick={() => setBirthdateOpen(true)}
               sx={{
                 borderRadius: '4px',
