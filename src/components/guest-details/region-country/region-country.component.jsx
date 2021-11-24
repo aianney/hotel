@@ -8,24 +8,27 @@ import {
   MenuItem,
   Select,
 } from '@material-ui/core'
-// import axios from 'axios'
+import axios from 'axios'
 
 const RegionCountry = (props) => {
   const { info, setInfo } = useContext(AppContext),
     countries = CountryRegionData.map((country) => country[0]),
     [country, setCountry] = useState('Philippines'),
-    [region, setRegion] = useState(''),
+    [province, setProvince] = useState(''),
+    [provinces, setProvinces] = useState([]),
+    // eslint-disable-next-line
     [regionIndex, setRegionIndex] = useState(
       CountryRegionData.map((countryData, i) =>
         countryData[0].match(country) ? i : null,
       ).filter((n) => n != null)[0],
-    ),
-    regionInput = (countrySelected) => {
-      const index = CountryRegionData.map((countryData, i) =>
-        countryData[0].match(countrySelected) ? i : null,
-      ).filter((n) => n != null)[0]
-      setRegionIndex(index)
-    }
+    )
+  // ),
+  // regionInput = (countrySelected) => {
+  //   const index = CountryRegionData.map((countryData, i) =>
+  //     countryData[0].match(countrySelected) ? i : null,
+  //   ).filter((n) => n != null)[0]
+  //   setRegionIndex(index)
+  // }
 
   useEffect(() => {
     setInfo({
@@ -39,16 +42,29 @@ const RegionCountry = (props) => {
     // eslint-disable-next-line
   }, [country])
 
-  useEffect(() => {
-    setInfo({
-      ...info,
-      guestDetails: {
-        ...info.guestDetails,
-        region: region,
-      },
+  // useEffect(() => {
+  //   setInfo({
+  //     ...info,
+  //     guestDetails: {
+  //       ...info.guestDetails,
+  //       region: region,
+  //     },
+  //   })
+  //   // eslint-disable-next-line
+  // }, [region])
+
+  const getProvinces = () => {
+    axios({
+      method: 'get',
+      url: `https://hotelreservations.ph/gpDBProcess/process.php?request=getCityProvince`,
+    }).then((r) => {
+      setProvinces(r.data.data[0].listData)
     })
-    // eslint-disable-next-line
-  }, [region])
+  }
+
+  useEffect(() => {
+    getProvinces()
+  }, [])
 
   return (
     <>
@@ -63,7 +79,7 @@ const RegionCountry = (props) => {
               fullWidth
               onChange={(selectedCountry, i) => {
                 setCountry(selectedCountry.target.value)
-                regionInput(selectedCountry.target.value)
+                // regionInput(selectedCountry.target.value)
               }}
             >
               {countries.map((country) => (
@@ -78,16 +94,12 @@ const RegionCountry = (props) => {
             <Select
               labelId="region"
               label="Region*"
-              value={region}
               fullWidth
-              onChange={(selectedRegion) => {
-                setRegion(selectedRegion.target.value)
-              }}
+              value={province}
+              onChange={(e) => setProvince(e.target.value)}
             >
-              {CountryRegionData[regionIndex][2].split('|').map((region) => (
-                <MenuItem value={region.split('~')[0]}>
-                  {region.split('~')[0]}
-                </MenuItem>
+              {provinces.map((province) => (
+                <MenuItem value={province}>{province}</MenuItem>
               ))}
             </Select>
           </FormControl>

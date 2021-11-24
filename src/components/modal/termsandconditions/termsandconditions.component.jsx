@@ -14,7 +14,7 @@ export default function TermsAndCondition() {
           style={{ color: '#71c7b8', cursor: 'pointer' }}
           onClick={handleOpen}
           variant="priceBreakdownTitle"
-          sx={{ fontSize: { md: 20, xs: 16 } }}
+          sx={{ fontSize: { md: 20, xs: 15 } }}
         >
           I agree to the Terms and Conditions
         </Typography>
@@ -30,8 +30,8 @@ export default function TermsAndCondition() {
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              width: { md: 550, xs: 250 },
-              height: { md: 550, xs: 250 },
+              width: { md: 550, xs: 350 },
+              height: { md: 550, xs: 480 },
               lineHeight: { sx: 1.9 },
               bgcolor: 'background.paper',
               boxShadow: 24,

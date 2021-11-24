@@ -287,6 +287,7 @@ const PriceBreakdown = (props) => {
                   borderRadius: Theme.shape.borderRadius,
                 }}
                 onClick={() => {
+                  props.setPriceBreakdownOpen(false);
                   history.push('/guest-details')
                 }}
                 disabled={

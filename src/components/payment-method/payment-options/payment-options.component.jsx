@@ -66,7 +66,7 @@ export default function SwitchListSecondary() {
             <Grid item xs={12}>
               <ListItem>
                 {/* <ListItemText primary={<TermsAndCondition />} /> */}
-                <Box sx={{ flexGrow: 1, maxWidth: 1800 }}>
+                <Box>
                   <FormControlLabel
                     control={
                       <Checkbox

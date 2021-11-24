@@ -56,7 +56,7 @@ const Payment = (props) => {
             <ListItemButton>
               <ListItemText>
                 <Typography
-                  variant="pageTitle"
+                  variant="priceBreakdownTitlePrice"
                   sx={{
                     fontWeight: Theme.typography.fontWeightBlack,
                     fontSize: Theme.typography.fontSize,
@@ -64,7 +64,14 @@ const Payment = (props) => {
                   }}
                 >
                   Name:{' '}
-                  <Typography variant="priceBreakdownTitlePrice">
+                  <Typography
+                    variant="pageTitle"
+                    sx={{
+                      fontWeight: Theme.typography.fontWeightBlack,
+                      fontSize: Theme.typography.fontSize,
+                      // textTransform: 'uppercase',
+                    }}
+                  >
                     {' '}
                     {`${info.guestDetails.firstName}
                ${info.guestDetails.lastName}`}
@@ -78,7 +85,7 @@ const Payment = (props) => {
               <ListItemButton>
                 <ListItemText>
                   <Typography
-                    variant="pageTitle"
+                    variant="priceBreakdownTitlePrice"
                     sx={{
                       fontWeight: Theme.typography.fontWeightBlack,
                       fontSize: Theme.typography.fontSize,
@@ -87,7 +94,14 @@ const Payment = (props) => {
                   >
                     Email:
                   </Typography>
-                  <Typography variant="priceBreakdownTitlePrice">
+                  <Typography
+                    variant="pageTitle"
+                    sx={{
+                      fontWeight: Theme.typography.fontWeightBlack,
+                      fontSize: Theme.typography.fontSize,
+                      // textTransform: 'uppercase',
+                    }}
+                  >
                     {' '}
                     {info.guestDetails.email}
                   </Typography>
@@ -100,7 +114,7 @@ const Payment = (props) => {
               <ListItemButton>
                 <ListItemText>
                   <Typography
-                    variant="pageTitle"
+                    variant="priceBreakdownTitlePrice"
                     sx={{
                       fontWeight: Theme.typography.fontWeightBlack,
                       fontSize: Theme.typography.fontSize,
@@ -108,7 +122,14 @@ const Payment = (props) => {
                     }}
                   >
                     Contact:
-                    <Typography variant="priceBreakdownTitlePrice">
+                    <Typography
+                      variant="pageTitle"
+                      sx={{
+                        fontWeight: Theme.typography.fontWeightBlack,
+                        fontSize: Theme.typography.fontSize,
+                        // textTransform: 'uppercase',
+                      }}
+                    >
                       {info.guestDetails.phoneNumber}
                     </Typography>
                   </Typography>
@@ -128,7 +149,7 @@ const Payment = (props) => {
               <ListItemButton>
                 <ListItemText>
                   <Typography
-                    variant="pageTitle"
+                    variant="priceBreakdownTitlePrice"
                     sx={{
                       fontWeight: Theme.typography.fontWeightBlack,
                       fontSize: Theme.typography.fontSize,
@@ -136,11 +157,25 @@ const Payment = (props) => {
                     }}
                   >
                     Stay Period: {'  '}
-                    <Typography variant="priceBreakdownTitlePrice">
+                    <Typography
+                      variant="pageTitle"
+                      sx={{
+                        fontWeight: Theme.typography.fontWeightBlack,
+                        fontSize: Theme.typography.fontSize,
+                        // textTransform: 'uppercase',
+                      }}
+                    >
                       {moment(info.filters.reservationDates.start).format('ll')}{' '}
                       {''}
                     </Typography>
-                    <Typography variant="priceBreakdownTitlePrice">
+                    <Typography
+                      variant="pageTitle"
+                      sx={{
+                        fontWeight: Theme.typography.fontWeightBlack,
+                        fontSize: Theme.typography.fontSize,
+                        // textTransform: 'uppercase',
+                      }}
+                    >
                       To{' '}
                       {moment(info.filters.reservationDates.end).format('ll')}
                     </Typography>

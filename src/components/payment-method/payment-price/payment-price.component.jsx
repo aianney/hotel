@@ -6,36 +6,39 @@ import {
   IconButton,
   Typography,
   Card,
-  Popover,
-  Button,
+  // Popover,
+  // Button,
 } from '@mui/material'
 import AppContext from '../../app-context/app-context.component'
 import Theme from '../../theme/theme.component'
-//import { BsDashCircleFill } from 'react-icons/bs'
 import moment from 'moment'
 import PaymentButton from '../../payment-method/payment-button/payment-button.component'
 import PaymentOptions from '../../payment-method/payment-options/payment-options.component'
 
 const PaymentPrice = () => {
-  const { info, setInfo } = useContext(AppContext),
+  const {
+      info,
+      info: { roomSelection, reservationInformation, filters },
+      setInfo,
+    } = useContext(AppContext),
     alignCenter = { display: 'flex', alignItems: 'center' },
     dateDifference = moment
       .duration(
-        moment(info.filters.reservationDates.end).diff(
-          moment(info.filters.reservationDates.start),
+        moment(filters.reservationDates.end).diff(
+          moment(filters.reservationDates.start),
         ),
       )
       .asDays(),
     removeRoomType = (roomType) => {
-      const roomRemoved = info.roomSelection.rooms.length
-          ? info.roomSelection.rooms
+      const roomRemoved = roomSelection.rooms.length
+          ? roomSelection.rooms
               .map((room) => (!room.id.includes(roomType) ? room : null))
               .filter((room) => room)
           : [],
         updates = {
           ...info,
           roomSelection: {
-            ...info.roomSelection,
+            ...roomSelection,
             rooms: roomRemoved,
             totalPayment: roomRemoved.length
               ? roomRemoved
@@ -58,25 +61,25 @@ const PaymentPrice = () => {
       console.log(roomRemoved)
     }
 
-  const [anchorEl, setAnchorEl] = React.useState(null)
+  // const [anchorEl, setAnchorEl] = React.useState(null)
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
+  // const handleClick = (event) => {
+  //   setAnchorEl(event.currentTarget)
+  // }
 
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
+  // const handleClose = () => {
+  //   setAnchorEl(null)
+  // }
 
-  const open = Boolean(anchorEl)
-  const id = open ? 'simple-popover' : undefined
+  // const open = Boolean(anchorEl)
+  // const id = open ? 'simple-popover' : undefined
 
   return (
     <>
       <Box px={4}>
-        {info.reservationInformation && info.reservationInformation.room ? (
-          info.reservationInformation.room.map((room) =>
-            info.roomSelection.rooms.filter((e) => e.id.includes(room.roomType))
+        {reservationInformation && reservationInformation.room ? (
+          reservationInformation.room.map((room) =>
+            roomSelection.rooms.filter((e) => e.id.includes(room.roomType))
               .length ? (
               <Grid container>
                 <Grid
@@ -91,7 +94,7 @@ const PaymentPrice = () => {
                       fontSize: Theme.typography.fontSizeLg,
                     }}
                   >
-                    {room.roomAttributes.roomName}
+                    {room.roomName}
                   </Typography>
                   <IconButton
                     color="error"
@@ -106,7 +109,7 @@ const PaymentPrice = () => {
                 </Grid>
                 <Grid item xs={12} mb={1}>
                   <Grid container>
-                    {info.roomSelection.rooms
+                    {roomSelection.rooms
                       .filter((x) => x.id.includes(room.roomType))
                       .map((x, i) => (
                         <>
@@ -115,7 +118,7 @@ const PaymentPrice = () => {
                             xs={12}
                             sx={{
                               display:
-                                info.roomSelection.rooms.filter((x) =>
+                                roomSelection.rooms.filter((x) =>
                                   x.id.includes(room.roomType),
                                 ).length === 1
                                   ? 'none'
@@ -152,13 +155,7 @@ const PaymentPrice = () => {
                               <Box>
                                 <Typography
                                   variant="priceBreakdownTitle"
-                                  sx={{
-                                    fontStyle: {
-                                      md: 'italic',
-                                    },
-                                    fontWeight: { md: 500 },
-                                    fontSize: { md: 20, xs: 16 },
-                                  }}
+                                  sx={{ fontStyle: 'italic', fontWeight: 500 }}
                                 >
                                   {x.rate}
                                 </Typography>
@@ -166,19 +163,12 @@ const PaymentPrice = () => {
                               <Box>
                                 <Typography
                                   variant="priceBreakdownTitle"
-                                  sx={{
-                                    fontStyle: {
-                                      md: 'italic',
-                                    },
-                                    fontWeight: { md: 500 },
-                                    fontSize: { md: 20, xs: 16 },
-                                  }}
+                                  sx={{ fontStyle: 'italic', fontWeight: 500 }}
                                 >
-                                  {`${info.filters.currency}
+                                  {`${filters.currency}
                                                             ${(
                                                               x.price *
-                                                              info.filters
-                                                                .currencyRate
+                                                              filters.currencyRate
                                                             ).toLocaleString(
                                                               undefined,
                                                               {
@@ -193,7 +183,6 @@ const PaymentPrice = () => {
                           {/*Room Rate END */}
 
                           {/* Show AddOns Label START */}
-
                           {x.addOns.length &&
                           x.addOns
                             .map((addOn) => addOn.count)
@@ -208,14 +197,7 @@ const PaymentPrice = () => {
                                     wordWrap: 'break-word',
                                   }}
                                 >
-                                  <Button
-                                    aria-describedby={id}
-                                    variant="contained"
-                                    onClick={handleClick}
-                                    style={{ cursor: 'pointer' }}
-                                  >
-                                    Add Ons:
-                                  </Button>
+                                  Add Ons:
                                 </Typography>
                               </Box>
                             </Grid>
@@ -223,65 +205,46 @@ const PaymentPrice = () => {
                             <></>
                           )}
                           {/* Show AddOns Label END */}
-                          <Popover
-                            id={id}
-                            open={open}
-                            anchorEl={anchorEl}
-                            onClose={handleClose}
-                            anchorOrigin={{
-                              vertical: 'bottom',
-                              horizontal: 'left',
-                            }}
-                          >
-                            <Typography sx={{ p: 2 }}>
-                              {x.addOns.length ? (
-                                x.addOns.map((addOn, index) =>
-                                  addOn.count ? (
-                                    <Grid item xs={12}>
-                                      <Box
-                                        pl={1}
+
+                          {/* AddOns START */}
+                          {x.addOns.length ? (
+                            x.addOns.map((addOn, index) =>
+                              addOn.count ? (
+                                <Grid item xs={12}>
+                                  <Box
+                                    pl={1}
+                                    sx={{
+                                      ...alignCenter,
+                                      justifyContent: 'space-between',
+                                    }}
+                                  >
+                                    <Box>
+                                      <Typography
+                                        variant="priceBreakdownTitle"
                                         sx={{
-                                          ...alignCenter,
-                                          justifyContent: 'space-between',
+                                          fontStyle: 'italic',
+                                          fontWeight: 500,
+                                          wordWrap: 'break-word',
                                         }}
                                       >
-                                        <Box>
-                                          <Typography
-                                            variant="priceBreakdownTitle"
-                                            sx={{
-                                              wordWrap: 'break-word',
-                                              fontStyle: {
-                                                md: 'italic',
-                                              },
-                                              fontWeight: { md: 500 },
-                                              fontSize: { md: 20, xs: 14 },
-                                            }}
-                                          >
-                                            {`${
-                                              addOn.count
-                                                ? `(${addOn.count})`
-                                                : ''
-                                            } ${addOn.description}`}
-                                          </Typography>
-                                        </Box>
-                                        <Box>
-                                          <Typography
-                                            variant="priceBreakdownTitle"
-                                            sx={{
-                                              fontStyle: {
-                                                md: 'italic',
-                                              },
-                                              fontWeight: { md: 500 },
-                                              fontSize: { md: 20, xs: 16 },
-                                            }}
-                                          >
-                                            {`${info.filters.currency} 
+                                        {`${
+                                          addOn.count ? `(${addOn.count})` : ''
+                                        } ${addOn.description}`}
+                                      </Typography>
+                                    </Box>
+                                    <Box>
+                                      <Typography
+                                        variant="priceBreakdownTitle"
+                                        sx={{
+                                          fontStyle: 'italic',
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        {`${filters.currency} 
                                                                             ${(
                                                                               addOn.price *
                                                                               addOn.count *
-                                                                              info
-                                                                                .filters
-                                                                                .currencyRate *
+                                                                              filters.currencyRate *
                                                                               dateDifference
                                                                             ).toLocaleString(
                                                                               undefined,
@@ -290,21 +253,17 @@ const PaymentPrice = () => {
                                                                                 maximumFractionDigits: 2,
                                                                               },
                                                                             )}`}
-                                          </Typography>
-                                        </Box>
-                                      </Box>
-                                    </Grid>
-                                  ) : (
-                                    <></>
-                                  ),
-                                )
+                                      </Typography>
+                                    </Box>
+                                  </Box>
+                                </Grid>
                               ) : (
-                                <> </>
-                              )}
-                            </Typography>
-                          </Popover>
-                          {/* AddOns START */}
-
+                                <></>
+                              ),
+                            )
+                          ) : (
+                            <> </>
+                          )}
                           {/* AddOns END */}
 
                           {/* Subtotal per Room START */}
@@ -317,7 +276,7 @@ const PaymentPrice = () => {
                               ...alignCenter,
                               justifyContent: 'flex-end',
                               display:
-                                info.roomSelection.rooms.filter((x) =>
+                                roomSelection.rooms.filter((x) =>
                                   x.id.includes(room.roomType),
                                 ).length > 1 &&
                                 x.addOns
@@ -330,21 +289,12 @@ const PaymentPrice = () => {
                             <Box>
                               <Typography
                                 variant="priceBreakdownTitle"
-                                sx={{
-                                  wordWrap: 'break-word',
-                                  fontStyle: {
-                                    md: 'italic',
-                                  },
-                                  fontWeight: { md: 500 },
-                                  fontSize: { md: 20, xs: 16 },
-                                }}
+                                sx={{ wordWrap: 'break-word' }}
                               >
                                 {`Subtotal for 
                                                         Room
                                                         ${i + 1}: 
-                                                        ${
-                                                          info.filters.currency
-                                                        } 
+                                                        ${filters.currency} 
                                                         ${(
                                                           (x.price +
                                                             x.addOns
@@ -357,8 +307,7 @@ const PaymentPrice = () => {
                                                               .reduce(
                                                                 (a, b) => a + b,
                                                               )) *
-                                                          info.filters
-                                                            .currencyRate
+                                                          filters.currencyRate
                                                         ).toLocaleString(
                                                           undefined,
                                                           {
@@ -378,16 +327,9 @@ const PaymentPrice = () => {
                     <Box sx={{ ...alignCenter, justifyContent: 'flex-end' }}>
                       <Typography
                         variant="priceBreakdownTitle"
-                        sx={{
-                          textAlign: 'center',
-                          fontStyle: {
-                            md: 'italic',
-                          },
-                          fontWeight: { md: 500 },
-                          fontSize: { md: 20, xs: 16 },
-                        }}
+                        sx={{ textAlign: 'center' }}
                       >
-                        {`Subtotal for ${room.roomAttributes.roomName}: `}
+                        {`Subtotal for ${room.roomName}: `}
                       </Typography>
                     </Box>
                     <Box sx={{ ...alignCenter, justifyContent: 'flex-end' }}>
@@ -397,8 +339,8 @@ const PaymentPrice = () => {
                       >
                         {`
                                         
-                                        ${info.filters.currency} ${(
-                          info.roomSelection.rooms
+                                        ${filters.currency} ${(
+                          roomSelection.rooms
                             .filter((e) => e.id.includes(room.roomType))
                             .map(
                               (e) =>
@@ -414,8 +356,7 @@ const PaymentPrice = () => {
                                       .reduce((a, b) => a + b)
                                   : 0),
                             )
-                            .reduce((a, b) => a + b, 0) *
-                          info.filters.currencyRate
+                            .reduce((a, b) => a + b, 0) * filters.currencyRate
                         ).toLocaleString(undefined, {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,
@@ -450,16 +391,13 @@ const PaymentPrice = () => {
                   variant="priceBreakdownTitle"
                   sx={{
                     fontWeight: Theme.typography.fontWeightBlack,
-                    fontSize: { md: 20, xs: 16 },
+                    fontSize: 16,
                     textTransform: 'uppercase',
                   }}
                 >
                   {`Rooms: `}
                 </Typography>
-                <Typography
-                  variant="priceBreakdownTitle"
-                  sx={{ fontSize: { md: 20, xs: 16 } }}
-                >
+                <Typography variant="priceBreakdownTitle" sx={{ fontSize: 16 }}>
                   {info.filters.currency && info.filters.currencyRate
                     ? `${info.filters.currency} ${(
                         (info.roomSelection.rooms.length
@@ -482,16 +420,13 @@ const PaymentPrice = () => {
                   variant="priceBreakdownTitle"
                   sx={{
                     fontWeight: Theme.typography.fontWeightBlack,
-                    fontSize: { md: 20, xs: 16 },
+                    fontSize: 16,
                     textTransform: 'uppercase',
                   }}
                 >
                   {`Add Ons: `}
                 </Typography>
-                <Typography
-                  variant="priceBreakdownTitle"
-                  sx={{ fontSize: { md: 20, xs: 16 } }}
-                >
+                <Typography variant="priceBreakdownTitle" sx={{ fontSize: 16 }}>
                   {info.filters.currency && info.filters.currencyRate
                     ? `${info.filters.currency} ${(
                         (info.roomSelection.rooms.length
@@ -517,7 +452,7 @@ const PaymentPrice = () => {
                   variant="priceBreakdownTitle"
                   sx={{
                     fontWeight: Theme.typography.fontWeightBlack,
-                    fontSize: { md: 20, xs: 16 },
+                    fontSize: 16,
                     textTransform: 'uppercase',
                   }}
                 >

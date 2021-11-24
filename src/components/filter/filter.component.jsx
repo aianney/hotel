@@ -722,7 +722,7 @@ const Filter = (props) => {
                   onClick={checkDate}
                 >
                   <Box px={2} py={1}>
-                    {filterClosable ? props.text : "Reserve Date"}
+                    {filterClosable ? props.text : "Book Now"}
                   </Box>
                 </Button>
                 {/* Action Buttons END */}
