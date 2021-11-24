@@ -40,23 +40,32 @@ export default function TermsAndCondition() {
               overflowY: 'auto',
             }}
           >
-            <Grid
-              item
-              xs={12}
-              sx={{ display: 'flex', justifyContent: 'flex-end' }}
+            <Box
+              sx={{
+                borderBottom: '1px solid black',
+              }}
             >
-              <IconButton color="error" sx={{ width: 'auto' }}>
-                <CancelIcon style={{ fontSize: 30 }} onClick={handleClose} />
-              </IconButton>
-            </Grid>
-            <Typography
-              mt={-3}
-              id="modal-modal-title"
-              variant="h6"
-              component="h2"
-            >
-              TERMS AND CONDITIONS
-            </Typography>
+              <Grid
+                item
+                xs={12}
+                sx={{ display: 'flex', justifyContent: 'flex-end' }}
+              >
+                <IconButton color="error" sx={{ width: 'auto' }}>
+                  <CancelIcon
+                    style={{ fontSize: 30 }}
+                    onClick={handleClose}
+                    sx={{
+                      borderBottom: '1px solid black',
+                    }}
+                  />
+                </IconButton>
+              </Grid>
+            </Box>
+            <Box>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                TERMS AND CONDITIONS
+              </Typography>
+            </Box>
             <Grid item xs={12}>
               <Typography
                 sx={{

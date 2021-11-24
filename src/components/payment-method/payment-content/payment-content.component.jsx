@@ -4,7 +4,7 @@ import {
   Grid,
   Typography,
   List,
-  ListItemButton,
+  // ListItemButton,
   ListItemText,
 } from '@material-ui/core'
 import AppContext from '../../app-context/app-context.component'
@@ -51,9 +51,38 @@ const Payment = (props) => {
           </Grid>
         </Grid>
 
-        <Box ml={-3}>
+        <Box ml={-4} px={4} mt={-1}>
           <List sx={{ width: { md: '100%', xs: '100%' } }}>
-            <ListItemButton>
+            {/* <ListItemButton> */}
+            <ListItemText>
+              <Typography
+                variant="priceBreakdownTitlePrice"
+                sx={{
+                  fontWeight: Theme.typography.fontWeightBlack,
+                  fontSize: Theme.typography.fontSize,
+                  // textTransform: 'uppercase',
+                }}
+              >
+                Name:{' '}
+                <Typography
+                  variant="pageTitle"
+                  sx={{
+                    fontWeight: Theme.typography.fontWeightBlack,
+                    fontSize: Theme.typography.fontSize,
+                    // textTransform: 'uppercase',
+                  }}
+                >
+                  {' '}
+                  {`${info.guestDetails.firstName}
+               ${info.guestDetails.lastName}`}
+                </Typography>
+              </Typography>
+            </ListItemText>
+            {/* </ListItemButton> */}
+          </List>
+          <Box mt={-4} pt={1}>
+            <List sx={{ width: '100%' }}>
+              {/* <ListItemButton> */}
               <ListItemText>
                 <Typography
                   variant="priceBreakdownTitlePrice"
@@ -63,7 +92,36 @@ const Payment = (props) => {
                     // textTransform: 'uppercase',
                   }}
                 >
-                  Name:{' '}
+                  Email:
+                </Typography>
+                <Typography
+                  variant="pageTitle"
+                  sx={{
+                    fontWeight: Theme.typography.fontWeightBlack,
+                    fontSize: Theme.typography.fontSize,
+                    // textTransform: 'uppercase',
+                  }}
+                >
+                  {' '}
+                  {info.guestDetails.email}
+                </Typography>
+              </ListItemText>
+              {/* </ListItemButton> */}
+            </List>
+          </Box>
+          <Box mt={-4} pt={1}>
+            <List sx={{ width: '100%' }}>
+              {/* <ListItemButton> */}
+              <ListItemText>
+                <Typography
+                  variant="priceBreakdownTitlePrice"
+                  sx={{
+                    fontWeight: Theme.typography.fontWeightBlack,
+                    fontSize: Theme.typography.fontSize,
+                    // textTransform: 'uppercase',
+                  }}
+                >
+                  Contact:
                   <Typography
                     variant="pageTitle"
                     sx={{
@@ -72,116 +130,57 @@ const Payment = (props) => {
                       // textTransform: 'uppercase',
                     }}
                   >
-                    {' '}
-                    {`${info.guestDetails.firstName}
-               ${info.guestDetails.lastName}`}
+                    {info.guestDetails.phoneNumber}
                   </Typography>
                 </Typography>
               </ListItemText>
-            </ListItemButton>
-          </List>
-          <Box mt={-4}>
-            <List sx={{ width: '100%' }}>
-              <ListItemButton>
-                <ListItemText>
-                  <Typography
-                    variant="priceBreakdownTitlePrice"
-                    sx={{
-                      fontWeight: Theme.typography.fontWeightBlack,
-                      fontSize: Theme.typography.fontSize,
-                      // textTransform: 'uppercase',
-                    }}
-                  >
-                    Email:
-                  </Typography>
-                  <Typography
-                    variant="pageTitle"
-                    sx={{
-                      fontWeight: Theme.typography.fontWeightBlack,
-                      fontSize: Theme.typography.fontSize,
-                      // textTransform: 'uppercase',
-                    }}
-                  >
-                    {' '}
-                    {info.guestDetails.email}
-                  </Typography>
-                </ListItemText>
-              </ListItemButton>
-            </List>
-          </Box>
-          <Box mt={-4}>
-            <List sx={{ width: '100%' }}>
-              <ListItemButton>
-                <ListItemText>
-                  <Typography
-                    variant="priceBreakdownTitlePrice"
-                    sx={{
-                      fontWeight: Theme.typography.fontWeightBlack,
-                      fontSize: Theme.typography.fontSize,
-                      // textTransform: 'uppercase',
-                    }}
-                  >
-                    Contact:
-                    <Typography
-                      variant="pageTitle"
-                      sx={{
-                        fontWeight: Theme.typography.fontWeightBlack,
-                        fontSize: Theme.typography.fontSize,
-                        // textTransform: 'uppercase',
-                      }}
-                    >
-                      {info.guestDetails.phoneNumber}
-                    </Typography>
-                  </Typography>
-                </ListItemText>
-                {/* <Box mr={14}>
+              {/* <Box mr={14}>
                   <ListItemText>
                     <Typography variant="priceBreakdownTitlePrice">
                       {info.guestDetails.phoneNumber}
                     </Typography>
                   </ListItemText>
                 </Box> */}
-              </ListItemButton>
+              {/* </ListItemButton> */}
             </List>
           </Box>
-          <Box mt={-4}>
+          <Box mt={-4} pt={1}>
             <List sx={{ width: '100%' }}>
-              <ListItemButton>
-                <ListItemText>
+              {/* <ListItemButton> */}
+              <ListItemText>
+                <Typography
+                  variant="priceBreakdownTitlePrice"
+                  sx={{
+                    fontWeight: Theme.typography.fontWeightBlack,
+                    fontSize: Theme.typography.fontSize,
+                    // textTransform: 'uppercase',
+                  }}
+                >
+                  Stay Period: {'  '}
                   <Typography
-                    variant="priceBreakdownTitlePrice"
+                    variant="pageTitle"
                     sx={{
                       fontWeight: Theme.typography.fontWeightBlack,
                       fontSize: Theme.typography.fontSize,
                       // textTransform: 'uppercase',
                     }}
                   >
-                    Stay Period: {'  '}
-                    <Typography
-                      variant="pageTitle"
-                      sx={{
-                        fontWeight: Theme.typography.fontWeightBlack,
-                        fontSize: Theme.typography.fontSize,
-                        // textTransform: 'uppercase',
-                      }}
-                    >
-                      {moment(info.filters.reservationDates.start).format('ll')}{' '}
-                      {''}
-                    </Typography>
-                    <Typography
-                      variant="pageTitle"
-                      sx={{
-                        fontWeight: Theme.typography.fontWeightBlack,
-                        fontSize: Theme.typography.fontSize,
-                        // textTransform: 'uppercase',
-                      }}
-                    >
-                      To{' '}
-                      {moment(info.filters.reservationDates.end).format('ll')}
-                    </Typography>
+                    {moment(info.filters.reservationDates.start).format('ll')}{' '}
+                    {''}
                   </Typography>
-                </ListItemText>
-              </ListItemButton>
+                  <Typography
+                    variant="pageTitle"
+                    sx={{
+                      fontWeight: Theme.typography.fontWeightBlack,
+                      fontSize: Theme.typography.fontSize,
+                      // textTransform: 'uppercase',
+                    }}
+                  >
+                    To {moment(info.filters.reservationDates.end).format('ll')}
+                  </Typography>
+                </Typography>
+              </ListItemText>
+              {/* </ListItemButton> */}
             </List>
           </Box>
         </Box>
