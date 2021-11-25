@@ -52,7 +52,6 @@ const RoomSelection = () => {
 
   return (
     <>
-      {filterOpen || priceBreakdownOpen ? document.body.style.overflowY = "hidden" : document.body.style.overflowY = "scroll"}
       <Box my={4}>
         <PageStepper activeStep={0} />
       </Box>

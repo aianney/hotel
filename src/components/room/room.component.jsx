@@ -58,12 +58,14 @@ const Room = (props) => {
           roomSelection: {
             ...roomSelection,
             rooms: [...roomSelection.rooms, newRoom],
-            totalPayment: roomSelection.totalPayment + newRoom.price,
+            totalPayment: roomSelection.totalPayment + (newRoom.price * dateDifference),
           },
         }
-      console.log(newRoom.price)
+
+      console.log(roomSelection)
       setInfo(updates)
     },
+
     removeRoom = (index) => {
       const roomRemoved = roomSelection.rooms.length
         ? roomSelection.rooms
@@ -81,12 +83,12 @@ const Room = (props) => {
                 ? roomSelection.rooms
                   .map((room, i) =>
                     i === index
-                      ? room.price +
-                      (room.addOns.length
-                        ? room.addOns
-                          .map((addOn) => addOn.count * addOn.price * dateDifference)
-                          .reduce((a, b) => a + b)
-                        : 0)
+                      ? ((room.price * dateDifference) +
+                        (room.addOns.length
+                          ? room.addOns
+                            .map((addOn) => addOn.count * addOn.price * dateDifference)
+                            .reduce((a, b) => a + b)
+                          : 0))
                       : 0,
                   )
                   .reduce((a, b) => a + b)
@@ -175,8 +177,17 @@ const Room = (props) => {
                               ? index
                               : null,
                           )
-                          .filter((room) => room != null)
-                          .at(-1)
+                          .filter((room) => room != null)[roomSelection.rooms
+                            .map((room, index) =>
+                              room.id.includes(
+                                props.information
+                                  ? props.information.roomType
+                                  : '',
+                              )
+                                ? index
+                                : null,
+                            )
+                            .filter((room) => room != null).length - 1]
                         : '',
                     )
                   }
@@ -207,10 +218,10 @@ const Room = (props) => {
                   onClick={() => addRoom(props.index)}
                   disabled={
                     roomSelection.rooms.length &&
-                      roomSelection.rooms.filter((room) =>
-                        room.id.includes(props.information.roomType),
-                      ).length >=
-                      reservationInformation.room[props.index].available
+                    roomSelection.rooms.filter((room) =>
+                      room.id.includes(props.information.roomType),
+                    ).length >=
+                    reservationInformation.room[props.index].available
                   }
                 >
                   <BsPlus />

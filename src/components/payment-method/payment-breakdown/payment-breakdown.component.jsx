@@ -389,7 +389,7 @@ const PaymentBreakdown = () => {
                           .filter((e) => e.id.includes(room.roomType))
                           .map(
                             (e) =>
-                              e.price +
+                              e.price * dateDifference +
                               (e.addOns
                                 ? e.addOns
                                     .map(
@@ -401,9 +401,7 @@ const PaymentBreakdown = () => {
                                     .reduce((a, b) => a + b)
                                 : 0),
                           )
-                          .reduce((a, b) => a + b, 0) *
-                        dateDifference *
-                        filters.currencyRate
+                          .reduce((a, b) => a + b, 0) * filters.currencyRate
                       ).toLocaleString(undefined, {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,

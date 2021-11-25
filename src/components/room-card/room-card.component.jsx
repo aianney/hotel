@@ -93,12 +93,12 @@ const RoomCard = props => {
               ? updatedRate
                 .map(
                   (room, i) =>
-                    room.price +
+                    ((room.price * dateDifference) +
                     (room.addOns.length
                       ? room.addOns
                         .map((addOn) => addOn.price * addOn.count * dateDifference)
                         .reduce((a, b) => a + b)
-                      : 0),
+                      : 0)),
                 )
                 .reduce((a, b) => a + b)
               : 0,
@@ -229,12 +229,12 @@ const RoomCard = props => {
               ? addedAddOn
                 .map(
                   (room) =>
-                    room.price +
+                    ((room.price * dateDifference) +
                     (room.addOns.length
                       ? room.addOns
                         .map((addOn) => addOn.price * addOn.count * dateDifference)
                         .reduce((a, b) => a + b)
-                      : 0),
+                      : 0)),
                 )
                 .reduce((a, b) => a + b)
               : 0,
@@ -271,12 +271,12 @@ const RoomCard = props => {
               ? removedAddOn
                 .map(
                   (room, i) =>
-                    room.price +
+                    ((room.price * dateDifference) +
                     (room.addOns.length
                       ? room.addOns
                         .map((addOn) => addOn.price * addOn.count * dateDifference)
                         .reduce((a, b) => a + b)
-                      : 0),
+                      : 0)),
                 )
                 .reduce((a, b) => a + b)
               : 0,
@@ -367,7 +367,7 @@ const RoomCard = props => {
                             maximumFractionDigits: 2,
                           })
                       }
-                      {dateDifference > 1 ? `/day` : ``}
+                      {dateDifference > 1 ? `/night` : ``}
                     </Typography>
                   </Grid>
 

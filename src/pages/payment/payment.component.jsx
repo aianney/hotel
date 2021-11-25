@@ -2,6 +2,7 @@ import React from 'react'
 import { Box, Grid, Typography } from '@material-ui/core'
 import PageStepper from '../../components/page-stepper/page-stepper.component'
 import {
+  // AppContext,
   PaymentContent,
   PaymentPrice,
   PaymentInformation,

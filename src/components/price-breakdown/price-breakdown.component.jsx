@@ -15,10 +15,7 @@ import moment from 'moment'
 import PriceBreakDownContent from '../price-breakdown-content/price-breakdown-content.component'
 
 const PriceBreakdown = (props) => {
-  const {
-      info,
-      info: { filters, roomSelection },
-    } = useContext(AppContext),
+  const { info, info: { filters, roomSelection } } = useContext(AppContext),
     [showDetails, setShowDetails] = useState(false),
     history = useHistory(),
     alignCenter = { display: 'flex', alignItems: 'center' },
@@ -29,15 +26,15 @@ const PriceBreakdown = (props) => {
         ),
       )
       .asDays(),
-    totalPrice =
-      filters.currency && filters.currencyRate
-        ? `${filters.currency} ${(
-            roomSelection.totalPayment * filters.currencyRate
-          ).toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}`
-        : 0
+    totalPrice = filters.currency && filters.currencyRate
+      ? `${filters.currency} ${(
+        roomSelection.totalPayment *
+        filters.currencyRate
+      ).toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}`
+      : 0
 
   useEffect(() => {
     if (roomSelection.rooms && !roomSelection.rooms.length) {
@@ -60,10 +57,10 @@ const PriceBreakdown = (props) => {
         <Fade in={props.priceBreakdownOpen}>
           <Box
             onClick={() => {
-              props.setPriceBreakdownOpen(false)
-              props.setProceed(false)
-              setShowDetails(false)
-              document.body.style.overflowY = 'scroll'
+              props.setPriceBreakdownOpen(false);
+              props.setProceed(false);
+              setShowDetails(false);
+              document.body.style.overflowY = "scroll"
             }}
             sx={{
               backdropFilter: 'blur(4px)',
@@ -112,9 +109,7 @@ const PriceBreakdown = (props) => {
               <Grid container spacing={3}>
                 <Grid item xs={12}>
                   <Typography variant="filterLabel">
-                    Cost Summary ({roomSelection.rooms.length} room
-                    {roomSelection.rooms.length === 1 ? '' : 's'} for{' '}
-                    {dateDifference} night
+                    Cost Summary ({roomSelection.rooms.length} room{roomSelection.rooms.length === 1 ? "" : "s"} for {dateDifference} night
                     {dateDifference !== 1 ? 's' : ''})
                   </Typography>
                 </Grid>
@@ -181,15 +176,16 @@ const PriceBreakdown = (props) => {
                         >
                           {filters.currency && filters.currencyRate
                             ? `${filters.currency} ${(
-                                (roomSelection.rooms.length
-                                  ? roomSelection.rooms
-                                      .map((room) => room.price)
-                                      .reduce((a, b) => a + b)
-                                  : 0) * filters.currencyRate
-                              ).toLocaleString(undefined, {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                              })}`
+                              (roomSelection.rooms.length
+                                ? roomSelection.rooms
+                                  .map((room) => room.price * dateDifference)
+                                  .reduce((a, b) => a + b)
+                                : 0) *
+                              filters.currencyRate
+                            ).toLocaleString(undefined, {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}`
                             : 0}
                         </Typography>
                       </Box>
@@ -213,26 +209,25 @@ const PriceBreakdown = (props) => {
                         >
                           {filters.currency && filters.currencyRate
                             ? `${filters.currency} ${(
-                                (roomSelection.rooms.length
-                                  ? roomSelection.rooms
-                                      .map((room) =>
-                                        room.addOns.length
-                                          ? room.addOns
-                                              .map(
-                                                (addOn) =>
-                                                  addOn.count *
-                                                  addOn.price *
-                                                  dateDifference,
-                                              )
-                                              .reduce((a, b) => a + b)
-                                          : 0,
-                                      )
-                                      .reduce((a, b) => a + b)
-                                  : 0) * filters.currencyRate
-                              ).toLocaleString(undefined, {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                              })}`
+                              (roomSelection.rooms.length
+                                ? roomSelection.rooms
+                                  .map((room) =>
+                                    room.addOns.length
+                                      ? room.addOns
+                                        .map(
+                                          (addOn) =>
+                                            addOn.count * addOn.price * dateDifference,
+                                        )
+                                        .reduce((a, b) => a + b)
+                                      : 0,
+                                  )
+                                  .reduce((a, b) => a + b)
+                                : 0) *
+                              filters.currencyRate
+                            ).toLocaleString(undefined, {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}`
                             : 0}
                         </Typography>
                       </Box>
@@ -251,12 +246,7 @@ const PriceBreakdown = (props) => {
                         </Typography>
                         <Typography
                           variant="priceBreakdownTotal"
-                          sx={{
-                            fontSize:
-                              totalPrice.length > 14
-                                ? Theme.typography.fontSize
-                                : Theme.typography.fontSizeLg,
-                          }}
+                          sx={{ fontSize: totalPrice.length > 14 ? Theme.typography.fontSize : Theme.typography.fontSizeLg }}
                         >
                           {totalPrice}
                         </Typography>
@@ -271,8 +261,8 @@ const PriceBreakdown = (props) => {
               <Button
                 variant="text"
                 onClick={() => {
-                  props.setPriceBreakdownOpen(false)
-                  setShowDetails(false)
+                  props.setPriceBreakdownOpen(false);
+                  setShowDetails(false);
                 }}
               >
                 <Box
@@ -297,7 +287,7 @@ const PriceBreakdown = (props) => {
                   borderRadius: Theme.shape.borderRadius,
                 }}
                 onClick={() => {
-                  props.setPriceBreakdownOpen(false)
+                  props.setPriceBreakdownOpen(false);
                   history.push('/guest-details')
                 }}
                 disabled={
@@ -306,7 +296,10 @@ const PriceBreakdown = (props) => {
                     : true
                 }
               >
-                <Box px={2} py={1}>
+                <Box
+                  px={2}
+                  py={1}
+                >
                   Proceed
                 </Box>
               </Button>

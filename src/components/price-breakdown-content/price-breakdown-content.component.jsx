@@ -30,7 +30,7 @@ const PriceBreakDownContent = () => {
                         rooms: roomRemoved,
                         totalPayment: roomRemoved.length ? roomRemoved
                             .map(room => !room.id.includes(roomType) ?
-                                room.price + (room.addOns.length ? room.addOns.map(addOn => addOn.price * addOn.count).reduce((a, b) => a + b) : 0)
+                                ((room.price * dateDifference) + (room.addOns.length ? room.addOns.map(addOn => addOn.price * addOn.count).reduce((a, b) => a + b) : 0))
                                 : 0).reduce((a, b) => a + b) : 0,
                     }
                 };
@@ -246,7 +246,7 @@ const PriceBreakDownContent = () => {
                                                     .filter((e) => e.id.includes(room.roomType))
                                                     .map(
                                                         (e) =>
-                                                            e.price +
+                                                            ((e.price * dateDifference) +
                                                             (e.addOns
                                                                 ? e.addOns
                                                                     .map(
@@ -254,10 +254,9 @@ const PriceBreakDownContent = () => {
                                                                             addOn.count * addOn.price * dateDifference,
                                                                     )
                                                                     .reduce((a, b) => a + b)
-                                                                : 0),
+                                                                : 0)),
                                                     )
                                                     .reduce((a, b) => a + b, 0) *
-                                                dateDifference *
                                                 filters.currencyRate)
                                                 .toLocaleString(undefined, {
                                                     minimumFractionDigits: 2,
