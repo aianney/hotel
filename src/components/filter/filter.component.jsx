@@ -325,7 +325,7 @@ const Filter = (props) => {
             <Box p={2}>
               <Grid container spacing={3}>
                 {/* Reservation Dates START */}
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={6}>
                   <Card
                     sx={{
                       backgroundColor: Theme.palette.light.main,
@@ -469,7 +469,7 @@ const Filter = (props) => {
                 {/* Reservation Dates END */}
 
                 {/* Guests Per Room START */}
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={6}>
                   <Card
                     sx={{
                       backgroundColor: Theme.palette.light.main,
@@ -606,7 +606,7 @@ const Filter = (props) => {
                 </Grid>
                 {/* Guests Per Room END */}
 
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={6} sx={{display: "none"}}>
                   <Card sx={{ backgroundColor: Theme.palette.light.main }}>
                     <Grid container>
                       {/* <Grid item xs={6}>

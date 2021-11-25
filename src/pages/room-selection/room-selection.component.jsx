@@ -161,7 +161,7 @@ const RoomSelection = () => {
               color: 'unset',
             }}
           >
-            Invoice
+            Breakdown
           </Box>
         </Button>
       </Box>
