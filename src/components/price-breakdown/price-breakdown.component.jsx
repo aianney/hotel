@@ -109,7 +109,7 @@ const PriceBreakdown = (props) => {
               <Grid container spacing={3}>
                 <Grid item xs={12}>
                   <Typography variant="filterLabel">
-                    Cost Summary ({roomSelection.rooms.length} room{roomSelection.rooms.length === 1 ? "" : "s"} for {dateDifference} night
+                    Invoice ({roomSelection.rooms.length} room{roomSelection.rooms.length === 1 ? "" : "s"} for {dateDifference} night
                     {dateDifference !== 1 ? 's' : ''})
                   </Typography>
                 </Grid>
@@ -143,7 +143,7 @@ const PriceBreakdown = (props) => {
                         color: 'unset',
                       }}
                     >
-                      {showDetails ? 'hide' : 'show'} Detailed Summary
+                      {showDetails ? 'hide' : 'show'} Invoice
                     </Box>
                   </Button>
                 </Grid>
@@ -242,11 +242,11 @@ const PriceBreakdown = (props) => {
                             textTransform: 'uppercase',
                           }}
                         >
-                          {`Total: `}
+                          {`Grand Total: `}
                         </Typography>
                         <Typography
                           variant="priceBreakdownTotal"
-                          sx={{ fontSize: totalPrice.length > 14 ? Theme.typography.fontSize : Theme.typography.fontSizeLg }}
+                          sx={{ fontSize: totalPrice.length > 14 ? Theme.typography.fontSize : Theme.typography.fontSize, textAlign: "end" }}
                         >
                           {totalPrice}
                         </Typography>

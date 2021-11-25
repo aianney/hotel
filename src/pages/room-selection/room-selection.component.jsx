@@ -159,7 +159,7 @@ const RoomSelection = () => {
               color: 'unset',
             }}
           >
-            Cost Summary
+            Invoice
           </Box>
         </Button>
       </Box>

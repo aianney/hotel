@@ -172,7 +172,7 @@ const PriceBreakDownContent = () => {
                                                     x.addOns.map((addOn, index) =>
                                                         addOn.count ?
                                                             <Grid item xs={12} sx={{ ...alignCenter, justifyContent: "space-between", pl: 1 }}>
-                                                                <Box>
+                                                                <Box sx={{ width: "50%", wordWrap: "break-word" }}>
                                                                     <Typography
                                                                         variant="priceBreakdownTitle"
                                                                         sx={{ fontStyle: "italic", fontWeight: 500, wordWrap: "break-word" }}
@@ -180,14 +180,14 @@ const PriceBreakDownContent = () => {
                                                                         {`${addOn.count ? `(${addOn.count})` : ""} ${addOn.description}`}
                                                                     </Typography>
                                                                 </Box>
-                                                                <Box>
+                                                                <Box sx={{ width: "50%", wordWrap: "break-word", textAlign: "end" }}>
                                                                     <Typography
                                                                         variant="priceBreakdownTitle"
-                                                                        sx={{ fontStyle: "italic", fontWeight: 500, wordWrap: "break-word" }}
+                                                                        sx={{ fontStyle: "italic", fontWeight: 500, }}
                                                                     >
                                                                         {`${addOn.count ?
                                                                             `${filters.currency} 
-                                                                        ${(addOn.count * addOn.price * dateDifference)
+                                                                        ${(addOn.count * addOn.price * dateDifference * filters.currencyRate)
                                                                                 .toLocaleString(undefined, {
                                                                                     minimumFractionDigits: 2,
                                                                                     maximumFractionDigits: 2,
@@ -215,10 +215,10 @@ const PriceBreakDownContent = () => {
                                                         Room
                                                         ${i + 1}: 
                                                         ${filters.currency} 
-                                                        ${((x.price +
+                                                        ${((((x.price * dateDifference) +
                                                                 x.addOns.map(addOn =>
                                                                     addOn.count * addOn.price * dateDifference)
-                                                                    .reduce((a, b) => a + b)) *
+                                                                    .reduce((a, b) => a + b))) *
                                                                 filters.currencyRate)
                                                                 .toLocaleString(undefined, {
                                                                     minimumFractionDigits: 2,
@@ -233,36 +233,40 @@ const PriceBreakDownContent = () => {
                                         )
                                     }
                                     <Grid item xs={12} mt={1} mb={0} sx={{
-                                        ...alignCenter,
-                                        justifyContent: "flex-end"
+                                        display: roomSelection.rooms.filter(x =>
+                                            x.id.includes(room.roomType),
+                                        ).map(room => room.addOns.map(addOn => addOn.count).reduce((a, b) => a + b)).reduce((a, b) => a + b) ? "" : "none",
                                     }}>
-                                        <Typography variant="priceBreakdownTotal"
-                                            sx={{
-                                                fontSize: Theme.typography.fontSizeSm, textAlign: "center",
-                                            }}
-                                        >
-                                            {`Total for ${room.roomName}: ${filters.currency} ${(
-                                                roomSelection.rooms
-                                                    .filter((e) => e.id.includes(room.roomType))
-                                                    .map(
-                                                        (e) =>
+                                        <Box sx={{ textAlign: "end" }}>
+                                            <Typography variant="priceBreakdownTotal"
+                                                sx={{
+                                                    fontSize: Theme.typography.fontSizeSm,
+                                                }}
+                                            >
+                                                {`Total: ${filters.currency} ${(
+                                                    roomSelection.rooms
+                                                        .filter((e) => e.id.includes(room.roomType))
+                                                        .map(
+                                                            (e) =>
                                                             ((e.price * dateDifference) +
-                                                            (e.addOns
-                                                                ? e.addOns
-                                                                    .map(
-                                                                        (addOn) =>
-                                                                            addOn.count * addOn.price * dateDifference,
-                                                                    )
-                                                                    .reduce((a, b) => a + b)
-                                                                : 0)),
-                                                    )
-                                                    .reduce((a, b) => a + b, 0) *
-                                                filters.currencyRate)
-                                                .toLocaleString(undefined, {
-                                                    minimumFractionDigits: 2,
-                                                    maximumFractionDigits: 2,
-                                                })}`}
-                                        </Typography>
+                                                                (e.addOns
+                                                                    ? e.addOns
+                                                                        .map(
+                                                                            (addOn) =>
+                                                                                addOn.count * addOn.price * dateDifference,
+                                                                        )
+                                                                        .reduce((a, b) => a + b)
+                                                                    : 0)),
+                                                        )
+                                                        .reduce((a, b) => a + b, 0) *
+                                                    filters.currencyRate)
+                                                    .toLocaleString(undefined, {
+                                                        minimumFractionDigits: 2,
+                                                        maximumFractionDigits: 2,
+                                                    })}`}
+                                            </Typography>
+                                        </Box>
+
                                     </Grid>
                                 </Grid>
                                 <Divider />

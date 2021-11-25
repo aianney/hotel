@@ -93,7 +93,7 @@ const RoomCard = props => {
               ? updatedRate
                 .map(
                   (room, i) =>
-                    ((room.price * dateDifference) +
+                  ((room.price * dateDifference) +
                     (room.addOns.length
                       ? room.addOns
                         .map((addOn) => addOn.price * addOn.count * dateDifference)
@@ -229,7 +229,7 @@ const RoomCard = props => {
               ? addedAddOn
                 .map(
                   (room) =>
-                    ((room.price * dateDifference) +
+                  ((room.price * dateDifference) +
                     (room.addOns.length
                       ? room.addOns
                         .map((addOn) => addOn.price * addOn.count * dateDifference)
@@ -271,7 +271,7 @@ const RoomCard = props => {
               ? removedAddOn
                 .map(
                   (room, i) =>
-                    ((room.price * dateDifference) +
+                  ((room.price * dateDifference) +
                     (room.addOns.length
                       ? room.addOns
                         .map((addOn) => addOn.price * addOn.count * dateDifference)
@@ -381,8 +381,8 @@ const RoomCard = props => {
                           reservationInformation.room[props.id].roomRates[0][3]}
                       </Typography>
                       :
-                      <Button fullWidth variant="text" sx={{ justifyContent: "space-between", color: "black", pr: 2, textTransform: "none" }} endIcon={<BsChevronDown size={Theme.typography.fontSize} />} onClick={() => setShowOtherRates(state => !state)}>
-                        <Typography variant="pageTitle" sx={{ fontSize: `calc(${Theme.typography.fontSize} + 4px)` }}>
+                      <Button fullWidth variant="text" sx={{ color: "black", pr: 2, textTransform: "none" }} endIcon={<BsChevronDown size={Theme.typography.fontSize} />} onClick={() => setShowOtherRates(state => !state)}>
+                        <Typography variant="pageTitle" sx={{ fontSize: `calc(${Theme.typography.fontSize} + 4px)`, textAlign: "start" }}>
                           {!props.disabled &&
                             roomSelection.rooms.length &&
                             roomSelection.rooms[roomIndex].rate ?
@@ -396,16 +396,20 @@ const RoomCard = props => {
                     >
                       <Card sx={{ backgroundColor: Theme.palette.background.default, mt: 2 }}>
                         {rates.map((rate, index) => (
-                          <MenuItem sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", py: 2 }} onClick={() => (updateRate(rate[3], parseInt(rate[4]), setShowOtherRates(state => !state)))}>
-                            <Typography>
-                              {rate[3]}
-                            </Typography>
-                            <Typography>
-                              {`${filters.currency} ` + (parseInt(rate[4]) * filters.currencyRate).toLocaleString(undefined, {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                              })}
-                            </Typography>
+                          <MenuItem sx={{ whiteSpace: "normal", display: "flex", alignItems: "center", justifyContent: "space-between", py: 2, width: "100%", boxSizing: "border-box" }} onClick={() => (updateRate(rate[3], parseInt(rate[4]), setShowOtherRates(state => !state)))}>
+                            <Box sx={{ width: "50%", wordBreak: "break-word" }}>
+                              <Typography sx={{ fontSize: Theme.typography.fontSizeSm }}>
+                                {rate[3]}
+                              </Typography>
+                            </Box>
+                            <Box sx={{ width: "50%", wordBreak: "break-all", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+                              <Typography sx={{ wordBreak: "break-all", fontSize: Theme.typography.fontSizeSm }}>
+                                {`${filters.currency} ` + (parseInt(rate[4]) * filters.currencyRate).toLocaleString(undefined, {
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                                })}
+                              </Typography>
+                            </Box>
                           </MenuItem>
                         ))}
                       </Card>
@@ -540,7 +544,7 @@ const RoomCard = props => {
                               disabled={
                                 (props.disabled) ||
                                 (roomSelection.rooms.length &&
-                                roomSelection.rooms[roomIndex].children === 0)
+                                  roomSelection.rooms[roomIndex].children === 0)
                               }
                               onClick={() =>
                                 roomSelection.rooms.length &&
@@ -556,9 +560,9 @@ const RoomCard = props => {
                               disabled={
                                 (props.disabled) ||
                                 (roomSelection.rooms.length &&
-                                roomSelection.rooms[roomIndex].children >=
-                                props.information
-                                  .roomAttributes.maxChild)
+                                  roomSelection.rooms[roomIndex].children >=
+                                  props.information
+                                    .roomAttributes.maxChild)
                               }
                               onClick={() =>
                                 props.information &&
