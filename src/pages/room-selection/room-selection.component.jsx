@@ -7,6 +7,7 @@ import {
   PageStepper,
   PriceBreakdown,
   Room,
+  Theme,
 } from '../../components'
 import { BsSliders } from 'react-icons/bs'
 
@@ -155,6 +156,7 @@ const RoomSelection = () => {
             px={2}
             py={1}
             sx={{
+              fontSize: Theme.typography.fontSize,
               textDecoration: 'none',
               color: 'unset',
             }}

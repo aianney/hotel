@@ -242,7 +242,7 @@ const GuestDetailsForm = () => {
                   name="number"
                   helperText={errorPhoneNumber}
                   error={errorPhoneNumber}
-                  value={info.guestDetails ? info.guestDetails.number : ''}
+                  value={info.guestDetails ? info.guestDetails.phoneNumber : ''}
                   onChange={handleMobilePhoneNumberInputChange}
                   placeholder="Enter mobile phone number"
                   label="Mobile Phone Number*"
@@ -283,7 +283,7 @@ const GuestDetailsForm = () => {
                 <TextField
                   type="text"
                   name="house no."
-                  value={info.guestDetails ? info.guestDetails.homeaddress : ''}
+                  value={info.guestDetails.Address ? info.guestDetails.Address : ''}
                   onChange={handleHomeAddressInputChange}
                   placeholder="House No"
                   label="House No/Street/Subd."
@@ -320,13 +320,12 @@ const GuestDetailsForm = () => {
             </Grid>
             <CustomButton
               disabled={
-                errorFirstName ||
-                errorLastName ||
+                errorFirstName || errorLastName ||
                 errorPhoneNumber ||
-                errorEmail
-                // errorBirthday ||
-                // !info.guestDetails.region ||
-                // !info.guestDetails.birthdate
+                errorEmail ||
+                errorBirthday ||
+                !info.guestDetails.region ||
+                !info.guestDetails.birthdate
               }
               onClick={() => history.push('/payments')}
             >

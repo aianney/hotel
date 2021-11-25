@@ -6,7 +6,7 @@ import { AppContext } from '../..'
 const Nationality = () => {
   const { info, setInfo } = useContext(AppContext),
     // [country, setCountry] = useState('Philippines'),
-    [nationality, setNationality] = useState('Philippines')
+    [nationality, setNationality] = useState(info.guestDetails.nationality ? info.guestDetails.nationality : 'Philippines')
 
   // const handleNationality = (nationality) => {
   //   setNationality(nationality.target.value)
@@ -34,7 +34,7 @@ const Nationality = () => {
         onChange={(selectedCountry, i) => {
           setNationality(selectedCountry.target.value)
         }}
-        // onChange={(e) => setNationality(e.target.value)}
+      // onChange={(e) => setNationality(e.target.value)}
       >
         {dataCountries.map((nationality) => (
           <MenuItem value={nationality.label}>

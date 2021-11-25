@@ -13,8 +13,8 @@ import axios from "axios"
 const RegionCountry = () => {
   const { info, setInfo } = useContext(AppContext),
     countries = CountryRegionData.map((country) => country[0]),
-    [country, setCountry] = useState('Philippines'),
-    [region, setRegion] = useState(''),
+    [country, setCountry] = useState(info.guestDetails.country ? info.guestDetails.country : 'Philippines'),
+    [region, setRegion] = useState(info.guestDetails.region ? info.guestDetails.region : ''),
     [provinces, setProvinces] = useState([]),
     [regionIndex, setRegionIndex] = useState(
       CountryRegionData.map((countryData, i) =>

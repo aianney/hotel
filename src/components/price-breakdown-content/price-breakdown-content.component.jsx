@@ -232,11 +232,7 @@ const PriceBreakDownContent = () => {
                                         </>
                                         )
                                     }
-                                    <Grid item xs={12} mt={1} mb={0} sx={{
-                                        display: roomSelection.rooms.filter(x =>
-                                            x.id.includes(room.roomType),
-                                        ).map(room => room.addOns.map(addOn => addOn.count).reduce((a, b) => a + b)).reduce((a, b) => a + b) ? "" : "none",
-                                    }}>
+                                    <Grid item xs={12} mt={1} mb={0}>
                                         <Box sx={{ textAlign: "end" }}>
                                             <Typography variant="priceBreakdownTotal"
                                                 sx={{

@@ -10,7 +10,8 @@ const Birthdate = (props) => {
   const isInitialMount = useRef(true),
     { info, setInfo } = useContext(AppContext),
     date = new Date(),
-    [birthdate, setBirthdate] = useState(date.setFullYear(date.getFullYear() - 18)),
+    startDate = date.setFullYear(date.getFullYear() - 18),
+    [birthdate, setBirthdate] = useState(info.guestDetails.birthdate? info.guestDetails.birthdate : null),
     [birthdateOpen, setBirthdateOpen] = useState(false),
     updateBirthday = () => {
       setInfo({
@@ -45,11 +46,10 @@ const Birthdate = (props) => {
         }}
         onClose={() => setBirthdateOpen(false)}
         open={birthdateOpen}
-        maxDate={birthdate}
+        maxDate={startDate}
         openTo="year"
         views={['year', 'month', 'day']}
         // eslint-disable-next-line
-        open={birthdateOpen}
         renderInput={({
           ref,
           inputProps,
@@ -68,8 +68,8 @@ const Birthdate = (props) => {
               readOnly
               ref={ref}
               onChange={onChange}
-              value={isInitialMount.current ? "" : moment(birthdate).format('MMMM DD, YYYY')}
-              onClick={() => setBirthdateOpen(true)}
+              value={!birthdate ? "" : moment(birthdate).format('MMMM DD, YYYY')}
+              onClick={() => { setBirthdateOpen(true); birthdate ? setBirthdate(birthdate) : setBirthdate(date.setFullYear(date.getFullYear())) }}
               sx={{
                 borderRadius: '4px',
               }}
